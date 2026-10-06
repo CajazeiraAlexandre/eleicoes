@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="pt-BR" data-ds="padrao">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Onde estão os votos? Piauí</title>
+<!-- Arquivo GERADO por projetos/eleicoes/analise/preparar_distribuicao_pi.py — não edite à mão (edite src/).
+     Componentes e padrões do design system: web/componentes/lab-* e docs/design-system.html (ADR L0003). -->
+<style>
+/*__TOKENS_CSS__*/
+</style>
+<style>
+/*__LAB_CSS__*/
+</style>
+<style>
+  /* só o que é deste produto (o resto vem de web/componentes/lab.css) */
+  /* barra fixa de filtros: no celular, uma linha com a seleção atual + botão "Filtros" que abre o painel;
+     em telas largas, o painel fica sempre aberto (uma linha de filtros no topo) */
+  .barra-filtros{position:sticky;top:0;z-index:5;background:var(--cor-fundo);border-bottom:1px solid var(--cor-borda);margin-bottom:var(--espaco-m)}
+  .filtros-resumo{display:flex;align-items:center;gap:8px;padding:8px 0}
+  #filtros-texto{flex:1;min-width:0;font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #btn-filtros{flex:none;font:inherit;font-size:14px;font-weight:600;border:1px solid var(--cor-texto);background:var(--cor-texto);color:var(--cor-fundo);
+       border-radius:var(--raio);padding:8px 14px;min-height:40px;cursor:pointer}
+  #btn-filtros[aria-expanded="true"]{background:var(--cor-superficie);color:var(--cor-texto)}
+  .painel-filtros{display:flex;flex-wrap:wrap;gap:10px var(--espaco-m);align-items:flex-end;padding:4px 0 var(--espaco-m);max-height:75vh;overflow:auto}
+  .painel-filtros[hidden]{display:none}
+  .painel-filtros input,.painel-filtros select{font:inherit;font-size:15px;color:var(--cor-texto);background:var(--cor-superficie);
+       border:1px solid var(--cor-borda);border-radius:var(--raio);padding:8px;min-height:40px;max-width:100%}
+  @media (max-width:768px){.painel-filtros .campo{flex:1 1 100%}.painel-filtros select{width:100%}}
+  @media (min-width:769px){
+    .filtros-resumo{display:none}
+    .painel-filtros,.painel-filtros[hidden]{display:flex;max-height:none;overflow:visible;padding-top:var(--espaco-p)}
+    #btn-fechar{display:none}
+  }
+  .campo-cand{flex:1 1 280px;min-width:min(240px,100%)}
+  section,details,.cartao{min-width:0;max-width:100%}
+  .busca-lista{position:relative}
+  .busca-lista input{width:100%}
+  .busca-lista ul{position:absolute;left:0;right:0;top:100%;max-height:320px;overflow:auto;margin:2px 0 0;padding:0;list-style:none;
+       background:var(--cor-superficie);border:1px solid var(--cor-borda);border-radius:var(--raio);z-index:10;box-shadow:0 6px 18px rgba(0,0,0,.12)}
+  .busca-lista li{padding:6px 10px;cursor:pointer;display:flex;justify-content:space-between;gap:8px}
+  .busca-lista li[aria-selected="true"],.busca-lista li:hover{background:var(--cor-grade)}
+  .busca-lista li .sec{color:var(--cor-texto-suave);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .alternar button:disabled{color:var(--cor-texto-suave);cursor:not-allowed}
+  .seletor-titulo button:disabled{color:var(--cor-texto-suave);cursor:not-allowed;text-decoration:line-through}
+  .mapa path.mun{stroke:var(--cor-superficie);stroke-width:.6}
+  .mapa path.mun:hover,.mapa path.mun.ativo{stroke:var(--cor-texto);stroke-width:1.5}
+  .mapa path.contorno{fill:none;stroke:var(--cor-eixo);stroke-width:.5}
+  .mapa circle{stroke:var(--cor-superficie);stroke-width:1}
+  .legenda .barra{height:10px;width:180px;border-radius:2px}
+  .barras{display:flex;flex-direction:column;gap:6px}
+  .barra-linha{display:grid;grid-template-columns:minmax(0,1fr) 56px;gap:8px;align-items:center;font-size:14px;cursor:default}
+  .barra-linha .nome{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .barra-linha .trilho{grid-column:1/2;height:10px}
+  .barra-linha .trilho div{height:10px;background:var(--cor-destaque);border-radius:0 4px 4px 0;min-width:1px}
+  .barra-linha .valor{grid-row:1/3;grid-column:2;text-align:right;font-variant-numeric:tabular-nums;color:var(--cor-texto)}
+  .tabela-rolagem{max-height:460px;overflow:auto;border:1px solid var(--cor-borda);border-radius:var(--raio)}
+  .tabela-rolagem th{cursor:pointer;white-space:nowrap;position:sticky;top:0;background:var(--cor-superficie)}
+  .selo{display:inline-block;font-size:11px;padding:1px 6px;border-radius:10px;border:1px solid var(--cor-borda);color:var(--cor-texto-secundario);white-space:nowrap}
+  .selo.atencao{border-color:var(--cor-status-atencao)}
+  .ranking{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--espaco-m)}
+  @media (max-width:768px){.ranking{grid-template-columns:minmax(0,1fr)}}
+  .ranking ol{margin:0;padding:0;list-style:none}
+  .ranking li{display:grid;grid-template-columns:minmax(0,1fr) 54px;gap:6px;padding:4px 6px;border-radius:4px;cursor:pointer;font-size:14px}
+  .ranking li:hover,.ranking li.ativo{background:var(--cor-grade)}
+  .ranking li .r{text-align:right;font-variant-numeric:tabular-nums}
+  .ranking li .sub{grid-column:1/3;font-size:var(--fs-nota);color:var(--cor-texto-suave);margin-top:-2px}
+  h2{overflow-wrap:anywhere}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flubber@0.4.2/build/flubber.min.js"></script>
+</head>
+<body>
+<main>
+  <header class="capa">
+    <h1>Onde estão os votos?</h1>
+    <p class="assinatura">Por <a href="#rodape">__AUTOR__</a><span class="sep-assinatura" aria-hidden="true">|</span><a href="#rodape">Fontes, métodos e códigos ↓</a></p>
+    <p class="lead">Distribuição territorial das candidaturas no Piauí, do município ao local de votação, nas eleições gerais de 2018, 2022 e 2026 (em 2026, só o 1º turno).</p>
+    <p class="lead">O produto tem três partes: o resumo da candidatura escolhida, a distribuição dos votos pelo território (mapa, maiores valores e tabela) e as candidaturas de outros cargos com distribuição mais parecida ou mais oposta. Cada gráfico explica como lê-lo e traz a fonte; o bloco no fim da página reúne fontes, metodologia e códigos.</p>
+    <p class="aviso">Este produto é um painel exploratório, feito para guiar a avaliação dos resultados: não traz resumo, conclusões, inferências nem análises. Confira na <a href="__PORTFOLIO__" target="_blank" rel="noopener">página do autor ↗</a> outros produtos com esta finalidade.</p>
+  </header>
+  <p class="nota" id="barra-dica">Todos os filtros ficam na barra fixa do topo (no celular, no botão “Filtros”). Comece pelo cargo: ele define as eleições e as candidaturas disponíveis.</p>
+  <div class="barra-filtros" id="barra-filtros">
+    <div class="filtros-resumo">
+      <span id="filtros-texto" aria-live="polite"></span>
+      <button type="button" id="btn-filtros" aria-expanded="false" aria-controls="painel-filtros">Filtros</button>
+    </div>
+    <div class="painel-filtros" id="painel-filtros" role="group" aria-label="Filtros" hidden>
+      <label class="campo">Cargo<select id="f-cargo"></select></label>
+      <label class="campo">Eleição<select id="f-eleicao"></select></label>
+      <div class="campo campo-cand">
+        <label for="busca-cand">Candidatura (nome, número ou partido)</label>
+        <div class="busca-lista">
+          <input id="busca-cand" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="lista-cand">
+          <ul id="lista-cand" role="listbox" hidden></ul>
+        </div>
+      </div>
+      <label class="campo">Município<select id="sel-municipio"><option value="">Todo o Piauí</option></select></label>
+      <label class="campo">Nível<select id="f-nivel"></select></label>
+      <div class="campo">Medida<div class="alternar" id="f-medida" role="group" aria-label="Medida"><button type="button" data-v="pct">% dos válidos</button><button type="button" data-v="votos">Votos</button></div></div>
+      <label class="campo">Comparar com<select id="f-cmp"></select></label>
+      <button type="button" class="voltar" id="btn-fechar">Fechar filtros</button>
+    </div>
+  </div>
+  <div id="app"><p class="carregando">Carregando dados…</p></div>
+  <footer id="rodape"></footer>
+</main>
+<div class="dica" id="dica" role="status" aria-live="polite"></div>
+<script id="dados" type="text/plain">__DADOS_BASE64__</script>
+<script>
+/*__LAB_JS__*/
+</script>
+<script>
+/*__APP_JS__*/
+</script>
+</body>
+</html>

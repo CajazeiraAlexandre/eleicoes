@@ -1,0 +1,277 @@
+id: 2026-10_distribuicao-votos-candidato-pi   # renomeado de ...-brasil em 2026-10-05 (recorte Piauí)
+titulo: "Onde estão os votos? Distribuição territorial de candidaturas no Piauí"
+tipo: exploratorio            # exploratorio | narrativa | visualizacao | painel | nota-tecnica (docs/TIPOS_DE_PRODUTO.md)
+status: publicado         # rascunho | revisao | publicado | arquivado — publicação aprovada pelo pesquisador (2026-10-06), repositório público eleicoes
+versao: "1.0"             # 1ª versão consolidada (pesquisador, 2026-10-06)
+versao_data: 2026-10-06
+deriva_de: null           # id de outro produto, se for derivado
+
+# ---- briefing (respostas às perguntas iniciais; ver CLAUDE.md, seção 6.0) ----
+# Revisão de escopo aprovada pelo pesquisador em 2026-10-05: Piauí, 2022 + 2026,
+# maior granularidade disponível, produto autocontido (L0002).
+pergunta: >-
+  Como os votos de uma candidatura se distribuem pelo território do Piauí, do
+  município ao local de votação, e quais candidaturas de outros cargos
+  apresentam percentuais mais ou menos correlacionados com ela?
+publico: Pesquisadores e público geral; exploração descritiva, sem apresentar associação como explicação causal.
+recorte:
+  territorio: Piauí
+  eleicoes:
+    "2022":
+      turnos:
+        primeiro: todos_os_cargos
+        segundo: presidente_e_governador_quando_houver
+    "2026":
+      turnos:
+        primeiro: todos_os_cargos
+        segundo: fora_deste_produto      # decisão 2026-10-05
+      carater: >-
+        resultados totalizados publicados pelo TSE em 2026-10-05 (arquivos por
+        seção); exibir data/hora de geração dos arquivos
+  niveis:
+    estado: totais do PI
+    municipio: mapa coroplético + tabela
+    regiao_geografica_imediata: pendente de validação temporal (já pendente no escopo anterior)
+    zona: tabela e ranking; sem polígonos (sem geometria oficial)
+    local_votacao: mapa de pontos (coordenadas oficiais TSE) + tabela
+    secao: somente tabela/download
+uso_final: Página web completa e responsiva para pesquisadores e público geral; sem autorização de publicação.
+design_system: padrao
+formato:
+  entrega: arquivo único index.html autocontido, abre com duplo clique, sem servidor (L0002)
+  dados: embutidos no HTML (compactados quando necessário); bibliotecas por CDN permitido
+execucao:
+  arquitetura: híbrida (L0002) — Python gera e valida a base; JS faz cálculos leves sob demanda com teste de paridade
+  seletor: eleição (ano/turno) → cargo → candidatura; busca por nome, número e partido
+  selecao_candidatura_base:
+    abrangencia: restringir opções territoriais e cálculos à abrangência observada da candidatura
+  ausencias:
+    regra: >-
+      candidatura sem linha numa unidade (município, zona, local ou seção) do
+      território em que concorre = 0 votos; o TSE publica as combinações com
+      voto, e a regra reconstrói os zeros sem imputação (aprovada 2026-10-05)
+    unidades_sem_cobertura: não imputar; exibir como lacuna
+  distribuicao:
+    medidas: [votos_absolutos, percentual_dos_votos_validos_do_cargo]
+    denominador: votos válidos oficiais reconstruídos por seção conforme EL0003 (exclui anulados, sub judice e nulos técnicos)
+    votos_nao_validos: candidatura aparece só com votos absolutos e aviso do destino; sem percentual e fora do Pearson (EL0003)
+    percentual_em_niveis_agregados: somar votos da candidatura e votos válidos antes de dividir
+    calculo:
+      menor_unidade: Python (votos, válidos, percentual por seção)
+      agregacoes: JS a partir da base Python, com teste de paridade
+    escala_mapa:
+      criterio: recalculada para cada candidatura e seleção
+      comparabilidade: as cores não permitem comparar mapas de candidaturas diferentes
+    top: dez unidades com maiores valores para a medida e nível selecionados
+    locais:
+      mapa_de_pontos: coordenadas NR_LATITUDE/NR_LONGITUDE do cadastro oficial TSE (aceitas como oficiais em 2026-10-05)
+      representacao: >-
+        escolha do usuário nos níveis município e local — Mapa/Pontos (cor =
+        medida selecionada) ou Bolhas: cartograma de Dorling (d3-force: cada
+        círculo parte do centroide/coordenada e é afastado o mínimo para não
+        sobrepor), área ∝ votos (escala raiz quadrada), cor = % dos válidos;
+        soma das áreas = 30% da área dos municípios ou 45% da envoltória dos
+        locais (teto de raio 60/30 px). Troca animada (polígono → círculo via
+        flubber). Posição das bolhas é aproximada e isso é informado na página.
+        Pedido do pesquisador em 2026-10-05; parâmetros de tamanho a validar.
+      sem_coordenadas: somente tabela, sem geocodificação ou atribuição espacial inferida
+      fora_do_proprio_municipio: >-
+        ponto fora do polígono IBGE 2022 do próprio município — fora do mapa,
+        só na tabela, com indicador (decisão 2026-10-05)
+  comparacao:
+    candidatos: cargos diferentes do candidato-base, na mesma eleição e turno
+    indicador: Pearson entre percentuais dos votos válidos
+    niveis:
+      municipio: 224 municípios do PI
+      local_votacao: >-
+        locais de votação de um único município selecionado; exige no mínimo
+        10 locais com dados no par (aprovado 2026-10-05); abaixo disso, mostrar
+        a tabela de locais sem Pearson
+    ponderacao: cada unidade tem peso igual; sem ponderação por eleitorado ou número de votos
+    exibir_n: sempre informar o número de unidades usadas no cálculo
+    calculo: JS sob demanda, espelhando função Python de referência com teste de paridade (L0002)
+    ranking: candidaturas com maiores e menores correlações
+    candidato_detalhado: seleção de um segundo candidato para dispersão e comparação territorial
+    ausencias: não imputar votos, denominadores ou unidades sem cobertura comum
+  conferencia_2026:
+    principal: >-
+      soma por seção dos votos nominais (votacao_secao) e de legenda contra o
+      detalhe por seção (QT_VOTOS_NOMINAIS, QT_VOTOS_LEGENDA); tolerância 0 voto
+    validos_e_destino: >-
+      válidos reconstruídos (EL0003) contra `vv` da API por município/cargo e
+      votos por candidatura contra `vap`; tolerância 0 voto
+    pendente_cdn: arquivos municipais 2026 (munzona) publicados só com cabeçalho em 2026-10-05; conferir quando houver dados
+  conferencia_2022:
+    concluida: reconciliação nacional município/zona e conferências por seção do PI (ver validacoes_concluidas)
+  chave_local_votacao: >-
+    chave aprovada no rascunho de convergência (excluído em 2026-10-06): município + código +
+    nome/endereço normalizados; conferir sua aplicação a 2026
+
+# ---- tudo que o produto usa precisa estar declarado (inventário e exportação dependem disso) ----
+datasets:
+  - tse.candidatos
+  - tse.votacao_candidato_munzona     # conferência 2022 (concluída) e 2026 (quando publicado)
+  - tse.votacao_partido_munzona       # legendas anuladas 2018 e 2022
+  - tse.detalhe_votacao_munzona       # 2018: conferência por categoria e válidos (opção B); 2022: válidos
+  - tse.votacao_secao                 # 2018, 2022 e 2026: PI (estaduais) + BR (Presidente, filtrado ao PI)
+  - tse.detalhe_votacao_secao         # 2022 e 2026 (2018 não baixado — opção B)
+  - tse.eleitorado_local_votacao      # 2018, 2022 e 2026; coordenadas dos locais
+  - tse.resultados_2026_1t            # destino dos votos 2026 (EL0003) e conferência; snapshot fora do git
+  - ibge.municipios
+  - ibge.municipios_regiao_imediata
+  - pi.territorios_desenvolvimento      # nível "Território de desenvolvimento"
+  - ibge.malha_ufs_2022
+  - ibge.malha_municipios_2022
+decisoes: [L0001, L0002, L0003, EL0002, EL0003, EL0004, EL0006, EL0007]   # EL0002: 3 pares do PI; EL0003: votos válidos por seção
+analise:
+  - analise/validar_distribuicao_pi.py     # QA por seção do PI (2018, 2022, 2026) e válidos (EL0003)
+  - analise/preparar_distribuicao_pi.py    # base + index.html autocontido + página de paridade
+  - analise/forcas_pi.py                   # ler_territorios: municípios por recorte regional (reaproveitado)
+  - analise/html_forcas_pi.py              # contornos dos recortes regionais (reaproveitado)
+componentes_web: [lab.css, lab-nucleo.js, lab-selecao.js, lab-escalas.js, lab-mapa.js, lab-graficos.js, lab-sankey.js, lab-metodologia.js]   # L0003; embutidos pelo preparar_distribuicao_pi.py
+
+# Validações de método/qualidade concluídas.
+validacoes_concluidas:
+  - item: Paridade JS × Python (L0002), 2026-10-05
+    resultado: >-
+      228 casos (agregação por município e por local, percentuais e Pearson nas
+      três eleições) sem divergência; tests/test_eleicoes_distribuicao_pi_paridade.py
+      roda src/paridade.html no Chrome headless.
+  - item: Reconciliação nacional dos votos nominais, de legenda e válidos de 2022
+    resultado: >-
+      39.604 chaves coincidentes sem divergências; eleição geral ordinária,
+      partições BRASIL.csv e exclusão territorial de ZZ.
+    relatorio: histórico — script e relatório da versão nacional removidos na versão 1.0 (2026-10-06)
+  - item: Inspeção prévia dos arquivos de 2026 do PI (em memória, 2026-10-05)
+    resultado: >-
+      votacao_secao_2026_PI com Governador, Senador, Dep. Federal e Dep.
+      Estadual; Presidente só em votacao_secao_2026_BR; detalhe por seção com
+      os 5 cargos (10.225 seções cada); cadastro de locais com 3.402 de 3.481
+      locais com coordenadas. Arquivos baixados e registrados no manifesto.
+
+  - item: Relatório de qualidade por seção do PI, 2022 e 2026 (2026-10-05)
+    resultado: >-
+      Seção × detalhe sem divergências (53.778 chaves em 2022; 51.125 em 2026).
+      2022: seções × município/zona por candidatura sem divergências, exceto 4
+      candidaturas INAPTAS ausentes do município/zona (16.459 votos). Válidos
+      reconstruídos (EL0003) iguais aos oficiais: 11.800.321 (2022, 1.380 chaves)
+      e 12.022.196 (2026, API, 1.120 chaves; 75.595 candidatura × município).
+      Locais: 2022 3.342/3.377 e 2026 3.402/3.481 com coordenadas; 57 e 48
+      pontos fora do polígono do próprio município (reportados, não corrigidos).
+    relatorio: projetos/eleicoes/analise/relatorio_qualidade_distribuicao_pi.json
+
+  - item: Versão 1.0 — revisão final (2026-10-06)
+    resultado: >-
+      2018 incluído (opção B; EL0003 adendo 2018): seções × detalhe município/zona sem divergências em
+      1.380 chaves; válidos 12.030.734 = oficiais. Paridade JS × Python: 344 casos, 0 falhas. EL0007: 159
+      pessoas ligadas, 0 ambíguas, 0 conflitos de CPF. Página testada no Chrome headless em todos os níveis,
+      com comparação entre eleições, seleção no mapa e celular, sem erros de JavaScript.
+
+validacoes_pendentes:
+  - Repetir a conferência de 2026 contra os arquivos município/zona quando o TSE publicá-los
+  - Mapa de variação: escala divergente (cinza/cor do grupo) e saturação no percentil 95 em votos
+  - Cobertura temporal das Regiões Geográficas Imediatas (2017) para 2018–2026 e fonte oficial dos Territórios (Lei 6.967/2017)
+
+# Histórico: versão anterior (2022, Brasil, serviço Python local) substituída em 2026-10-05 e removida
+# na versão 1.0 (2026-10-06, pesquisador): data/base_distribuicao_2022.json (450 MB), geojsons de 2022,
+# distribuicao_votos.py, servir_distribuicao.py, validar_distribuicao.py e seus testes.
+
+licenca:
+  codigo: MIT
+  dados_derivados: CC-BY-4.0
+
+# Revisões de interface
+revisoes_interface:
+  2026_10_06_etapa1: >-
+    padrões do design system (L0003), etapa 1 de 2 (pesquisador): montagem comum (tokens + lab.css +
+    lab-*.js + nucleo.js + app.js); abertura com assinatura, descrição das partes e aviso exploratório;
+    barra fixa só com candidatura e município; cargo e eleição no título da candidatura, nível no título
+    da distribuição, medida no título do mapa, unidade da correlação no título da comparação; subtítulos
+    com números, "ⓘ Como ler" e fonte curta sob cada gráfico; rodapé virou o bloco "Fontes de Dados,
+    Metodologia e Códigos" (src/metodologia.yaml). Paridade JS × Python mantida (228 casos, 0 falhas).
+    Etapa 2 (pendente): mapa, top 10, dispersão e tabelas com os componentes (barra do mapa, legenda
+    abaixo, seleção por bloco, fora de escala)
+  2026_10_06_ajustes: >-
+    pedidos do pesquisador: (1) paleta dos grupos do produto "Forças políticas no PI" — cor da
+    candidatura = cor do grupo do partido (EL0004: PT+PCdoB+PV; PP+União; PSD; MDB; demais = Outros;
+    "UP" = Unidade Popular, em Outros) no mapa (um matiz, claro → escuro), círculos, top 10, dispersão
+    e lista da comparação (EL0006); (2) fora de escala nos círculos (Teresina: contorno tracejado,
+    rótulo na margem e nota); (3) comparação com outros cargos do mesmo ano — no 2º turno (só
+    Presidente), entram os cargos do 1º turno (antes: "0 candidaturas comparadas"). Paridade mantida
+  2026_10_06_filtros: >-
+    filtros (pedido do pesquisador: confusos e com rolagem no celular): todos num painel na barra fixa
+    do topo — candidatura, eleição, cargo, município, nível e medida. No celular, a barra mostra a
+    seleção atual numa linha + botão "Filtros" que abre/fecha o painel (Esc fecha); em telas largas o
+    painel fica sempre aberto. Os seletores nos títulos continuam, sincronizados com o painel
+  2026_10_06_revisao_filtros_regioes_evolucao: >-
+    pedidos do pesquisador: (1) seletores saem dos títulos (só no painel de filtros); (2) painel com o
+    cargo primeiro (define eleições e candidaturas; troca para a eleição mais recente que tem o cargo),
+    comparação por municípios/locais no painel; (3) correção: nos círculos a cor seguia sempre o % — agora
+    segue a medida (votos ou %); (4) recortes regionais no mapa, top 10 e tabela: região imediata,
+    intermediária e território de desenvolvimento (como no produto "Forças políticas"); (5) evolução da
+    candidatura entre eleições (2022 1º/2º turno, 2026), com a pessoa reconhecida por nome completo +
+    nascimento (EL0007; 104 ligadas, 0 ambíguas, 0 conflitos de CPF). 2018 adiado pelo pesquisador
+    (exigiria ~1 GB de download para a conferência completa)
+
+  2026_10_06_mapa_variacao: >-
+    pedido do pesquisador: (1) gráfico de evolução movido para baixo do mapa (o foco é o mapa);
+    (2) tabela recolhida por padrão; (3) filtro "Comparar com" (outras eleições da mesma pessoa, EL0007):
+    mapa de variação ganhou/perdeu em municípios e recortes regionais — em p.p. dos válidos ou em votos,
+    conforme a medida —, escala divergente (cinza = perdeu, cor do grupo = ganhou, centro claro; em votos
+    satura no percentil 95, como no produto "Forças políticas"), placar "ganhou em N, perdeu em M", top 10
+    dos maiores ganhos e coluna de variação na tabela; zonas, locais e seções não são comparados (mudam
+    entre eleições); (4) clique no mapa passa a selecionar a unidade (card com dados e "Filtrar a página
+    por este município →" / "Limpar seleção") em vez de filtrar a página inteira. Escala divergente e
+    corte no percentil 95 pendentes de validação do pesquisador.
+  2026_10_06_niveis_comparacao: >-
+    pedido do pesquisador: (1) filtro "Comparação por" removido — a correlação usa o nível escolhido
+    (município, imediata, intermediária, território, zona, local ou seção; zona/local/seção restritos ao
+    município filtrado, quando houver); mínimo de 10 unidades com dado fora do nível municipal (o mesmo
+    mínimo dos locais; intermediárias, com 6, ficam sem correlação — aprovado pelo pesquisador); (2) nível
+    seção: o mapa mostra os locais de votação com as seções somadas (seções não têm geometria);
+    (3) clique num município abre o card com "Ver seções e locais de votação deste município →", que
+    filtra pelo município e desce para o nível seção.
+  2026_10_06_secao_exige_municipio: >-
+    pedido do pesquisador: o nível seção com todo o Piauí (~10 mil seções) travava a página; agora exige um
+    município — sem ele, a página mostra o resumo e um aviso com a escolha do município (agrupada por
+    território de desenvolvimento) ou atalhos para os níveis local e município.
+  2026_10_06_aviso_comparacao: >-
+    pedido do pesquisador: deixar claro que "Comparar com" (outra eleição) não funciona em zona, local e
+    seção — o filtro fica desativado com "— só por município ou região —" e explicação ao passar o mouse,
+    e a distribuição abre com um aviso e o botão "Comparar por município →".
+  2026_10_06_sem_nivel_secao: >-
+    correção do pesquisador: o nível "Seção eleitoral" foi retirado — o mais detalhado é o local de
+    votação (a seção continua sendo a base do cálculo, sem ser exibida). Saem também o aviso "escolha um
+    município" do nível seção e a correlação por seção; o clique no município desce para os locais de
+    votação; endereços antigos com nivel=secao abrem no nível local; o resumo mostra "Locais de votação
+    com voto" quando há município filtrado.
+  2026_10_06_cor_pl: >-
+    pedido do pesquisador (decisão local deste produto): PL com cor própria #3a8fd0, azul mais claro que o
+    da União Progressista (#22508f), em vez de "Outros"; paleta conferida com o validador (sem alerta novo
+    em relação à EL0006). Não altera dados/referencia/cores_grupos_politicos.yaml nem outros produtos.
+  2026_10_06_comparar_partido: >-
+    pedido do pesquisador: em "Comparar com", só para Presidente e Governador, um segundo grupo de opções,
+    "Mesmo partido (outra candidatura)": candidaturas da mesma sigla ao mesmo cargo em outras eleições,
+    excluindo a própria pessoa (ex.: Flávio Bolsonaro PL 2026 × Jair Bolsonaro PL 2022). Sem filtro novo;
+    título, dica e top 10 mostram o nome comparado. Mudança de sigla entre eleições não é ligada (só sigla igual).
+  2026_10_06_dados_2018: >-
+    pedido do pesquisador (opção B, ~355 MB): 2018 incluído (1º turno: Presidente, Governador, Senador,
+    Dep. Federal e Estadual; 2º turno: Presidente). Baixados votacao_secao 2018 PI (20 MB) e BR (251 MB) e
+    eleitorado_local_votacao 2018 (84 MB); sem detalhe por seção nem candidaturas por município/zona. QA
+    (EL0003, adendo 2018): seções somadas × detalhe município/zona por categoria — 0 divergências em 1.380
+    chaves; válidos reconstruídos 12.030.734 = oficiais; 13 candidaturas INAPTAS com voto; ELIZEU AGUIAR
+    (Senador, PSL), APTO no cadastro, tem os 79.781 votos contados como nulos nos totais oficiais —
+    identificado pela igualdade exata em 230 de 230 zonas. Locais 2018: 3.616, 318 sem coordenada, 70 fora
+    do próprio município (marcados, não corrigidos). EL0007 passa a 159 pessoas ligadas (0 ambíguas, 0
+    conflitos de CPF); paridade 344 casos, 0 falhas. Cores 2018: DEM e PSL no grupo União Progressista
+    (EL0004 revista); PR (atual PL) fica em Outros e não entra em "mesmo partido" com o PL.
+  2026_10_06_evolucao_partido: >-
+    pedido do pesquisador: no gráfico de linhas, em Presidente e Governador (como em "Comparar com"), a linha
+    colorida segue o partido no mesmo cargo em todas as eleições, inclusive 2018 (ex.: PT Presidente =
+    Haddad 2018 → Lula 2022 e 2026); a linha cinza segue a pessoa (EL0007) só quando ela tem pontos fora
+    da série do partido (outro partido ou cargo — ex.: Bolsonaro PSL 2018; Wellington Dias Senador 2022).
+    Demais cargos: só a pessoa, como antes. Partido pela sigla igual (PR 2018 ≠ PL).
+  2026_10_06_psl_2018_pl: >-
+    decisão local do pesquisador: em Presidente, PSL 2018 (Jair Bolsonaro) equivale a PL para "mesmo
+    partido" e para a linha do partido no gráfico de evolução (PL + PSL 2018). Cores (EL0004) inalteradas.
+    PR 2018 não é ligado ao PL.

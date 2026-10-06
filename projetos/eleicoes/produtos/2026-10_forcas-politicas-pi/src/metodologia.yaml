@@ -1,0 +1,151 @@
+# Textos do bloco "Fontes de Dados, Metodologia e Códigos" (rodapé do produto).
+# Inspiração: README do Agregador de Pesquisas O POVO (DATADOC). Revisar aqui; o gerador
+# (projetos/eleicoes/analise/html_forcas_pi.py) junta estes textos às partes automáticas:
+# fontes (catálogo + manifesto: datas e hashes), decisões (ADRs), trechos de código e
+# resultados da conferência de qualidade. Padrão proposto para o projeto eleições.
+
+apresentacao: >-
+  Este produto descreve como os grandes grupos políticos do Piauí — a Federação Brasil da Esperança
+  (PT/PV/PCdoB), o PSD, o MDB, a União Progressista (PP + União Brasil) e os demais partidos — dividem os votos e as vagas nas eleições para deputado de
+  2018, 2022 e 2026 (1º turno) e para vereador e prefeito de 2020 e 2024. Todos os números vêm de bases
+  oficiais e podem ser reconstruídos com os códigos do laboratório; nada é estimado, imputado
+  ou completado. Abaixo estão as bases usadas, o passo a passo do tratamento, os principais
+  trechos de código e as decisões tomadas em cada etapa.
+
+passos:
+  - titulo: Coleta e proveniência
+    texto: >-
+      Os arquivos oficiais foram baixados do Portal de Dados Abertos do TSE (resultados por
+      município/zona, por partido e por seção; detalhe da votação; candidaturas) e, para 2026,
+      também da API de resultados do TSE, cujas respostas têm assinatura digital verificada.
+      Cada arquivo tem endereço, data e hash SHA-256 registrados num manifesto; os arquivos
+      brutos nunca são editados.
+  - titulo: Votos válidos de cada partido e cargo
+    texto: >-
+      Em 2022 e 2024, os votos válidos de cada partido por município vêm dos arquivos oficiais
+      por partido (nominais válidos + legenda). Em 2026, enquanto o TSE não publica esses
+      arquivos, os votos são somados a partir das seções eleitorais, contando como válidos só
+      os votos com destino válido (candidaturas anuladas, “sub judice” e nulos técnicos ficam
+      de fora) — mesma regra que o TSE usa para o total oficial.
+    adrs: [EL0003]
+    codigo: validar_distribuicao_pi.validos_por_secao
+  - titulo: Grupos políticos
+    texto: >-
+      Cada candidatura entra no grupo do seu partido na própria eleição. PT/PV/PCdoB = Federação
+      Brasil da Esperança (PT, PCdoB e PV); PSD; MDB; União Progressista = PP + União Brasil em
+      todas as eleições (em 2026, federados na Federação União Progressista); demais partidos =
+      Outros. Em 2018 e 2020, antes das federações e do União Brasil, os grupos têm a mesma
+      composição: PT + PCdoB + PV e PP + DEM + PSL (antecessores do União Brasil). Prefeitos entram pelo partido do eleito, não pela coligação. A tabela
+      partido → grupo de cada eleição é gerada e conferida automaticamente.
+    adrs: [EL0004]
+    codigo: forcas_pi.grupo_de
+  - titulo: Território
+    texto: >-
+      Os códigos municipais do TSE foram ligados aos do IBGE por nome e UF (224 de 224
+      municípios do Piauí, com três pares conferidos manualmente). Regiões Geográficas Imediatas
+      e Intermediárias vêm do IBGE (2017). Os Territórios de Desenvolvimento vêm da Wikipédia
+      (fonte secundária, revisão fixada), porque as fontes oficiais estavam fora do ar; três
+      lacunas da fonte foram resolvidas pelo pesquisador.
+    adrs: [L0001, EL0002]
+  - titulo: Indicadores
+    texto: >-
+      Força = votos do grupo ÷ votos válidos do cargo, somando votos e válidos antes de dividir
+      em qualquer nível territorial. Vagas = eleitos de cada grupo (deputados só no total
+      estadual, porque a vaga é estadual). Liderança = grupo com mais votos na unidade (“Outros”
+      só lidera quando o partido mais votado é de fora dos quatro grupos); intensidade = % do
+      grupo líder; margem = distância para o segundo. Consistência = diferença entre os cargos
+      no mesmo ano, ou variação com sinal entre eleições do mesmo cargo (2018, 2022, 2026; 2020, 2024) (em pontos percentuais
+      e em votos), e a correlação de
+      Pearson entre municípios. No mapa de consistência, a cor do grupo marca voto mais casado que o
+      típico (diferença abaixo da mediana do grupo), o cinza, mais dividido, e o tom claro, perto da
+      mediana. A liderança é mostrada em quatro
+      faixas de intensidade (abaixo de 40%, 40–50%, 50–60% e 60% ou mais dos válidos). O diagrama de fluxos compara quem liderava cada município em
+      cada momento — não acompanha eleitores.
+    adrs: [EL0005]
+    codigo: forcas_pi.lider
+  - titulo: Conferência de qualidade
+    texto: >-
+      Antes de qualquer gráfico, um script confere, com tolerância zero, que a soma dos
+      partidos é igual aos votos válidos oficiais em cada município e cargo, que o número de
+      eleitos bate com as vagas e que cada município tem um único prefeito eleito. Os resultados
+      estão no quadro abaixo.
+  - titulo: Visualização
+    texto: >-
+      Todos os indicadores são calculados em Python; a página apenas seleciona e desenha
+      (arquivo único, sem servidor). As cores dos grupos foram validadas para leitura por pessoas
+      com daltonismo. Nos círculos, a área é proporcional aos votos e a posição é aproximada;
+      quando uma unidade tem mais de três vezes o valor da segunda (caso de Teresina), ela fica
+      “fora de escala”, com contorno tracejado, para não esmagar as demais.
+    adrs: [L0002, EL0006]
+
+perguntas:
+  - p: O diagrama de fluxos mostra para onde foram os votos?
+    r: >-
+      Não. Ele mostra quem liderava cada município numa eleição e quem passou a liderar na
+      seguinte. O voto é secreto; saber se os mesmos eleitores mudaram de lado exigiria um método
+      de inferência que não foi usado aqui.
+  - p: Por que o grupo União Progressista inclui o PP e o União Brasil também em 2022 e 2024?
+    r: >-
+      Em 2026, PP e União disputaram juntos como Federação União Progressista. Para que o grupo
+      seja o mesmo nas três eleições e as comparações no tempo façam sentido, PP e União entram
+      juntos no grupo também em 2022 e 2024 (decisão do pesquisador, revisão do EL0004).
+  - p: Por que o PSD não aparece para deputado estadual em 2022, nem o MDB para federal?
+    r: >-
+      Porque não lançaram candidatos nesses cargos no Piauí em 2022 — verificado em três
+      arquivos independentes do TSE. Nesses casos o percentual fica indefinido, não zero.
+  - p: Os números de 2026 são definitivos?
+    r: >-
+      São os da totalização do 1º turno publicada pelo TSE em 05/10/2026. Votos “anulados sub
+      judice” podem mudar por decisão judicial; quando os arquivos definitivos forem publicados,
+      a base é refeita e conferida de novo.
+
+limitacoes:
+  - "Caraúbas do Piauí, vereador 2024: os arquivos do TSE baixados não trazem votos por partido; o município fica fora desses indicadores."
+  - "Territórios de Desenvolvimento: fonte secundária (Wikipédia) até que a Lei 6.967/2017 (Anexo Único) volte a estar acessível."
+  - "Correlação descreve associação entre percentuais municipais; não indica causalidade nem que os mesmos eleitores votaram nos mesmos grupos."
+  - "Dados de 2026 provisórios no sentido jurídico (diplomação, recursos)."
+  - "Prefeitos de 2020: em Juazeiro do Piauí e Murici dos Portelas a eleição ordinária não elegeu ninguém; vale o eleito na eleição extraordinária do mesmo ano (os votos dos indicadores são os da ordinária)."
+  - "Em 2018 o grupo União Progressista inclui o PSL, partido do candidato eleito presidente naquele ano."
+
+codigos:
+  - arquivo: fontes/tse/baixar.py
+    papel: Baixa os arquivos oficiais do TSE e registra endereço, data e hash no manifesto.
+  - arquivo: fontes/tse/coletar_resultados_2026.py
+    papel: Coleta a API de resultados de 2026 e verifica a assinatura digital de cada resposta.
+  - arquivo: fontes/wikipedia/baixar_territorios_pi.py
+    papel: Coleta as páginas dos Territórios de Desenvolvimento na Wikipédia, com as revisões fixadas.
+  - arquivo: fontes/wikipedia/padronizar_territorios_pi.py
+    papel: Liga cada município ao seu território (código IBGE) e aplica as três decisões do pesquisador.
+  - arquivo: projetos/eleicoes/analise/validar_distribuicao_pi.py
+    papel: Lê as seções e reconstrói os votos válidos de 2026 (EL0003), com conferência de tolerância zero.
+  - arquivo: projetos/eleicoes/analise/forcas_pi.py
+    papel: Tabela de grupos, conferência de qualidade e cálculo de todos os indicadores deste produto.
+  - arquivo: projetos/eleicoes/analise/html_forcas_pi.py
+    papel: Gera esta página (arquivo único) com a base, os contornos territoriais e as cores.
+  - arquivo: tests/test_eleicoes_forcas_pi.py
+    papel: Testes das regras de grupo e dos indicadores.
+
+sobre: >-
+  Produto do Laboratório de Dados Públicos, por Alexandre Cajazeira — professor EBTT de
+  Informática e pesquisador em ciência de dados aplicada a políticas públicas, transparência
+  e cidadania.
+
+uso_de_ia: >-
+  Claude (Claude Code, Anthropic) apoiou a conferência dos dados, o cálculo dos indicadores e a
+  implementação desta página. Definições, decisões metodológicas e revisão são do pesquisador;
+  a IA não é autora (Portaria CNPq nº 2.664/2026).
+
+licenca: "Código: MIT · Dados derivados: CC BY 4.0"
+
+# Referência para citação (o bloco acrescenta "Disponível em: <endereço>. Acesso em: <data>.")
+citacao: "CAJAZEIRA, Alexandre. Forças políticas no Piauí (2018–2026). Laboratório de Dados Públicos, 2026."
+
+# Resumo de uma linha de cada decisão citada no produto (o ADR completo fica no repositório).
+decisoes_resumo:
+  L0001: Códigos municipais TSE e IBGE ligados só quando UF e nome normalizado coincidem de forma única; nada é aproximado.
+  L0002: Produtos em arquivo único; cálculos em Python, a página só seleciona e desenha.
+  EL0002: No Piauí, os três municípios com apóstrofo no nome foram pareados manualmente, completando os 224.
+  EL0003: Votos válidos por seção reconstruídos com o destino oficial dos votos (exclui anulados, sub judice e nulos técnicos).
+  EL0004: Grupo = partido da candidatura na eleição; PT = federação; PP = PP + União Brasil em 2022, 2024 e 2026; prefeito pelo partido do eleito.
+  EL0005: Força em % dos válidos, vagas, prefeituras, consistência entre cargos e no tempo, liderança com intensidade e margem, fluxos de liderança.
+  EL0006: Cores dos grupos fixas e validadas para daltonismo (PT vermelho, PSD laranja, MDB verde, PP azul, Outros cinza).

@@ -1,0 +1,36 @@
+# Recorte do catálogo do laboratório: só as bases usadas pelos produtos publicados
+
+tse:
+  sigla: TSE
+  nome: Tribunal Superior Eleitoral — Portal de Dados Abertos
+  url: https://dadosabertos.tse.jus.br
+  download_base: https://cdn.tse.jus.br/estatistica/sead/odsele/
+  licenca: CC BY (conforme portal)
+  formato: CSV em ZIP e JWS compacto assinado (EdDSA/Ed25519)
+  encoding: latin-1
+  separador: ;
+  codigos_ausencia:
+  - '#NULO#'
+  - '#NE#'
+  - '-1'
+  - '-3'
+  pipeline: fontes/tse
+ibge:
+  sigla: IBGE
+  nome: Instituto Brasileiro de Geografia e Estatística
+  url: https://servicodados.ibge.gov.br/api/docs
+  licenca: a confirmar por produto
+  geometrias_url: https://geoftp.ibge.gov.br/organizacao_do_territorio/malhas_territoriais/
+  pipeline: fontes/ibge
+wikipedia:
+  sigla: Wikipédia
+  nome: Wikipédia em português (via API do MediaWiki)
+  url: https://pt.wikipedia.org
+  api: https://pt.wikipedia.org/w/api.php
+  licenca: CC BY-SA 4.0 (texto); atribuição e link da revisão obrigatórios
+  formato: wikitext (JSON da API action=parse), fixado por número de revisão
+  status: fonte SECUNDÁRIA, aceita pelo pesquisador em 2026-10-05 para os Territórios
+    de Desenvolvimento do Piauí porque as fontes oficiais (legislacao.pi.gov.br, CEPRO,
+    SEPLAN-PI) estavam inacessíveis; substituir pela Lei 6.967/2017 (Anexo Único)
+    quando acessível
+  pipeline: fontes/wikipedia

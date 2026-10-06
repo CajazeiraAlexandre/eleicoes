@@ -1,0 +1,144 @@
+/* Padrão do laboratório — v0.1
+ * GERADO por ferramentas/design.py a partir de design/padrao/design.yaml — não edite à mão. */
+:root {
+  color-scheme: light;
+  --fonte-texto: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --fonte-titulo: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --fonte-num: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --peso-titulo: 700;
+  --peso-texto: 400;
+  --entrelinha: 1.5;
+  --fs-titulo: 32px;
+  --fs-subtitulo: 22px;
+  --fs-texto: 16px;
+  --fs-grafico-titulo: 18px;
+  --fs-grafico-rotulo: 13px;
+  --fs-grafico-eixo: 12px;
+  --fs-nota: 12px;
+  --fs-destaque-numero: 48px;
+  --largura-texto: 680px;
+  --largura-max: 1120px;
+  --raio: 6px;
+  --espaco-p: 8px;
+  --espaco-m: 16px;
+  --espaco-g: 32px;
+  --espaco-gg: 64px;
+  --grafico-largura: 680px;
+  --grafico-proporcao: 0.5625;
+  --grafico-proporcao-mapa: 1.0;
+  --grafico-altura-min: 280px;
+  --grafico-linha: 2px;
+  --grafico-marcador: 8px;
+  --grafico-barra-raio: 4px;
+  --grafico-espaco-barras: 2px;
+  --grafico-margem-topo: 24px;
+  --grafico-margem-direita: 16px;
+  --grafico-margem-base: 40px;
+  --grafico-margem-esquerda: 48px;
+  --quebra-celular: 480px;
+  --quebra-tablet: 768px;
+  --quebra-desktop: 1120px;
+  --cor-seq-1: #cde2fb;
+  --cor-seq-2: #9ec5f4;
+  --cor-seq-3: #6da7ec;
+  --cor-seq-4: #3987e5;
+  --cor-seq-5: #256abf;
+  --cor-seq-6: #184f95;
+  --cor-seq-7: #0d366b;
+  --cor-status-bom: #0ca30c;
+  --cor-status-atencao: #fab219;
+  --cor-status-grave: #ec835a;
+  --cor-status-critico: #d03b3b;
+  --anotacao-cor: var(--cor-texto-secundario);
+  --anotacao-linha: 1px;
+  --cor-fundo: #f9f9f7;
+  --cor-superficie: #fcfcfb;
+  --cor-texto: #0b0b0b;
+  --cor-texto-secundario: #52514e;
+  --cor-texto-suave: #898781;
+  --cor-grade: #e1e0d9;
+  --cor-eixo: #c3c2b7;
+  --cor-borda: rgba(11,11,11,0.10);
+  --cor-destaque: #2a78d6;
+  --cor-cat-1: #2a78d6;
+  --cor-cat-2: #eb6834;
+  --cor-cat-3: #1baf7a;
+  --cor-cat-4: #eda100;
+  --cor-cat-5: #e87ba4;
+  --cor-cat-6: #008300;
+  --cor-cat-7: #4a3aa7;
+  --cor-cat-8: #e34948;
+  --cor-div-1: #b02f2f;
+  --cor-div-2: #e34948;
+  --cor-div-3: #f0a3a3;
+  --cor-div-4: #f0efec;
+  --cor-div-5: #9ec5f4;
+  --cor-div-6: #2a78d6;
+  --cor-div-7: #184f95;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --cor-fundo: #0d0d0d;
+    --cor-superficie: #1a1a19;
+    --cor-texto: #ffffff;
+    --cor-texto-secundario: #c3c2b7;
+    --cor-texto-suave: #898781;
+    --cor-grade: #2c2c2a;
+    --cor-eixo: #383835;
+    --cor-borda: rgba(255,255,255,0.10);
+    --cor-destaque: #3987e5;
+    --cor-cat-1: #3987e5;
+    --cor-cat-2: #d95926;
+    --cor-cat-3: #199e70;
+    --cor-cat-4: #c98500;
+    --cor-cat-5: #d55181;
+    --cor-cat-6: #008300;
+    --cor-cat-7: #9085e9;
+    --cor-cat-8: #e66767;
+    --cor-div-1: #e66767;
+    --cor-div-2: #c43c3c;
+    --cor-div-3: #7a3333;
+    --cor-div-4: #383835;
+    --cor-div-5: #1c5cab;
+    --cor-div-6: #3987e5;
+    --cor-div-7: #86b6ef;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --cor-fundo: #0d0d0d;
+  --cor-superficie: #1a1a19;
+  --cor-texto: #ffffff;
+  --cor-texto-secundario: #c3c2b7;
+  --cor-texto-suave: #898781;
+  --cor-grade: #2c2c2a;
+  --cor-eixo: #383835;
+  --cor-borda: rgba(255,255,255,0.10);
+  --cor-destaque: #3987e5;
+  --cor-cat-1: #3987e5;
+  --cor-cat-2: #d95926;
+  --cor-cat-3: #199e70;
+  --cor-cat-4: #c98500;
+  --cor-cat-5: #d55181;
+  --cor-cat-6: #008300;
+  --cor-cat-7: #9085e9;
+  --cor-cat-8: #e66767;
+  --cor-div-1: #e66767;
+  --cor-div-2: #c43c3c;
+  --cor-div-3: #7a3333;
+  --cor-div-4: #383835;
+  --cor-div-5: #1c5cab;
+  --cor-div-6: #3987e5;
+  --cor-div-7: #86b6ef;
+}
+@media (max-width: 480px) {
+  :root {
+    --fs-titulo: 24px;
+    --fs-subtitulo: 16px;
+    --fs-grafico-titulo: 14px;
+    --fs-destaque-numero: 36px;
+    --grafico-proporcao: 1.25;
+    --margem-lateral: 16px;
+  }
+}

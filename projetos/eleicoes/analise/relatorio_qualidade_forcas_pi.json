@@ -1,0 +1,364 @@
+{
+ "gerado_em": "2026-10-06T11:11:51-03:00",
+ "escopo": "PI; eleição ordinária, 1º turno; cargos do briefing (EL0004/EL0005)",
+ "anos": {
+  "2018": {
+   "conferencia_partidos_x_validos": {
+    "chaves_cargo_municipio": 448,
+    "divergencias": 0,
+    "amostras": []
+   },
+   "municipios": 224,
+   "municipios_sem_territorio": [],
+   "lacunas_registradas": [],
+   "validos_por_cargo": {
+    "Deputado Federal": 1787802,
+    "Deputado Estadual": 1816803
+   },
+   "eleitos_por_cargo": {
+    "Deputado Federal": 10,
+    "Deputado Estadual": 30
+   },
+   "deputados_vs_bancada": {
+    "Deputado Estadual": {
+     "eleitos": 30,
+     "bancada": 30
+    },
+    "Deputado Federal": {
+     "eleitos": 10,
+     "bancada": 10
+    }
+   },
+   "partidos_por_grupo": {
+    "PT": [
+     "PC do B",
+     "PT",
+     "PV"
+    ],
+    "PSD": [
+     "PSD"
+    ],
+    "MDB": [
+     "MDB"
+    ],
+    "PP": [
+     "DEM",
+     "PP",
+     "PSL"
+    ],
+    "Outros": [
+     "AVANTE",
+     "DC",
+     "PATRI",
+     "PCB",
+     "PCO",
+     "PDT",
+     "PHS",
+     "PMN",
+     "PODE",
+     "PPL",
+     "PPS",
+     "PR",
+     "PRB",
+     "PROS",
+     "PRP",
+     "PRTB",
+     "PSB",
+     "PSC",
+     "PSDB",
+     "PSOL",
+     "PSTU",
+     "PTB",
+     "PTC",
+     "REDE",
+     "SOLIDARIEDADE"
+    ]
+   }
+  },
+  "2020": {
+   "conferencia_partidos_x_validos": {
+    "chaves_cargo_municipio": 448,
+    "divergencias": 0,
+    "amostras": []
+   },
+   "municipios": 224,
+   "municipios_sem_territorio": [],
+   "lacunas_registradas": [],
+   "validos_por_cargo": {
+    "Prefeito": 1940492,
+    "Vereador": 1952164
+   },
+   "eleitos_por_cargo": {
+    "Vereador": 2144,
+    "Prefeito": 224
+   },
+   "prefeitos": {
+    "municipios_com_prefeito_eleito": 224,
+    "municipios_com_mais_de_um": [],
+    "municipios_sem_prefeito_eleito": [],
+    "eleitos_no_2o_turno": [
+     "12190"
+    ],
+    "eleitos_em_eleicao_extraordinaria": [
+     "12416",
+     "12475"
+    ]
+   },
+   "partidos_por_grupo": {
+    "PT": [
+     "PC do B",
+     "PT",
+     "PV"
+    ],
+    "PSD": [
+     "PSD"
+    ],
+    "MDB": [
+     "MDB"
+    ],
+    "PP": [
+     "DEM",
+     "PP",
+     "PSL"
+    ],
+    "Outros": [
+     "AVANTE",
+     "CIDADANIA",
+     "DC",
+     "NOVO",
+     "PATRIOTA",
+     "PCO",
+     "PDT",
+     "PL",
+     "PMB",
+     "PMN",
+     "PODE",
+     "PROS",
+     "PRTB",
+     "PSB",
+     "PSC",
+     "PSDB",
+     "PSOL",
+     "PSTU",
+     "PTB",
+     "PTC",
+     "REDE",
+     "REPUBLICANOS",
+     "SOLIDARIEDADE",
+     "UP"
+    ]
+   }
+  },
+  "2022": {
+   "conferencia_partidos_x_validos": {
+    "chaves_cargo_municipio": 448,
+    "divergencias": 0,
+    "amostras": []
+   },
+   "municipios": 224,
+   "municipios_sem_territorio": [],
+   "lacunas_registradas": [],
+   "validos_por_cargo": {
+    "Deputado Federal": 1957483,
+    "Deputado Estadual": 1970638
+   },
+   "eleitos_por_cargo": {
+    "Deputado Estadual": 30,
+    "Deputado Federal": 10
+   },
+   "deputados_vs_bancada": {
+    "Deputado Estadual": {
+     "eleitos": 30,
+     "bancada": 30
+    },
+    "Deputado Federal": {
+     "eleitos": 10,
+     "bancada": 10
+    }
+   },
+   "partidos_por_grupo": {
+    "PT": [
+     "PC do B",
+     "PT",
+     "PV"
+    ],
+    "PSD": [
+     "PSD"
+    ],
+    "MDB": [
+     "MDB"
+    ],
+    "PP": [
+     "PP",
+     "UNIÃO"
+    ],
+    "Outros": [
+     "AGIR",
+     "CIDADANIA",
+     "NOVO",
+     "PATRIOTA",
+     "PCB",
+     "PCO",
+     "PDT",
+     "PL",
+     "PMN",
+     "PODE",
+     "PSC",
+     "PSDB",
+     "PSOL",
+     "PSTU",
+     "PTB",
+     "REDE",
+     "REPUBLICANOS",
+     "SOLIDARIEDADE",
+     "UP"
+    ]
+   }
+  },
+  "2024": {
+   "conferencia_partidos_x_validos": {
+    "chaves_cargo_municipio": 447,
+    "divergencias": 0,
+    "amostras": []
+   },
+   "municipios": 224,
+   "municipios_sem_territorio": [],
+   "lacunas_registradas": [
+    {
+     "cargo": "Vereador",
+     "municipio": "12670",
+     "motivo": "Caraúbas do Piauí, Vereador 2024: detalhe com 4.278 válidos, mas sem linhas de vereador nos arquivos de partido e candidatura (cópias de 02–03/10/2026); seção soma 4.379. Mantida como lacuna por decisão do pesquisador em 2026-10-05."
+    }
+   ],
+   "validos_por_cargo": {
+    "Prefeito": 2191603,
+    "Vereador": 2210484
+   },
+   "eleitos_por_cargo": {
+    "Vereador": 2143,
+    "Prefeito": 224
+   },
+   "prefeitos": {
+    "municipios_com_prefeito_eleito": 224,
+    "municipios_com_mais_de_um": [],
+    "municipios_sem_prefeito_eleito": [],
+    "eleitos_no_2o_turno": [],
+    "eleitos_em_eleicao_extraordinaria": []
+   },
+   "partidos_por_grupo": {
+    "PT": [
+     "PC do B",
+     "PT",
+     "PV"
+    ],
+    "PSD": [
+     "PSD"
+    ],
+    "MDB": [
+     "MDB"
+    ],
+    "PP": [
+     "PP",
+     "UNIÃO"
+    ],
+    "Outros": [
+     "AGIR",
+     "AVANTE",
+     "CIDADANIA",
+     "DC",
+     "MOBILIZA",
+     "NOVO",
+     "PCO",
+     "PDT",
+     "PL",
+     "PMB",
+     "PODE",
+     "PRD",
+     "PSB",
+     "PSDB",
+     "PSOL",
+     "PSTU",
+     "REDE",
+     "REPUBLICANOS",
+     "SOLIDARIEDADE",
+     "UP"
+    ]
+   }
+  },
+  "2026": {
+   "conferencia_partidos_x_validos": {
+    "chaves_cargo_municipio": 448,
+    "divergencias": 0,
+    "amostras": []
+   },
+   "municipios": 224,
+   "municipios_sem_territorio": [],
+   "lacunas_registradas": [],
+   "validos_por_cargo": {
+    "Deputado Federal": 2109063,
+    "Deputado Estadual": 2104590
+   },
+   "conferencia_nominais_secao_x_munzona_2026": {
+    "candidaturas_ausentes_do_munzona": [
+     "180002539029",
+     "180002539132",
+     "180002540682",
+     "180002540687",
+     "180002552107",
+     "180002554121"
+    ],
+    "ausentes_iguais_aos_nulos_tecnicos": true,
+    "chaves": 66528,
+    "divergencias": 0,
+    "amostras": []
+   },
+   "votos_validos_sem_partido_identificado": {},
+   "eleitos_por_cargo": {
+    "Deputado Estadual": 30,
+    "Deputado Federal": 10
+   },
+   "deputados_vs_bancada": {
+    "Deputado Estadual": {
+     "eleitos": 30,
+     "bancada": 30
+    },
+    "Deputado Federal": {
+     "eleitos": 10,
+     "bancada": 10
+    }
+   },
+   "partidos_por_grupo": {
+    "PT": [
+     "PC do B",
+     "PT",
+     "PV"
+    ],
+    "PSD": [
+     "PSD"
+    ],
+    "MDB": [
+     "MDB"
+    ],
+    "PP": [
+     "PP",
+     "UNIÃO"
+    ],
+    "Outros": [
+     "AVANTE",
+     "CIDADANIA",
+     "MISSÃO",
+     "NOVO",
+     "PDT",
+     "PL",
+     "PODE",
+     "PSDB",
+     "PSOL",
+     "REDE",
+     "REPUBLICANOS",
+     "UP"
+    ]
+   }
+  }
+ },
+ "status_automatizado": "sem divergências"
+}

@@ -1,0 +1,226 @@
+# =====================================================================
+#  DESIGN SYSTEM PADRÃO DO LABORATÓRIO — EDITE AQUI
+# =====================================================================
+#  Este é o único arquivo que você precisa editar. Depois rode:
+#      make design
+#  que gera  design/padrao/tokens.css   (usado pelos produtos)
+#  e         docs/design-system.html     (página para conferir o resultado)
+#
+#  Regras:
+#  - Componentes D3 leem estes valores como variáveis CSS (--nome); nunca
+#    use cor ou tamanho fixo no JS dos produtos.
+#  - Cores das visualizações: base validada para daltonismo (skill dataviz).
+#    Ao trocar uma cor categórica, mantenha a ORDEM e revalide a paleta.
+#  - Todo design system (padrão ou externo) precisa definir as mesmas chaves.
+# =====================================================================
+
+nome: Padrão do laboratório
+versao: "0.1"
+
+# ---------------------------------------------------------------- tipografia
+tipografia:
+  familia_texto: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif'
+  familia_titulo: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif'
+  familia_numeros: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif'   # tabular-nums em tabelas/eixos
+  base_px: 16            # corpo de texto
+  escala:                # tamanhos em px (no celular, títulos reduzem — ver responsividade)
+    titulo: 32
+    subtitulo: 22
+    texto: 16
+    grafico_titulo: 18
+    grafico_rotulo: 13   # rótulos diretos, legendas
+    grafico_eixo: 12     # ticks e títulos de eixo
+    nota: 12             # fonte, notas de rodapé
+    destaque_numero: 48  # "big number"
+  peso_titulo: 700
+  peso_texto: 400
+  entrelinha: 1.5
+
+# ---------------------------------------------------------------- layout e gráficos
+layout:
+  largura_texto_px: 680      # coluna de leitura
+  largura_maxima_px: 1120    # gráficos largos / mapas
+  espaco_px: { p: 8, m: 16, g: 32, gg: 64 }
+  raio_px: 6
+
+grafico:
+  largura_padrao_px: 680     # referência; o gráfico ocupa 100% do contêiner
+  proporcao: "16:9"          # altura = largura × 9/16 (mapas usam proporcao_mapa)
+  proporcao_mapa: "1:1"
+  altura_minima_px: 280
+  margens_px: { topo: 24, direita: 16, base: 40, esquerda: 48 }
+  linha_px: 2
+  marcador_px: 8
+  barra_raio_px: 4
+  espaco_entre_barras_px: 2
+  grade: discreta            # linhas de grade finas e claras
+
+# ---------------------------------------------------------------- responsividade
+responsividade:
+  quebras_px: { celular: 480, tablet: 768, desktop: 1120 }
+  celular:
+    escala_titulos: 0.75     # títulos ×0.75 abaixo de 480px
+    margem_lateral_px: 16
+    grafico_proporcao: "4:5" # gráficos mais altos no celular
+    legenda: acima           # legenda passa para cima do gráfico
+  regras:
+    - "Sem rolagem horizontal da página; tabelas largas rolam dentro do próprio contêiner."
+    - "Gráficos redesenham no resize (ResizeObserver), nunca escalam o SVG com distorção."
+    - "Tooltips viram toque no celular; alvos de toque com no mínimo 32px."
+    - "Scrollytelling: no celular, o gráfico fica fixo no topo e o texto rola por baixo."
+
+# ---------------------------------------------------------------- cores
+cores:
+  interface:
+    claro:
+      fundo: "#f9f9f7"
+      superficie: "#fcfcfb"
+      texto: "#0b0b0b"
+      texto_secundario: "#52514e"
+      texto_suave: "#898781"
+      grade: "#e1e0d9"
+      eixo: "#c3c2b7"
+      borda: "rgba(11,11,11,0.10)"
+      destaque: "#2a78d6"
+    escuro:
+      fundo: "#0d0d0d"
+      superficie: "#1a1a19"
+      texto: "#ffffff"
+      texto_secundario: "#c3c2b7"
+      texto_suave: "#898781"
+      grade: "#2c2c2a"
+      eixo: "#383835"
+      borda: "rgba(255,255,255,0.10)"
+      destaque: "#3987e5"
+
+  # identidade de séries — usar NESTA ORDEM, nunca ciclar (máx. 8; acima disso, "Outros")
+  categorica:
+    claro:  ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300", "#4a3aa7", "#e34948"]
+    escuro: ["#3987e5", "#d95926", "#199e70", "#c98500", "#d55181", "#008300", "#9085e9", "#e66767"]
+
+  # magnitude (mapas coropléticos, heatmaps) — um matiz, claro → escuro
+  sequencial: ["#cde2fb", "#9ec5f4", "#6da7ec", "#3987e5", "#256abf", "#184f95", "#0d366b"]
+
+  # polaridade (variação, saldo) — dois polos + meio cinza
+  divergente:
+    claro:  ["#b02f2f", "#e34948", "#f0a3a3", "#f0efec", "#9ec5f4", "#2a78d6", "#184f95"]
+    escuro: ["#e66767", "#c43c3c", "#7a3333", "#383835", "#1c5cab", "#3987e5", "#86b6ef"]
+
+  # estados (bom/atenção/grave/crítico) — reservados; sempre com ícone + rótulo
+  status: { bom: "#0ca30c", atencao: "#fab219", grave: "#ec835a", critico: "#d03b3b" }
+
+# ---------------------------------------------------------------- anotações e identificação
+anotacao:
+  cor: texto_secundario
+  linha_px: 1
+  estilo_linha: tracejada
+rodape_obrigatorio: ["Fonte e data dos dados", "Link para o código", "Declaração de uso de IA", "Autoria com link para o portfólio"]
+
+# =====================================================================
+#  PADRÕES DE INTERFACE E CATÁLOGO DE GRÁFICOS (ADR L0003)
+# =====================================================================
+#  Implementados em web/componentes/ (lab.css + lab-*.js, objeto global `Lab`) e mostrados,
+#  com dados reais, em docs/design-system.html (seção "Catálogo de gráficos").
+#  Origem: revisões do produto "Forças políticas no Piauí" (projeto eleições, out/2026).
+#  Mudou uma regra aqui? Mude o componente correspondente e rode `make design`.
+# =====================================================================
+componentes:
+  arquivos: [lab.css, lab-nucleo.js, lab-selecao.js, lab-escalas.js, lab-mapa.js, lab-graficos.js, lab-sankey.js, lab-metodologia.js]
+  montagem: "labdados.produto_web.montar_html embute tokens, lab.css, lab-*.js, app.js e a base num HTML único (L0002)."
+  dependencias: ["D3 v7 (jsDelivr)", "d3-sankey 0.12 (fluxos)", "flubber 0.4 (transição mapa ⇄ círculos, opcional)"]
+
+padroes:
+  estrutura_do_grafico:
+    - "Ordem fixa, pensada para o print: título → subtítulo com números → ⓘ Como ler → gráfico → legenda → notas → controles compactos → fonte."
+    - "Entre o título e o gráfico ficam só o subtítulo e o 'ⓘ Como ler o gráfico' (recolhido). Nada de barras de controles."
+    - "Cada gráfico se sustenta sozinho num print: título descreve o recorte escolhido e o rodapé traz fonte e autoria."
+  titulos:
+    - "Descritivos, simples e diretos; dizem o que o gráfico mostra, sem o tipo do recurso (não escrever 'Mapa:', 'Gráfico de…', 'Tabela:')."
+    - "Sem números no título: os números vão no subtítulo (Lab.placar), curtos."
+    - "Escolhas que mudam o que o título descreve ficam DENTRO da frase: poucas opções → Lab.seletorTitulo ('votos válidos / vagas conquistadas'); muitas → Lab.seletorTituloLista (lista que parece texto sublinhado com ▾; largura do texto escolhido)."
+    - "Ex.: 'Participação dos grupos em [votos válidos / vagas conquistadas], em cada eleição e cargo' · 'Grupo líder por [município ▾] — [Deputado Estadual 2026 ▾]'."
+  controles:
+    - "Botões compactos (Lab.alternar com pequeno=true) abaixo do gráfico, só para o que muda a forma de desenhar, não o recorte: Tamanho (Igual / Por votos), Largura (Sankey)."
+    - "Troca de modo de uma seção é um botão único (Lab.botaoModo): 'Detalhar distribuição de um único grupo' ⇄ '← Mapa de lideranças'."
+    - "Padrões: círculos proporcionais ligados nos gráficos de distribuição e dispersão; mapas abrem como mapa (o mapa principal de liderança pode abrir em círculos); medida padrão do gráfico de linhas = números absolutos."
+    - "Estado de todos os controles no endereço (#chave=valor): links reproduzem a vista; episódios entram no histórico do navegador."
+  mapa:
+    - "Barra sem fundo no topo do desenho: busca à esquerda, Mapa | Círculos (pequeno) à direita, na mesma linha também no celular."
+    - "Legendas (cor, tamanho dos círculos, 'sem dados') logo ABAIXO do desenho e acima das notas."
+    - "Card da unidade selecionada logo abaixo do desenho, antes das legendas (perto do toque no celular)."
+    - "Lacunas em hachura, nunca em cinza liso; legenda 'sem dados' quando houver."
+    - "Círculos (cartograma de Dorling): soma das áreas = 30% da área do território (45% com até 25 unidades); raio mínimo visível; transição animada respeita prefers-reduced-motion."
+    - "Recortes maiores que o município desenham os limites municipais finos por cima (sobreposicao)."
+  selecao:
+    - "Seleção independente por bloco (data-escopo): um mapa e o gráfico ligado a ele compartilham a seleção; outros blocos não são afetados."
+    - "'Limpar seleção' e o 'x' da busca sempre limpam; clicar de novo na mesma unidade desfaz."
+    - "Passar o mouse acende a mesma unidade em todos os gráficos do bloco (Lab.ligarDestaque)."
+    - "No celular, o card com nome e dados aparece também sob o gráfico tocado (Lab.painelGrafico); em telas largas, só no mapa ao lado."
+  escalas_e_legendas:
+    - "Legendas de escala com ~70% da largura do gráfico; texto em tinta de texto, nunca na cor da série."
+    - "Sequencial: um matiz, claro → escuro. Divergente: dois polos (cinza escuro ← claro → cor da categoria), centro claro. Classes: quadros de largura fixa com a faixa escrita sobre a cor (Lab.legendaClasses)."
+    - "Centro da divergente onde a leitura pede: 0 para variação; mediana da diferença quando a pergunta é 'onde é típico, onde é extremo'."
+    - "Fora de escala: se a maior unidade passa de 3× a segunda, a escala de área vai até a segunda e a maior fica no tamanho máximo, contorno tracejado, rótulo na margem com linha de ligação e nota abaixo."
+    - "Saturação de cor em valores absolutos muito desiguais: percentil 95, dito na legenda ('… ou mais') e no Como ler."
+    - "Cores de domínio (partidos, funções) vêm de dados/referencia/ com ADR e substituem a categórica; nomes de exibição longos quebram em até duas linhas."
+  textos_de_apoio:
+    - "'ⓘ Como ler o gráfico' (Lab.instrucao) recolhido: explica codificação, interação e o que o gráfico NÃO diz."
+    - "Fonte curta sob cada gráfico (Lab.rodape): 'Fonte: bases oficiais do <órgão>. Saiba mais ↓ · Análise e visualização: <autor>'; cobertura e notas num 'ⓘ notas' recolhível."
+    - "Produtos exploratórios avisam no topo que não trazem resumo, conclusões ou inferências."
+  navegacao:
+    - "Produtos longos em episódios (nav fixa no topo, rolável no celular); 'próxima seção' leva ao topo do episódio seguinte, descontada a nav fixa."
+    - "Atualizações no lugar (Lab.noLugar): mantêm rolagem, altura e o foco do controle usado."
+  metodologia:
+    - "Todo produto termina com o bloco recolhível 'Fontes de Dados, Metodologia e Códigos' (Lab.rodapePagina), modelo do Agregador O POVO/DATADOC."
+    - "Seções: sobre · fontes (datas na fonte, download e hash do manifesto) · passo a passo (com ADRs e trechos de código) · conferência de qualidade · decisões · códigos · limitações · perguntas frequentes · autoria, uso de IA, licença, versão e como citar."
+    - "Textos em <produto>/src/metodologia.yaml (modelo em modelos/produto/src/); partes automáticas por labdados.metodologia.montar."
+  celular:
+    - "Uma coluna abaixo de 768 px; seletores do título quebram com a frase; quadros e legendas com largura fixa por item."
+    - "Alvos de toque ≥ 28 px nos controles compactos e ≥ 40 px nos demais."
+
+graficos:
+  - id: barras100
+    nome: Barras empilhadas de 100%
+    quando: "Composição de um total em categorias, comparando várias linhas (participação nos votos, vagas)."
+    componente: Lab.linhaBarra100
+    regras: ["Rótulo com % e absoluto; encolhe (texto → médio → curto) ou sai quando não cabe (Lab.ajustarRotulos).", "Linha pontilhada em 50% quando a maioria importa.", "Tabela em 'Ver tabela'."]
+  - id: linhas_duas_pontas
+    nome: Linhas por momentos (antes → depois)
+    quando: "Mudança de cada categoria ao longo de 2 ou mais momentos comparáveis (o mesmo cargo em eleições sucessivas)."
+    componente: Lab.linhasPontas (atalho para dois momentos, Lab.linhasDuasPontas)
+    regras: ["Valor na primeira ponta; valor e nome na última, sem sobreposição; momentos do meio só na dica.", "Linha só entre momentos vizinhos com dado; categoria sem dado num momento: '(sem 2022)' e nota.", "Séries que não se comparam (ex.: eleições gerais × municipais) ficam em vistas separadas, escolhidas no título."]
+  - id: mapa
+    nome: Mapa coroplético com alternativa em círculos
+    quando: "Distribuição territorial de uma medida ou de uma categoria (líder)."
+    componente: Lab.mapa
+    regras: ["Segue os padrões de mapa (barra no topo, legendas abaixo, card perto do toque, lacunas em hachura).", "Círculos quando o tamanho da população ou do eleitorado muda a leitura."]
+  - id: distribuicao
+    nome: Distribuição sem eixo vertical (beeswarm)
+    quando: "Como as unidades se espalham numa medida com sinal (variação), 0 no centro."
+    componente: Lab.distribuicao
+    regras: ["Altura sem significado; a figura ocupa só a altura dos círculos.", "Mesma cor do mapa do bloco.", "Valores muito desiguais: eixo logarítmico simétrico, explicado no Como ler."]
+  - id: dispersao
+    nome: Dispersão com linha de igualdade
+    quando: "Relação entre duas medidas na mesma escala (ex.: % em dois cargos)."
+    componente: Lab.dispersao
+    regras: ["Linha tracejada x = y.", "Correlação no subtítulo."]
+  - id: boxplot
+    nome: Boxplot com pontos
+    quando: "Distribuição de uma medida por categoria, mostrando cada unidade."
+    componente: Lab.boxplot
+    regras: ["Quartis e bigodes de Tukey vêm prontos do Python.", "Faixa interquartil hachurada na cor da categoria; 'Med.' sobre a mediana.", "Tabela de quartis e frases de leitura abaixo."]
+  - id: fluxos
+    nome: Diagrama de fluxos (Sankey) entre etapas
+    quando: "Quem liderava cada unidade em cada momento; mudanças de categoria."
+    componente: Lab.sankey
+    regras: ["Rótulo '% da coluna (nº de unidades)'.", "Clique fixa o destaque e libera 'Ver lista'.", "Deixar claro que não mostra transferência de votos."]
+  - id: quadros
+    nome: Quadros com número grande
+    quando: "Poucos números-chave por categoria; também como seletor de categoria."
+    componente: Lab.quadros
+    regras: ["Escolhido com borda na cor da categoria.", "'—' quando a categoria não tem dado."]
+  - id: tabela
+    nome: Tabela
+    quando: "Alternativa acessível a todo gráfico; rankings curtos (8 a 10 linhas)."
+    componente: Lab.tabela
+    regras: ["Colunas numéricas à direita, com algarismos tabulares.", "Rola dentro do próprio contêiner no celular."]

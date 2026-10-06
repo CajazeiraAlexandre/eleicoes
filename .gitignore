@@ -1,0 +1,11 @@
+# dados reconstruíveis — nunca versionados
+dados/bruto/**
+dados/padronizado/**
+!**/.gitkeep
+# cópia da API de resultados de 2026 (122 MB): refeita por fontes/tse/coletar_resultados_2026.py
+dados/snapshots/tse.resultados_2026_1t/
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+.DS_Store

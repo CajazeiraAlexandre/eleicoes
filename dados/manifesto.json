@@ -1,0 +1,382 @@
+{
+  "ibge.malha_municipios_2022": {
+    "arquivos": {
+      "dados/bruto/ibge/malha_municipios_2022/BR_Municipios_2022.zip": {
+        "baixado_em": "2026-10-03T13:57:19-03:00",
+        "bytes": 203627589,
+        "gerado_na_fonte": "Tue, 28 Mar 2023 12:51:07 GMT",
+        "sha256": "9c904fa1feb978a89042bfecd7758e571266f285d6122a4ff02ffe37bffb76a2",
+        "tipo": "download",
+        "url": "https://geoftp.ibge.gov.br/organizacao_do_territorio/malhas_territoriais/malhas_municipais/municipio_2022/Brasil/BR/BR_Municipios_2022.zip"
+      }
+    },
+    "ultima_atualizacao": "2026-10-03T13:57:19-03:00"
+  },
+  "ibge.malha_ufs_2022": {
+    "arquivos": {
+      "dados/bruto/ibge/malha_ufs_2022/BR_UF_2022.zip": {
+        "baixado_em": "2026-10-03T13:56:08-03:00",
+        "bytes": 13717460,
+        "gerado_na_fonte": "Tue, 28 Mar 2023 12:50:59 GMT",
+        "sha256": "282ec7f0f0beeeead45e6609f4ffffce161bda04cb8ee0afcad2316d1c841bcb",
+        "tipo": "download",
+        "url": "https://geoftp.ibge.gov.br/organizacao_do_territorio/malhas_territoriais/malhas_municipais/municipio_2022/Brasil/BR/BR_UF_2022.zip"
+      }
+    },
+    "ultima_atualizacao": "2026-10-03T13:56:08-03:00"
+  },
+  "ibge.municipios_regiao_imediata": {
+    "arquivos": {
+      "dados/snapshots/ibge.municipios_regiao_imediata/2026-10-03.json": {
+        "baixado_em": "2026-10-03T21:31:39-03:00",
+        "bytes": 2759705,
+        "gerado_na_fonte": null,
+        "sha256": "b6c238e87e1c9709d0d88e652ee3bc5b827ba014db8d2f8c9af7bb12adce8adc",
+        "tipo": "snapshot",
+        "url": "https://servicodados.ibge.gov.br/api/v1/localidades/municipios?orderBy=id"
+      }
+    },
+    "consultas": [
+      {
+        "em": "2026-10-03T21:31:39-03:00",
+        "endpoint": "https://servicodados.ibge.gov.br/api/v1/localidades/municipios?orderBy=id",
+        "n_registros": 5571
+      }
+    ],
+    "ultima_atualizacao": "2026-10-03T21:31:39-03:00"
+  },
+  "pi.territorios_desenvolvimento": {
+    "arquivos": {
+      "dados/bruto/wikipedia/territorios_pi/paginas.json": {
+        "baixado_em": "2026-10-05T17:54:26-03:00",
+        "bytes": 48115,
+        "gerado_na_fonte": null,
+        "sha256": "98addc066cbfa7d6bc213b3f12059f9e09e117571de1f9ca093800842dc283f2",
+        "tipo": "download",
+        "url": "https://pt.wikipedia.org/w/index.php?oldid=70503782"
+      }
+    },
+    "ultima_atualizacao": "2026-10-05T17:54:26-03:00"
+  },
+  "tse.candidatos": {
+    "arquivos": {
+      "dados/bruto/tse/candidatos/consulta_cand_2018.zip": {
+        "baixado_em": "2026-10-06T10:47:43-03:00",
+        "bytes": 4722704,
+        "gerado_na_fonte": "Wed, 13 Nov 2024 16:20:54 GMT",
+        "sha256": "57f6881f1aa036142886ae548afd275e7ee6695643a2ab62826f2ee232d3fd44",
+        "tipo": "download",
+        "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/consulta_cand/consulta_cand_2018.zip"
+      },
+      "dados/bruto/tse/candidatos/consulta_cand_2022.zip": {
+        "baixado_em": "2026-10-03T16:25:46-03:00",
+        "bytes": 4389602,
+        "gerado_na_fonte": "Sat, 03 Oct 2026 06:21:03 GMT",
+        "sha256": "a55e45c859f74e159afc3506b31a362fe3b6344ba79f597a583c4fdf041376c2",
+        "tipo": "download",
+        "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/consulta_cand/consulta_cand_2022.zip"
+      },
+      "dados/bruto/tse/candidatos/consulta_cand_2026.zip": {
+        "baixado_em": "2026-10-03T13:44:21-03:00",
+        "bytes": 3209795,
+        "gerado_na_fonte": "Sat, 03 Oct 2026 15:36:21 GMT",
+        "sha256": "967d083526730cd8776bc4ee2c62d997551686ce1716b202cf068e61708cf6c9",
+        "tipo": "download",
+        "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/consulta_cand/consulta_cand_2026.zip"
+      }
+    },
+    "ultima_atualizacao": "2026-10-06T10:47:43-03:00"
+  },
+  "tse.detalhe_votacao_munzona": {
+    "arquivos": {
+      "dados/bruto/tse/detalhe_votacao_munzona/detalhe_votacao_munzona_2018.zip": {
+        "baixado_em": "2026-10-06T10:47:31-03:00",
+        "bytes": 4269741,
+        "gerado_na_fonte": "Tue, 29 Jul 2025 16:29:08 GMT",
+        "sha256": "df68c258a2261dff37b379f65ea5f2e8de7b3d824bb2340d8f4830274a3fabb5",
+        "tipo": "download",
+        "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/detalhe_votacao_munzona/detalhe_votacao_munzona_2018.zip"
+      },
+      "dados/bruto/tse/detalhe_votacao_munzona/detalhe_votacao_munzona_2020.zip": {
+        "baixado_em": "2026-10-06T10:47:31-03:00",
+        "bytes": 1538312,
+        "gerado_na_fonte": "Fri, 16 Jan 2026 21:28:23 GMT",
+        "sha256": "9d6ffc73b024e2b27ff984a600008aab7e4cdc1fdd72707128dc4dc05b4fd591",
+        "tipo": "download",
+        "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/detalhe_votacao_munzona/detalhe_votacao_munzona_2020.zip"
+      },
+      "dados/bruto/tse/detalhe_votacao_munzona/detalhe_votacao_munzona_2022.zip": {
+        "baixado_em": "2026-10-03T13:44:26-03:00",
+        "bytes": 4413816,
+        "gerado_na_fonte": "Sat, 03 Oct 2026 06:40:45 GMT",
+        "sha256": "359e13b193598dc93d99c6a29310cbf2c758615b8b981d334c38364086bb063d",
+        "tipo": "download",
+        "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/detalhe_votacao_munzona/detalhe_votacao_munzona_2022.zip"
+      },
+      "dados/bruto/tse/detalhe_votacao_munzona/detalhe_votacao_munzona_2024.zip": {
+        "baixado_em": "2026-10-03T13:44:28-03:00",
+        "bytes": 1499924,
+        "gerado_na_fonte": "Fri, 02 Oct 2026 05:27:16 GMT",
+        "sha256": "6a4d24351f02d488d3cf2d97bb90988869f001422994f2d4f73873b848747cd6",
+        "tipo": "download",
+        "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/detalhe_votacao_munzona/detalhe_votacao_munzona_2024.zip"
+      }
+    },
+    "ultima_atualizacao": "2026-10-06T10:47:31-03:00"
+  },
+  "tse.detalhe_votacao_secao": {
+    "arquivos": {
+      "dados/bruto/tse/detalhe_votacao_secao/detalhe_votacao_secao_2022.zip": {
+        "baixado_em": "2026-10-03T15:08:28-03:00",
+        "bytes": 243822213,
+        "gerado_na_fonte": "Fri, 31 Jul 2026 19:47:56 GMT",
+        "sha256": "ad22c50b9e6d9dfb096a2170680a190f1734895ba89d8977b95fd63ca02c03da",
+        "tipo": "download",
+        "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/detalhe_votacao_secao/detalhe_votacao_secao_2022.zip"
+      },
+      "dados/bruto/tse/detalhe_votacao_secao/detalhe_votacao_secao_2026.zip": {
+        "baixado_em": "2026-10-05T14:30:10-03:00",
+        "bytes": 112560160,
+        "gerado_na_fonte": "Mon, 05 Oct 2026 13:57:47 GMT",
+        "sha256": "4e5dcf3b6909ec067aa508f5597001e64cd3c4d11d2e863b764a78eeb9f2698e",
+        "tipo": "download",
+        "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/detalhe_votacao_secao/detalhe_votacao_secao_2026.zip"
+      }
+    },
+    "ultima_atualizacao": "2026-10-05T14:30:10-03:00"
+  },
+  "tse.eleitorado_local_votacao": {
+    "arquivos": {
+      "dados/bruto/tse/eleitorado_local_votacao/eleitorado_local_votacao_2018.zip": {
+        "baixado_em": "2026-10-06T14:39:40-03:00",
+        "bytes": 84041372,
+        "gerado_na_fonte": "Fri, 25 Apr 2025 20:35:33 GMT",
+        "sha256": "a0478dd3ad7b3ce7332058121f280d98454e3e7a4a54d146aee943402a544fb4",
+        "tipo": "download",
+        "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/eleitorado_locais_votacao/eleitorado_local_votacao_2018.zip"
+      },
+      "dados/bruto/tse/eleitorado_local_votacao/eleitorado_local_votacao_2022.zip": {
+        "baixado_em": "2026-10-05T14:30:16-03:00",
+        "bytes": 24028146,
+        "gerado_na_fonte": "Thu, 10 Sep 2026 18:22:35 GMT",
+        "sha256": "6dc19c1ddb746cc067469e70ad5018f202334d97cd540edc8c9de3321e66da23",
+        "tipo": "download",
+        "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/eleitorado_locais_votacao/eleitorado_local_votacao_2022.zip"
+      },
+      "dados/bruto/tse/eleitorado_local_votacao/eleitorado_local_votacao_2026.zip": {
+        "baixado_em": "2026-10-05T14:30:32-03:00",
+        "bytes": 88139707,
+        "gerado_na_fonte": "Sun, 04 Oct 2026 09:30:51 GMT",
+        "sha256": "26f2c191a81de2d309a6f650001f54ee4195801c418882f3fe8c2c661d7097d4",
+        "tipo": "download",
+        "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/eleitorado_locais_votacao/eleitorado_local_votacao_2026.zip"
+      }
+    },
+    "ultima_atualizacao": "2026-10-06T14:39:40-03:00"
+  },
+  "tse.resultados_2026_1t": {
+    "arquivos": {
+      "dados/snapshots/tse.resultados_2026_1t/atual.json": {
+        "baixado_em": "2026-10-05T14:50:26-03:00",
+        "bytes": 122160112,
+        "gerado_na_fonte": null,
+        "sha256": "0365d948a0d3a6f2cb7479af40aab516c8539bb898b164a5bd1ac69e03cb9e83",
+        "tipo": "snapshot",
+        "url": "https://resultados.tse.jus.br/oficial/comum/config/ele-c.jws"
+      }
+    },
+    "consultas": [
+      {
+        "em": "2026-10-03T14:25:33-03:00",
+        "endpoint": "https://resultados.tse.jus.br/oficial/app/assets/assinatura-jws/prod.jwk.json",
+        "n_registros": 1
+      },
+      {
+        "em": "2026-10-03T14:25:35-03:00",
+        "endpoint": "https://resultados.tse.jus.br/oficial/comum/config/ele-c.jws",
+        "n_registros": 3
+      },
+      {
+        "em": "2026-10-05T14:46:05-03:00",
+        "endpoint": "https://resultados.tse.jus.br/oficial/app/assets/assinatura-jws/prod.jwk.json",
+        "n_registros": 1
+      },
+      {
+        "em": "2026-10-05T14:46:05-03:00",
+        "endpoint": "https://resultados.tse.jus.br/oficial/comum/config/ele-c.jws",
+        "n_registros": 3
+      },
+      {
+        "em": "2026-10-05T14:47:07-03:00",
+        "endpoint": "https://resultados.tse.jus.br/oficial/ele2026/",
+        "n_registros": 1257
+      },
+      {
+        "em": "2026-10-05T14:47:22-03:00",
+        "endpoint": "https://resultados.tse.jus.br/oficial/app/assets/assinatura-jws/prod.jwk.json",
+        "n_registros": 1
+      },
+      {
+        "em": "2026-10-05T14:47:22-03:00",
+        "endpoint": "https://resultados.tse.jus.br/oficial/comum/config/ele-c.jws",
+        "n_registros": 3
+      },
+      {
+        "em": "2026-10-05T14:48:19-03:00",
+        "endpoint": "https://resultados.tse.jus.br/oficial/ele2026/",
+        "n_registros": 1257
+      },
+      {
+        "em": "2026-10-05T14:49:24-03:00",
+        "endpoint": "https://resultados.tse.jus.br/oficial/app/assets/assinatura-jws/prod.jwk.json",
+        "n_registros": 1
+      },
+      {
+        "em": "2026-10-05T14:49:25-03:00",
+        "endpoint": "https://resultados.tse.jus.br/oficial/comum/config/ele-c.jws",
+        "n_registros": 3
+      },
+      {
+        "em": "2026-10-05T14:50:21-03:00",
+        "endpoint": "https://resultados.tse.jus.br/oficial/ele2026/",
+        "n_registros": 1257
+      }
+    ],
+    "ultima_atualizacao": "2026-10-05T14:50:26-03:00"
+  },
+  "tse.votacao_candidato_munzona": {
+    "arquivos": {
+      "dados/bruto/tse/votacao_candidato_munzona/votacao_candidato_munzona_2020.zip": {
+        "baixado_em": "2026-10-06T10:47:42-03:00",
+        "bytes": 57815640,
+        "gerado_na_fonte": "Tue, 06 Jan 2026 19:56:42 GMT",
+        "sha256": "a8a32d46e813dfd2c3ba032b0df4faaa57fc567ef3c4a5a73fc50d9a5e680763",
+        "tipo": "download",
+        "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/votacao_candidato_munzona/votacao_candidato_munzona_2020.zip"
+      },
+      "dados/bruto/tse/votacao_candidato_munzona/votacao_candidato_munzona_2022.zip": {
+        "baixado_em": "2026-10-03T13:52:18-03:00",
+        "bytes": 577205776,
+        "gerado_na_fonte": "Sat, 03 Oct 2026 07:27:38 GMT",
+        "sha256": "805a0568e8cf0e5d6768d18389ef9c02c04c8441587a6a6997150bd3f6a4c094",
+        "tipo": "download",
+        "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/votacao_candidato_munzona/votacao_candidato_munzona_2022.zip"
+      },
+      "dados/bruto/tse/votacao_candidato_munzona/votacao_candidato_munzona_2024.zip": {
+        "baixado_em": "2026-10-03T13:53:32-03:00",
+        "bytes": 48104689,
+        "gerado_na_fonte": "Sat, 03 Oct 2026 05:29:47 GMT",
+        "sha256": "94f898dab5cc94779becbae71e748ef723253f5e9449d8e191e6d592e385e659",
+        "tipo": "download",
+        "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/votacao_candidato_munzona/votacao_candidato_munzona_2024.zip"
+      },
+      "dados/bruto/tse/votacao_candidato_munzona/votacao_candidato_munzona_2026.zip": {
+        "baixado_em": "2026-10-05T17:47:23-03:00",
+        "bytes": 316047187,
+        "gerado_na_fonte": "Mon, 05 Oct 2026 17:19:53 GMT",
+        "sha256": "84cf8a9c06612eac9e03a6841c64a8047a2be5d37c207c55f7aa752801fb64b5",
+        "tipo": "download",
+        "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/votacao_candidato_munzona/votacao_candidato_munzona_2026.zip"
+      }
+    },
+    "ultima_atualizacao": "2026-10-06T10:47:42-03:00"
+  },
+  "tse.votacao_partido_munzona": {
+    "arquivos": {
+      "dados/bruto/tse/votacao_partido_munzona/votacao_partido_munzona_2018.zip": {
+        "baixado_em": "2026-10-06T10:47:28-03:00",
+        "bytes": 27920768,
+        "gerado_na_fonte": "Thu, 25 Jul 2024 01:01:27 GMT",
+        "sha256": "c3ab9e78efd8d11033d650451252cb5c019a699e79bec7e04371a3a4022143df",
+        "tipo": "download",
+        "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/votacao_partido_munzona/votacao_partido_munzona_2018.zip"
+      },
+      "dados/bruto/tse/votacao_partido_munzona/votacao_partido_munzona_2020.zip": {
+        "baixado_em": "2026-10-06T10:47:29-03:00",
+        "bytes": 6104460,
+        "gerado_na_fonte": "Tue, 06 Jan 2026 19:51:09 GMT",
+        "sha256": "f827862ff624bb1b3518c7ea809ce04ff6a98cac5600bef851d0e43498d993a0",
+        "tipo": "download",
+        "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/votacao_partido_munzona/votacao_partido_munzona_2020.zip"
+      },
+      "dados/bruto/tse/votacao_partido_munzona/votacao_partido_munzona_2022.zip": {
+        "baixado_em": "2026-10-03T13:59:28-03:00",
+        "bytes": 25153149,
+        "gerado_na_fonte": "Sat, 03 Oct 2026 06:53:58 GMT",
+        "sha256": "195a9eff051446de0ef5f9c28a808a4a02902216dcad56803dabb01fc46125db",
+        "tipo": "download",
+        "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/votacao_partido_munzona/votacao_partido_munzona_2022.zip"
+      },
+      "dados/bruto/tse/votacao_partido_munzona/votacao_partido_munzona_2024.zip": {
+        "baixado_em": "2026-10-03T13:59:30-03:00",
+        "bytes": 6187144,
+        "gerado_na_fonte": "Sat, 03 Oct 2026 05:29:43 GMT",
+        "sha256": "c19e999b3f906e3bf5f59b3982bd62a9944404aae0802c3e7be1cbb104a2daa5",
+        "tipo": "download",
+        "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/votacao_partido_munzona/votacao_partido_munzona_2024.zip"
+      }
+    },
+    "ultima_atualizacao": "2026-10-06T10:47:29-03:00"
+  },
+  "tse.votacao_secao": {
+    "arquivos": {
+      "dados/bruto/tse/votacao_secao/votacao_secao_2018_BR.zip": {
+        "baixado_em": "2026-10-06T14:42:20-03:00",
+        "bytes": 250985147,
+        "gerado_na_fonte": "Fri, 15 Aug 2025 14:15:53 GMT",
+        "sha256": "dde2250058a7efa3b7ee336520556905456cb75d7debf99ea4badfc4d598a48c",
+        "tipo": "download",
+        "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/votacao_secao/votacao_secao_2018_BR.zip"
+      },
+      "dados/bruto/tse/votacao_secao/votacao_secao_2018_PI.zip": {
+        "baixado_em": "2026-10-06T14:36:31-03:00",
+        "bytes": 20279700,
+        "gerado_na_fonte": "Wed, 24 Apr 2024 17:18:55 GMT",
+        "sha256": "c3c92426efb79c1c10438cdc0c937f8e8349735fb305aeac2955d6a6cb7f95e3",
+        "tipo": "download",
+        "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/votacao_secao/votacao_secao_2018_PI.zip"
+      },
+      "dados/bruto/tse/votacao_secao/votacao_secao_2022_BR.zip": {
+        "baixado_em": "2026-10-05T14:36:20-03:00",
+        "bytes": 271292455,
+        "gerado_na_fonte": "Thu, 24 Nov 2022 14:26:58 GMT",
+        "sha256": "9353993de5cf03778aef44e01d4925e7ee105f5262491d344a2f0dbc956b0139",
+        "tipo": "download",
+        "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/votacao_secao/votacao_secao_2022_BR.zip"
+      },
+      "dados/bruto/tse/votacao_secao/votacao_secao_2022_PI.zip": {
+        "baixado_em": "2026-10-03T13:44:54-03:00",
+        "bytes": 33011338,
+        "gerado_na_fonte": "Mon, 22 Jun 2026 14:45:28 GMT",
+        "sha256": "3883b3e9a67ce1b20723606e3a59d3d3d88562cbf1be8ce350e74a11dd31e99e",
+        "tipo": "download",
+        "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/votacao_secao/votacao_secao_2022_PI.zip"
+      },
+      "dados/bruto/tse/votacao_secao/votacao_secao_2024_PI.zip": {
+        "baixado_em": "2026-10-03T13:45:15-03:00",
+        "bytes": 23263290,
+        "gerado_na_fonte": "Mon, 22 Jun 2026 14:47:47 GMT",
+        "sha256": "e5eed87c495c4cb56ca36237303d64e6943d85fdabe2a64669d7d70762335b6e",
+        "tipo": "download",
+        "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/votacao_secao/votacao_secao_2024_PI.zip"
+      },
+      "dados/bruto/tse/votacao_secao/votacao_secao_2026_BR.zip": {
+        "baixado_em": "2026-10-05T14:29:49-03:00",
+        "bytes": 51107735,
+        "gerado_na_fonte": "Mon, 05 Oct 2026 16:58:12 GMT",
+        "sha256": "67a166b242c8681a19f7e8fdf1193b8c5636449bdb3f61463acfc98c52b7b869",
+        "tipo": "download",
+        "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/votacao_secao/votacao_secao_2026_BR.zip"
+      },
+      "dados/bruto/tse/votacao_secao/votacao_secao_2026_PI.zip": {
+        "baixado_em": "2026-10-05T14:29:36-03:00",
+        "bytes": 15265226,
+        "gerado_na_fonte": "Mon, 05 Oct 2026 16:59:20 GMT",
+        "sha256": "487e26148fe2a1ba8b8b38e76f492778b176108348ecfa133211b85c132528e0",
+        "tipo": "download",
+        "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/votacao_secao/votacao_secao_2026_PI.zip"
+      }
+    },
+    "ultima_atualizacao": "2026-10-06T14:42:20-03:00"
+  }
+}

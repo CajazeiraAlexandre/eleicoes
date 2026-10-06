@@ -1,0 +1,225 @@
+cd_municipio_tse,nm_municipio_tse,sg_uf,chave_nome_normalizado,cd_municipio_ibge,nm_municipio_ibge,metodo,status
+10006,BRASILEIRA,PI,brasileira,2201960,Brasileira,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10014,AGRICOLÂNDIA,PI,agricolandia,2200103,Agricolândia,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10022,ALEGRETE DO PIAUÍ,PI,alegrete do piaui,2200277,Alegrete do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10030,ÁGUA BRANCA,PI,agua branca,2200202,Água Branca,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10049,BAIXA GRANDE DO RIBEIRO,PI,baixa grande do ribeiro,2201150,Baixa Grande do Ribeiro,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10057,ALTO LONGÁ,PI,alto longa,2200301,Alto Longá,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10065,BOM PRINCÍPIO DO PIAUÍ,PI,bom principio do piaui,2201919,Bom Princípio do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10073,ALTOS,PI,altos,2200400,Altos,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10081,BONFIM DO PIAUÍ,PI,bonfim do piaui,2201929,Bonfim do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10090,AMARANTE,PI,amarante,2200509,Amarante,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10103,BURITI DOS MONTES,PI,buriti dos montes,2202026,Buriti dos Montes,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10111,ANGICAL DO PIAUÍ,PI,angical do piaui,2200608,Angical do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10120,CABECEIRAS DO PIAUÍ,PI,cabeceiras do piaui,2202059,Cabeceiras do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10138,ANÍSIO DE ABREU,PI,anisio de abreu,2200707,Anísio de Abreu,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10146,CALDEIRÃO GRANDE DO PIAUÍ,PI,caldeirao grande do piaui,2202091,Caldeirão Grande do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10154,ANTÔNIO ALMEIDA,PI,antonio almeida,2200806,Antônio Almeida,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10162,CANAVIEIRA,PI,canavieira,2202251,Canavieira,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10170,AROAZES,PI,aroazes,2200905,Aroazes,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10189,COIVARAS,PI,coivaras,2202737,Coivaras,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10197,ARRAIAL,PI,arraial,2201002,Arraial,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10200,COLÔNIA DO GURGUÉIA,PI,colonia do gurgueia,2202752,Colônia do Gurguéia,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10219,AVELINO LOPES,PI,avelino lopes,2201101,Avelino Lopes,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10227,COLÔNIA DO PIAUÍ,PI,colonia do piaui,2202778,Colônia do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10235,BARRAS,PI,barras,2201200,Barras,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10243,CORONEL JOSÉ DIAS,PI,coronel jose dias,2202851,Coronel José Dias,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10251,BARREIRAS DO PIAUÍ,PI,barreiras do piaui,2201309,Barreiras do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10260,FARTURA DO PIAUÍ,PI,fartura do piaui,2203750,Fartura do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10278,BARRO DURO,PI,barro duro,2201408,Barro Duro,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10286,JACOBINA DO PIAUÍ,PI,jacobina do piaui,2205151,Jacobina do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10294,BATALHA,PI,batalha,2201507,Batalha,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10308,JARDIM DO MULATO,PI,jardim do mulato,2205250,Jardim do Mulato,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10316,BENEDITINOS,PI,beneditinos,2201606,Beneditinos,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10324,LAGOA ALEGRE,PI,lagoa alegre,2205557,Lagoa Alegre,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10332,BERTOLÍNIA,PI,bertolinia,2201705,Bertolínia,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10340,LAGOA DO BARRO DO PIAUÍ,PI,lagoa do barro do piaui,2205565,Lagoa do Barro do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10359,BOCAINA,PI,bocaina,2201804,Bocaina,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10367,MARCOLÂNDIA,PI,marcolandia,2205953,Marcolândia,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10375,BOM JESUS,PI,bom jesus,2201903,Bom Jesus,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10383,PATOS DO PIAUÍ,PI,patos do piaui,2207777,Patos do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10391,BURITI DOS LOPES,PI,buriti dos lopes,2202000,Buriti dos Lopes,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10405,PASSAGEM FRANCA DO PIAUÍ,PI,passagem franca do piaui,2207751,Passagem Franca do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10413,CAMPINAS DO PIAUÍ,PI,campinas do piaui,2202109,Campinas do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10421,QUEIMADA NOVA,PI,queimada nova,2208650,Queimada Nova,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10430,CAMPO MAIOR,PI,campo maior,2202208,Campo Maior,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10448,SANTA CRUZ DOS MILAGRES,PI,santa cruz dos milagres,2209153,Santa Cruz dos Milagres,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10456,CANTO DO BURITI,PI,canto do buriti,2202307,Canto do Buriti,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10464,SANTA ROSA DO PIAUÍ,PI,santa rosa do piaui,2209377,Santa Rosa do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10472,CAPITÃO DE CAMPOS,PI,capitao de campos,2202406,Capitão de Campos,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10480,SANTANA DO PIAUÍ,PI,santana do piaui,2209351,Santana do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10499,CARACOL,PI,caracol,2202505,Caracol,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10502,SÃO BRAZ DO PIAUÍ,PI,sao braz do piaui,2209559,São Braz do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10510,CASTELO DO PIAUÍ,PI,castelo do piaui,2202604,Castelo do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10529,SÃO JOSÉ DO DIVINO,PI,sao jose do divino,2210052,São José do Divino,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10537,COCAL,PI,cocal,2202703,Cocal,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10545,SIGEFREDO PACHECO,PI,sigefredo pacheco,2210656,Sigefredo Pacheco,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10553,CONCEIÇÃO DO CANINDÉ,PI,conceicao do caninde,2202802,Conceição do Canindé,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10561,SÃO LOURENÇO DO PIAUÍ,PI,sao lourenco do piaui,2210359,São Lourenço do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10570,CORRENTE,PI,corrente,2202901,Corrente,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10588,VÁRZEA BRANCA,PI,varzea branca,2211357,Várzea Branca,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10596,CRISTALÂNDIA DO PIAUÍ,PI,cristalandia do piaui,2203008,Cristalândia do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10600,BARRA D ALCÂNTARA,PI,barra d alcantara,2201176,Barra D'Alcântara,diferença de pontuação explicitamente aprovada pelo pesquisador em 2026-10-03,pareamento_aprovado_pontuacao
+10618,CRISTINO CASTRO,PI,cristino castro,2203107,Cristino Castro,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10626,BELA VISTA DO PIAUÍ,PI,bela vista do piaui,2201556,Bela Vista do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10634,CURIMATÁ,PI,curimata,2203206,Curimatá,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10642,BREJO DO PIAUÍ,PI,brejo do piaui,2201988,Brejo do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10650,DEMERVAL LOBÃO,PI,demerval lobao,2203305,Demerval Lobão,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10669,BOA HORA,PI,boa hora,2201770,Boa Hora,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10677,DOM EXPEDITO LOPES,PI,dom expedito lopes,2203404,Dom Expedito Lopes,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10685,DOM INOCÊNCIO,PI,dom inocencio,2203453,Dom Inocêncio,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10693,ELESBÃO VELOSO,PI,elesbao veloso,2203503,Elesbão Veloso,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10707,CAPITÃO GERVÁSIO OLIVEIRA,PI,capitao gervasio oliveira,2202455,Capitão Gervásio Oliveira,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10715,ELISEU MARTINS,PI,eliseu martins,2203602,Eliseu Martins,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10723,CAMPO GRANDE DO PIAUÍ,PI,campo grande do piaui,2202133,Campo Grande do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10731,ESPERANTINA,PI,esperantina,2203701,Esperantina,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10740,CAMPO LARGO DO PIAUÍ,PI,campo largo do piaui,2202174,Campo Largo do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10758,FLORES DO PIAUÍ,PI,flores do piaui,2203800,Flores do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10766,CURRAIS,PI,currais,2203230,Currais,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10774,FLORIANO,PI,floriano,2203909,Floriano,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10782,GEMINIANO,PI,geminiano,2204352,Geminiano,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10790,FRANCINÓPOLIS,PI,francinopolis,2204006,Francinópolis,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10804,GUARIBAS,PI,guaribas,2204550,Guaribas,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10812,FRANCISCO AYRES,PI,francisco ayres,2204105,Francisco Ayres,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10820,ILHA GRANDE,PI,ilha grande,2204659,Ilha Grande,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10839,FRANCISCO SANTOS,PI,francisco santos,2204204,Francisco Santos,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10847,JUREMA,PI,jurema,2205532,Jurema,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10855,FRONTEIRAS,PI,fronteiras,2204303,Fronteiras,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10863,LAGOA DE SÃO FRANCISCO,PI,lagoa de sao francisco,2205573,Lagoa de São Francisco,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10871,GILBUÉS,PI,gilbues,2204402,Gilbués,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10880,MORRO CABEÇA NO TEMPO,PI,morro cabeca no tempo,2206654,Morro Cabeça no Tempo,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10898,GUADALUPE,PI,guadalupe,2204501,Guadalupe,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10901,NOVO SANTO ANTÔNIO,PI,novo santo antonio,2206951,Novo Santo Antônio,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10910,HUGO NAPOLEÃO,PI,hugo napoleao,2204600,Hugo Napoleão,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10928,NOSSA SENHORA DE NAZARÉ,PI,nossa senhora de nazare,2206753,Nossa Senhora de Nazaré,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10936,INHUMA,PI,inhuma,2204709,Inhuma,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10944,PAQUETÁ,PI,paqueta,2207553,Paquetá,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10952,IPIRANGA DO PIAUÍ,PI,ipiranga do piaui,2204808,Ipiranga do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10960,NOVA SANTA RITA,PI,nova santa rita,2207959,Nova Santa Rita,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10979,ISAÍAS COELHO,PI,isaias coelho,2204907,Isaías Coelho,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10987,SÃO JOÃO DO ARRAIAL,PI,sao joao do arraial,2209971,São João do Arraial,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+10995,ITAINÓPOLIS,PI,itainopolis,2205003,Itainópolis,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11010,ITAUEIRA,PI,itaueira,2205102,Itaueira,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11037,JAICÓS,PI,jaicos,2205201,Jaicós,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11053,JERUMENHA,PI,jerumenha,2205300,Jerumenha,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11070,JOAQUIM PIRES,PI,joaquim pires,2205409,Joaquim Pires,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11088,SÃO JOÃO DA CANABRAVA,PI,sao joao da canabrava,2209856,São João da Canabrava,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11096,JOSÉ DE FREITAS,PI,jose de freitas,2205508,José de Freitas,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11118,LANDRI SALES,PI,landri sales,2205607,Landri Sales,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11134,LUIS CORREIA,PI,luis correia,2205706,Luís Correia,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11150,LUZILÂNDIA,PI,luzilandia,2205805,Luzilândia,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11177,MANOEL EMÍDIO,PI,manoel emidio,2205904,Manoel Emídio,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11193,MARCOS PARENTE,PI,marcos parente,2206001,Marcos Parente,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11215,MATIAS OLÍMPIO,PI,matias olimpio,2206100,Matias Olímpio,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11231,MIGUEL ALVES,PI,miguel alves,2206209,Miguel Alves,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11258,MIGUEL LEÃO,PI,miguel leao,2206308,Miguel Leão,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11274,MONSENHOR GIL,PI,monsenhor gil,2206407,Monsenhor Gil,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11290,MONSENHOR HIPÓLITO,PI,monsenhor hipolito,2206506,Monsenhor Hipólito,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11312,MONTE ALEGRE DO PIAUÍ,PI,monte alegre do piaui,2206605,Monte Alegre do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11339,NAZARÉ DO PIAUÍ,PI,nazare do piaui,2206704,Nazaré do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11355,NOSSA SENHORA DOS REMÉDIOS,PI,nossa senhora dos remedios,2206803,Nossa Senhora dos Remédios,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11371,NOVO ORIENTE DO PIAUÍ,PI,novo oriente do piaui,2206902,Novo Oriente do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11398,OEIRAS,PI,oeiras,2207009,Oeiras,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11410,DOMINGOS MOURÃO,PI,domingos mourao,2203420,Domingos Mourão,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11436,PADRE MARCOS,PI,padre marcos,2207207,Padre Marcos,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11452,PAES LANDIM,PI,paes landim,2207306,Paes Landim,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11479,PALMEIRA DO PIAUÍ,PI,palmeira do piaui,2207405,Palmeira do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11495,PALMEIRAIS,PI,palmeirais,2207504,Palmeirais,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11517,PARNAGUÁ,PI,parnagua,2207603,Parnaguá,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11533,PARNAÍBA,PI,parnaiba,2207702,Parnaíba,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11550,PAULISTANA,PI,paulistana,2207801,Paulistana,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11576,PEDRO II,PI,pedro ii,2207900,Pedro II,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11592,PICOS,PI,picos,2208007,Picos,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11614,PIMENTEIRAS,PI,pimenteiras,2208106,Pimenteiras,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11630,PIO IX,PI,pio ix,2208205,Pio IX,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11657,PIRACURUCA,PI,piracuruca,2208304,Piracuruca,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11673,PIRIPIRI,PI,piripiri,2208403,Piripiri,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11690,PORTO,PI,porto,2208502,Porto,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11711,PRATA DO PIAUÍ,PI,prata do piaui,2208601,Prata do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11738,REDENÇÃO DO GURGUÉIA,PI,redencao do gurgueia,2208700,Redenção do Gurguéia,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11754,REGENERAÇÃO,PI,regeneracao,2208809,Regeneração,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11770,RIBEIRO GONÇALVES,PI,ribeiro goncalves,2208908,Ribeiro Gonçalves,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11797,RIO GRANDE DO PIAUÍ,PI,rio grande do piaui,2209005,Rio Grande do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11819,SANTA CRUZ DO PIAUÍ,PI,santa cruz do piaui,2209104,Santa Cruz do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11835,SANTA FILOMENA,PI,santa filomena,2209203,Santa Filomena,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11851,SANTA LUZ,PI,santa luz,2209302,Santa Luz,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11878,SANTO ANTÔNIO DE LISBOA,PI,santo antonio de lisboa,2209401,Santo Antônio de Lisboa,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11894,SANTO INÁCIO DO PIAUÍ,PI,santo inacio do piaui,2209500,Santo Inácio do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11916,SÃO FÉLIX DO PIAUÍ,PI,sao felix do piaui,2209609,São Félix do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11932,SÃO FRANCISCO DO PIAUÍ,PI,sao francisco do piaui,2209708,São Francisco do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11959,SÃO GONÇALO DO PIAUÍ,PI,sao goncalo do piaui,2209807,São Gonçalo do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11975,SÃO JOÃO DA SERRA,PI,sao joao da serra,2209906,São João da Serra,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+11991,SÃO JOÃO DO PIAUÍ,PI,sao joao do piaui,2210003,São João do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12009,SÃO JOÃO DA FRONTEIRA,PI,sao joao da fronteira,2209872,São João da Fronteira,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12017,SÃO JOSÉ DO PEIXE,PI,sao jose do peixe,2210102,São José do Peixe,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12025,SÃO JOÃO DA VARJOTA,PI,sao joao da varjota,2209955,São João da Varjota,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12033,SÃO JOSÉ DO PIAUÍ,PI,sao jose do piaui,2210201,São José do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12041,SEBASTIÃO BARROS,PI,sebastiao barros,2210623,Sebastião Barros,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12050,SÃO JULIÃO,PI,sao juliao,2210300,São Julião,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12068,SEBASTIÃO LEAL,PI,sebastiao leal,2210631,Sebastião Leal,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12076,SÃO MIGUEL DO TAPUIO,PI,sao miguel do tapuio,2210409,São Miguel do Tapuio,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12084,ALVORADA DO GURGUÉIA,PI,alvorada do gurgueia,2200459,Alvorada do Gurguéia,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12092,SÃO PEDRO DO PIAUÍ,PI,sao pedro do piaui,2210508,São Pedro do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12106,ASSUNÇÃO DO PIAUÍ,PI,assuncao do piaui,2201051,Assunção do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12114,SÃO RAIMUNDO NONATO,PI,sao raimundo nonato,2210607,São Raimundo Nonato,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12122,BETÂNIA DO PIAUÍ,PI,betania do piaui,2201739,Betânia do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12130,SIMÕES,PI,simoes,2210706,Simões,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12149,BOQUEIRÃO DO PIAUÍ,PI,boqueirao do piaui,2201945,Boqueirão do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12157,SIMPLÍCIO MENDES,PI,simplicio mendes,2210805,Simplício Mendes,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12165,CARIDADE DO PIAUÍ,PI,caridade do piaui,2202554,Caridade do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12173,SOCORRO DO PIAUÍ,PI,socorro do piaui,2210904,Socorro do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12181,CURRAL NOVO DO PIAUÍ,PI,curral novo do piaui,2203271,Curral Novo do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12190,TERESINA,PI,teresina,2211001,Teresina,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12203,JÚLIO BORGES,PI,julio borges,2205524,Júlio Borges,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12211,UNIÃO,PI,uniao,2211100,União,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12220,LAGOA DO SÍTIO,PI,lagoa do sitio,2205599,Lagoa do Sítio,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12238,URUÇUÍ,PI,urucui,2211209,Uruçuí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12246,MILTON BRANDÃO,PI,milton brandao,2206357,Milton Brandão,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12254,VALENÇA DO PIAUÍ,PI,valenca do piaui,2211308,Valença do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12262,PAJEÚ DO PIAUÍ,PI,pajeu do piaui,2207355,Pajeú do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12270,VÁRZEA GRANDE,PI,varzea grande,2211407,Várzea Grande,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12289,PAVUSSU,PI,pavussu,2207850,Pavussu,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12297,DIRCEU ARCOVERDE,PI,dirceu arcoverde,2203354,Dirceu Arcoverde,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12300,RIACHO FRIO,PI,riacho frio,2208858,Riacho Frio,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12319,ALAGOINHA DO PIAUÍ,PI,alagoinha do piaui,2200251,Alagoinha do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12327,ACAUÃ,PI,acaua,2200053,Acauã,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12335,BELÉM DO PIAUÍ,PI,belem do piaui,2201572,Belém do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12343,CAJAZEIRAS DO PIAUÍ,PI,cajazeiras do piaui,2202075,Cajazeiras do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12351,CAMPO ALEGRE DO FIDALGO,PI,campo alegre do fidalgo,2202117,Campo Alegre do Fidalgo,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12360,COCAL DE TELHA,PI,cocal de telha,2202711,Cocal de Telha,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12378,FRANCISCO MACEDO,PI,francisco macedo,2204154,Francisco Macedo,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12386,JOÃO COSTA,PI,joao costa,2205359,João Costa,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12394,JATOBÁ DO PIAUÍ,PI,jatoba do piaui,2205276,Jatobá do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12408,JOCA MARQUES,PI,joca marques,2205458,Joca Marques,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12416,JUAZEIRO DO PIAUÍ,PI,juazeiro do piaui,2205516,Juazeiro do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12424,LAGOA DO PIAUÍ,PI,lagoa do piaui,2205581,Lagoa do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12432,LAGOINHA DO PIAUÍ,PI,lagoinha do piaui,2205540,Lagoinha do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12440,MADEIRO,PI,madeiro,2205854,Madeiro,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12459,MORRO DO CHAPÉU DO PIAUÍ,PI,morro do chapeu do piaui,2206670,Morro do Chapéu do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12467,MASSAPÊ DO PIAUÍ,PI,massape do piaui,2206050,Massapê do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12475,MURICI DOS PORTELAS,PI,murici dos portelas,2206696,Murici dos Portelas,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12483,OLHO D ÁGUA DO PIAUÍ,PI,olho d agua do piaui,2207108,Olho D'Água do Piauí,diferença de pontuação explicitamente aprovada pelo pesquisador em 2026-10-03,pareamento_aprovado_pontuacao
+12491,PEDRO LAURENTINO,PI,pedro laurentino,2207934,Pedro Laurentino,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12505,SÃO FRANCISCO DE ASSIS DO PIAUÍ,PI,sao francisco de assis do piaui,2209658,São Francisco de Assis do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12513,SUSSUAPARA,PI,sussuapara,2210938,Sussuapara,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12521,TANQUE DO PIAUÍ,PI,tanque do piaui,2210979,Tanque do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12530,TAMBORIL DO PIAUÍ,PI,tamboril do piaui,2210953,Tamboril do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12548,VILA NOVA DO PIAUÍ,PI,vila nova do piaui,2211605,Vila Nova do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12556,VERA MENDES,PI,vera mendes,2211506,Vera Mendes,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12564,WALL FERRAZ,PI,wall ferraz,2211704,Wall Ferraz,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12572,CAJUEIRO DA PRAIA,PI,cajueiro da praia,2202083,Cajueiro da Praia,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12580,CURRALINHOS,PI,curralinhos,2203255,Curralinhos,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12599,PORTO ALEGRE DO PIAUÍ,PI,porto alegre do piaui,2208551,Porto Alegre do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12602,RIBEIRA DO PIAUÍ,PI,ribeira do piaui,2208874,Ribeira do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12610,SÃO GONÇALO DO GURGUÉIA,PI,sao goncalo do gurgueia,2209757,São Gonçalo do Gurguéia,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12629,SÃO LUIS DO PIAUÍ,PI,sao luis do piaui,2210375,São Luis do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12637,FLORESTA DO PIAUÍ,PI,floresta do piaui,2203859,Floresta do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12653,SANTO ANTÔNIO DOS MILAGRES,PI,santo antonio dos milagres,2209450,Santo Antônio dos Milagres,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12661,SÃO MIGUEL DA BAIXA GRANDE,PI,sao miguel da baixa grande,2210383,São Miguel da Baixa Grande,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12670,CARAÚBAS DO PIAUÍ,PI,caraubas do piaui,2202539,Caraúbas do Piauí,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12688,CAXINGÓ,PI,caxingo,2202653,Caxingó,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12696,COCAL DOS ALVES,PI,cocal dos alves,2202729,Cocal dos Alves,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12700,SÃO MIGUEL DO FIDALGO,PI,sao miguel do fidalgo,2210391,São Miguel do Fidalgo,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12718,PAU D ARCO DO PIAUÍ,PI,pau d arco do piaui,2207793,Pau D'Arco do Piauí,diferença de pontuação explicitamente aprovada pelo pesquisador em 2026-10-03,pareamento_aprovado_pontuacao
+12726,NAZÁRIA,PI,nazaria,2206720,Nazária,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf
+12734,AROEIRAS DO ITAIM,PI,aroeiras do itaim,2200954,Aroeiras do Itaim,"uf + nome oficial normalizado (caixa, acentos, espaços)",pareamento_unico_por_nome_uf

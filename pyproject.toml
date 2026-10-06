@@ -1,0 +1,26 @@
+[project]
+name = "labdados"
+version = "0.1.0"
+description = "Laboratório de dados públicos — núcleo comum de pipelines e utilitários"
+requires-python = ">=3.11"
+dependencies = [
+  "polars>=1.0",
+  "duckdb>=1.0",
+  "pyarrow>=15",
+  "httpx>=0.27",
+  "pyyaml>=6",
+  "pandera>=0.20",
+  "cryptography>=42",
+  "numpy>=1.26",
+]
+
+[project.optional-dependencies]
+geo = ["geopandas>=1.0", "shapely>=2.0", "geobr"]
+dev = ["pytest>=8", "jupyterlab"]
+
+[tool.setuptools.packages.find]
+where = ["nucleo"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"

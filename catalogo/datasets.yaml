@@ -1,0 +1,313 @@
+# Recorte do catálogo do laboratório: só as bases usadas pelos produtos publicados
+
+tse.votacao_candidato_munzona:
+  grupo: eleicoes
+  fonte: tse
+  acesso: arquivo
+  descricao: Votação nominal por candidato, município e zona
+  url_fonte: https://dadosabertos.tse.jus.br/dataset/resultados-2024
+  granularidade:
+  - ano
+  - turno
+  - cargo
+  - candidato
+  - municipio
+  - zona
+  anos:
+  - 2014
+  - 2018
+  - 2020
+  - 2022
+  - 2024
+  - 2026
+  caminho: dados/padronizado/tse.votacao_candidato_munzona
+  pipeline:
+  - fontes/tse/baixar.py
+  - fontes/tse/padronizar.py
+  decisoes:
+  - L0001
+  observacoes: Arquivos brutos coletados para 2022 e 2024; padronização pendente.
+  status: baixado
+tse.votacao_partido_munzona:
+  grupo: eleicoes
+  fonte: tse
+  acesso: arquivo
+  descricao: Votação em partido (legenda) por município e zona
+  url_fonte: https://dadosabertos.tse.jus.br/dataset/resultados-2022
+  granularidade:
+  - ano
+  - turno
+  - cargo
+  - partido
+  - municipio
+  - zona
+  anos:
+  - 2014
+  - 2018
+  - 2020
+  - 2022
+  - 2024
+  caminho: dados/padronizado/tse.votacao_partido_munzona
+  pipeline:
+  - fontes/tse/baixar.py
+  - fontes/tse/padronizar.py
+  decisoes: []
+  observacoes: Arquivos brutos coletados para 2022 e 2024; padronização pendente.
+  status: baixado
+tse.detalhe_votacao_munzona:
+  grupo: eleicoes
+  fonte: tse
+  acesso: arquivo
+  descricao: Aptos, comparecimento, abstenção, brancos e nulos por município e zona
+  url_fonte: https://dadosabertos.tse.jus.br/dataset/resultados-2024
+  granularidade:
+  - ano
+  - turno
+  - cargo
+  - municipio
+  - zona
+  anos:
+  - 2014
+  - 2018
+  - 2020
+  - 2022
+  - 2024
+  caminho: dados/padronizado/tse.detalhe_votacao_munzona
+  pipeline:
+  - fontes/tse/baixar.py
+  - fontes/tse/padronizar.py
+  decisoes:
+  - L0001
+  observacoes: Arquivos brutos coletados para 2022 e 2024; padronização pendente.
+  status: baixado
+tse.candidatos:
+  grupo: eleicoes
+  fonte: tse
+  acesso: arquivo
+  descricao: Candidaturas e atributos declarados
+  url_fonte: https://dadosabertos.tse.jus.br/dataset/candidatos-2022
+  granularidade:
+  - ano
+  - candidato
+  anos:
+  - 2014
+  - 2018
+  - 2022
+  - 2024
+  - 2026
+  caminho: dados/padronizado/tse.candidatos
+  pipeline:
+  - fontes/tse/baixar.py
+  - fontes/tse/padronizar.py
+  decisoes: []
+  observacoes: Arquivos brutos coletados para 2022 e 2026; padronização pendente.
+  status: baixado
+tse.votacao_secao:
+  grupo: eleicoes
+  fonte: tse
+  acesso: arquivo
+  descricao: Votação nominal por seção eleitoral
+  url_fonte: https://dadosabertos.tse.jus.br/dataset/resultados-2024
+  granularidade:
+  - ano
+  - turno
+  - cargo
+  - candidato
+  - municipio
+  - zona
+  - secao
+  anos:
+  - 2018
+  - 2022
+  - 2024
+  - 2026
+  caminho: dados/padronizado/tse.votacao_secao
+  pipeline:
+  - fontes/tse/baixar.py
+  - fontes/tse/padronizar.py
+  decisoes: []
+  observacoes: Arquivos brutos coletados para PI em 2022, 2024 e 2026. Em 2026 o arquivo
+    por UF traz só os cargos estaduais; Presidente está no arquivo nacional `_BR`
+    (coletado para filtrar o PI). Padronização pendente.
+  status: baixado
+tse.detalhe_votacao_secao:
+  grupo: eleicoes
+  fonte: tse
+  acesso: arquivo
+  descricao: Detalhe da apuração por seção eleitoral
+  url_fonte: https://dadosabertos.tse.jus.br/dataset/resultados-2022
+  granularidade:
+  - ano
+  - turno
+  - cargo
+  - municipio
+  - zona
+  - secao
+  anos:
+  - 2022
+  - 2026
+  caminho: dados/padronizado/tse.detalhe_votacao_secao
+  pipeline:
+  - fontes/tse/baixar.py
+  decisoes: []
+  licenca: CC BY
+  observacoes: Cobertura nacional; arquivo bruto de 2022 consultado para uso no PI.
+    Ficha TSE informa atualização ao fim de cada turno. Campos, categorias e denominadores
+    ainda serão validados; ZIP original com cerca de 244 MB.
+  status: baixado
+tse.eleitorado_local_votacao:
+  grupo: eleicoes
+  fonte: tse
+  acesso: arquivo
+  descricao: Cadastro de seções e locais de votação, com endereço, eleitorado e coordenadas
+    informadas pela Justiça Eleitoral
+  url_fonte: https://dadosabertos.tse.jus.br/dataset/eleitorado-2026
+  granularidade:
+  - ano
+  - turno
+  - municipio
+  - zona
+  - secao
+  - local_votacao
+  anos:
+  - 2018
+  - 2022
+  - 2026
+  caminho: dados/padronizado/tse.eleitorado_local_votacao
+  pipeline:
+  - fontes/tse/baixar.py
+  decisoes: []
+  observacoes: 'Arquivo nacional com CSV por UF; uso inicial restrito ao PI. Inspeção
+    prévia de 2026 (em memória, 05/10/2026): 11.261 seções e 3.481 locais no PI, 3.402
+    com NR_LATITUDE/NR_LONGITUDE e 79 com -1. Coordenadas aceitas como oficiais pelo
+    pesquisador (produto 2026-10_distribuicao-votos-candidato-pi); sem geocodificação
+    dos ausentes.'
+  status: baixado
+tse.resultados_2026_1t:
+  grupo: eleicoes
+  fonte: tse
+  acesso: api
+  descricao: Resultados provisórios do primeiro turno de 2026, agregados por UF no
+    Brasil e por município no Piauí
+  url_fonte: https://resultados.tse.jus.br/oficial/app/index.html
+  endpoint: https://resultados.tse.jus.br/oficial/comum/config/ele-c.jws
+  snapshot: sempre
+  granularidade:
+  - turno
+  - cargo
+  - uf
+  - municipio
+  - coleta
+  anos:
+  - 2026
+  caminho: dados/snapshots/tse.resultados_2026_1t/atual.json
+  pipeline:
+  - fontes/tse/coletar_resultados_2026.py
+  decisoes:
+  - EL0003
+  observacoes: 'Guarda somente o arquivo consolidado mais recente; preserva os JWS
+    e os payloads verificados. Escopo: totais oficiais, UFs configuradas e todos os
+    municípios do Piauí para os cargos aplicáveis. Captura de 2026-10-05 (100% totalizado,
+    1.257 arquivos, 122 MB) mantida FORA do git por decisão do pesquisador; usada
+    como fonte do destino dos votos (EL0003).'
+  status: baixado
+ibge.municipios:
+  grupo: territorio
+  fonte: ibge
+  acesso: api
+  descricao: Cadastro de municípios (código, nome, UF, região) — base para correspondência
+    com código TSE
+  url_fonte: https://servicodados.ibge.gov.br/api/docs/localidades
+  endpoint: https://servicodados.ibge.gov.br/api/v1/localidades/municipios
+  snapshot: perguntar
+  granularidade:
+  - municipio
+  caminho: dados/referencia/ibge.municipios
+  pipeline:
+  - fontes/ibge/baixar.py
+  decisoes: []
+  status: planejado
+ibge.municipios_regiao_imediata:
+  grupo: territorio
+  fonte: ibge
+  acesso: api
+  descricao: Municípios associados às Regiões Geográficas Imediatas do IBGE
+  url_fonte: https://servicodados.ibge.gov.br/api/docs/localidades
+  endpoint: https://servicodados.ibge.gov.br/api/v1/localidades/municipios?orderBy=id
+  snapshot: perguntar
+  granularidade:
+  - municipio
+  - regiao_geografica_imediata
+  - regiao_geografica_intermediaria
+  - uf
+  anos:
+  - 2017
+  caminho: dados/snapshots/ibge.municipios_regiao_imediata
+  pipeline: []
+  decisoes:
+  - L0001
+  observacoes: 'A divisão regional foi publicada em 2017. Snapshot autorizado em 2026-10-03:
+    2.759.705 bytes; SHA-256 registrado em dados/manifesto.json. A API serve a estrutura
+    corrente; validar cobertura e códigos para o recorte eleitoral de 2022. Pipeline
+    de consulta ainda não implementado.'
+  status: explorado
+ibge.malha_ufs_2022:
+  grupo: territorio
+  fonte: ibge
+  acesso: arquivo
+  descricao: Malha territorial das unidades da Federação, edição 2022
+  url_fonte: https://geoftp.ibge.gov.br/organizacao_do_territorio/malhas_territoriais/malhas_municipais/municipio_2022/Brasil/BR/
+  granularidade:
+  - ano
+  - uf
+  anos:
+  - 2022
+  caminho: dados/padronizado/ibge.malha_ufs_2022
+  pipeline:
+  - fontes/ibge/baixar.py
+  decisoes: []
+  observacoes: Arquivo nacional BR_UF_2022.zip; limite estadual, não setores censitários.
+  status: baixado
+ibge.malha_municipios_2022:
+  grupo: territorio
+  fonte: ibge
+  acesso: arquivo
+  descricao: Malha territorial dos municípios brasileiros, edição 2022
+  url_fonte: https://geoftp.ibge.gov.br/organizacao_do_territorio/malhas_territoriais/malhas_municipais/municipio_2022/Brasil/BR/
+  granularidade:
+  - ano
+  - municipio
+  anos:
+  - 2022
+  caminho: dados/padronizado/ibge.malha_municipios_2022
+  pipeline:
+  - fontes/ibge/baixar.py
+  decisoes:
+  - L0001
+  observacoes: Arquivo nacional BR_Municipios_2022.zip; identificadores e junções
+    com códigos TSE devem ser examinados antes do uso.
+  status: baixado
+pi.territorios_desenvolvimento:
+  grupo: territorio
+  fonte: wikipedia
+  acesso: arquivo
+  descricao: Composição municipal dos 12 Territórios de Desenvolvimento do Piauí (LC
+    87/2007; Lei 6.967/2017)
+  url_fonte: https://pt.wikipedia.org/wiki/Territ%C3%B3rios_de_Desenvolvimento_do_Piau%C3%AD
+  granularidade:
+  - municipio
+  - territorio_desenvolvimento
+  anos:
+  - 2017
+  caminho: dados/referencia/territorios_desenvolvimento_pi.csv
+  pipeline:
+  - fontes/wikipedia/baixar_territorios_pi.py
+  - fontes/wikipedia/padronizar_territorios_pi.py
+  decisoes: []
+  observacoes: 'Fonte secundária (Wikipédia, revisões fixadas no manifesto) por decisão
+    do pesquisador em 2026-10-05; fontes oficiais inacessíveis. Conferência automática
+    OK: 224 municípios, 12 territórios, cada município em um só território. A fonte
+    tinha 1 duplicidade (São Miguel do Fidalgo) e 2 ausências (Barras, São Francisco
+    do Piauí), resolvidas por decisão do pesquisador em dados/referencia/territorios_desenvolvimento_pi_excecoes.csv.
+    Substituir pelo Anexo Único da Lei 6.967/2017 quando acessível.'
+  status: explorado

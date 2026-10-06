@@ -1,0 +1,123 @@
+# Textos do bloco "Fontes de Dados, Metodologia e Códigos" (padrão de todos os produtos — ADR L0003).
+# O gerador (projetos/eleicoes/analise/preparar_distribuicao_pi.py → labdados.metodologia) junta estes
+# textos às partes automáticas: fontes (catálogo + manifesto: datas e hashes), decisões (ADRs), trechos
+# de código e a conferência de qualidade.
+
+apresentacao: >-
+  Este produto mostra onde estão os votos de cada candidatura no Piauí — do município ao local
+  de votação — nas eleições gerais de 2018, 2022 e 2026 (em 2026, só o 1º turno), e quais candidaturas de outros cargos têm
+  distribuição mais parecida ou mais oposta. Todos os números vêm de bases oficiais e podem ser
+  reconstruídos com os códigos do laboratório; nada é estimado, imputado ou completado.
+
+passos:
+  - titulo: Coleta e proveniência
+    texto: >-
+      Os arquivos oficiais foram baixados do Portal de Dados Abertos do TSE (votação e detalhe por
+      seção, cadastro de locais de votação) e, para 2026, também da API de resultados do TSE (destino
+      dos votos), com assinatura digital verificada. Cada arquivo tem endereço, data e hash SHA-256
+      registrados num manifesto; os arquivos brutos nunca são editados.
+  - titulo: Votos válidos por seção
+    texto: >-
+      O percentual usa os votos válidos do cargo em cada seção, reconstruídos com o destino oficial
+      dos votos: candidaturas anuladas, "sub judice" e nulos técnicos não contam como válidos.
+      Candidatura sem linha numa seção tem 0 votos ali (regra aprovada; nada é imputado).
+      Em 2018 (sem o detalhe por seção), o destino vem da situação no cadastro de candidaturas
+      (APTO/INAPTO), e a conferência é feita contra os totais oficiais por município e zona, sem
+      tolerância: uma candidatura apta (Elizeu Aguiar, Senador) tem os votos contados como nulos pelo
+      TSE, identificada pela igualdade exata em todas as zonas.
+    adrs: [EL0003]
+    codigo: validar_distribuicao_pi.validos_por_secao
+  - titulo: Agregação territorial
+    texto: >-
+      Zonas, locais de votação e municípios somam votos e válidos das seções antes de dividir; o
+      percentual nunca é média de percentuais. Os municípios do TSE foram ligados aos do IBGE por nome
+      e UF (224 de 224, com três pares conferidos manualmente).
+    adrs: [L0001, EL0002]
+    codigo: preparar_distribuicao_pi.agregar
+  - titulo: Comparação entre candidaturas
+    texto: >-
+      Correlação de Pearson entre os percentuais da candidatura escolhida e os de cada candidatura de
+      outro cargo na mesma eleição, com peso igual por unidade. A unidade é o nível escolhido na página
+      (municípios, recortes regionais, zonas ou locais de votação — estes dois só do município
+      filtrado, quando houver), com mínimo de 3 municípios ou de 10 unidades nos demais níveis. A página calcula a correlação sob demanda
+      com a mesma fórmula do Python, conferida por teste de paridade.
+    adrs: [L0002]
+    codigo: preparar_distribuicao_pi.pearson
+  - titulo: Mesma candidatura em várias eleições
+    texto: >-
+      Para o gráfico de evolução, a mesma pessoa é reconhecida pelo nome civil completo e pela data de
+      nascimento do cadastro de candidaturas do TSE. Só há ligação quando essa chave é única em cada
+      eleição; o CPF serve apenas para conferir (não aparece na página).
+      O mapa de variação compara a mesma pessoa entre duas eleições nas mesmas unidades (municípios ou
+      recortes regionais): diferença de votos ou de pontos percentuais dos válidos, sem ajuste.
+      Para Presidente e Governador, também é possível comparar com a candidatura do mesmo partido ao
+      mesmo cargo em outra eleição (ex.: PL 2026 × PL 2022), mesmo sendo outra pessoa; o rótulo indica
+      o nome comparado.
+      Em 2018, a candidatura presidencial associada ao atual PL foi a do PSL (Jair Bolsonaro); para
+      essa comparação e para a linha do partido, PSL 2018 conta como PL (decisão do pesquisador).
+    adrs: [EL0007]
+    codigo: preparar_distribuicao_pi.ligar_candidaturas
+  - titulo: Visualização
+    texto: >-
+      A base é gerada e conferida em Python; a página só faz somas, percentuais e correlações leves,
+      espelhando as funções do Python (teste de paridade em src/paridade.html). Os locais de votação
+      usam as coordenadas do cadastro oficial do TSE; locais sem coordenada ou com coordenada fora do
+      próprio município ficam fora do mapa e marcados na tabela.
+    adrs: [L0002]
+
+perguntas:
+  - p: Correlação alta quer dizer que os mesmos eleitores votaram nas duas candidaturas?
+    r: >-
+      Não. O voto é secreto; a correlação só diz que os percentuais das duas candidaturas sobem e
+      descem juntos entre os lugares. Saber se são os mesmos eleitores exigiria inferência ecológica,
+      que não foi feita.
+  - p: Por que algumas candidaturas aparecem só com votos, sem percentual?
+    r: >-
+      Porque os votos delas não são válidos pelo destino oficial do TSE (por exemplo, candidatura
+      anulada ou "sub judice"). Elas aparecem com votos absolutos e ficam fora das correlações.
+  - p: Por que unidades pequenas aparecem com percentuais altos?
+    r: >-
+      Num local com poucos eleitores, poucos votos já são um percentual alto. Confira sempre os votos
+      na tabela ao lado do percentual.
+
+limitacoes:
+  - "Sem geometria oficial de zonas: nesse nível o mapa mostra municípios e os valores ficam na tabela. A seção eleitoral é a base do cálculo, mas não é exibida como nível (o mais detalhado é o local de votação)."
+  - "Dados de 2026 totalizados no 1º turno e sujeitos a revisão (ex.: votos anulados sub judice)."
+  - "2018: conferência por município e zona (não por seção), pois o detalhe por seção de 2018 não foi baixado; a votação por seção bate com esses totais sem divergência."
+  - "Quem mudou de nome civil entre eleições não é reconhecido como a mesma pessoa no gráfico de evolução."
+  - "Correlação descreve associação entre percentuais; não indica causalidade nem que os mesmos eleitores votaram nas duas candidaturas."
+
+codigos:
+  - arquivo: fontes/tse/baixar.py
+    papel: Baixa os arquivos oficiais do TSE e registra endereço, data e hash no manifesto.
+  - arquivo: fontes/tse/coletar_resultados_2026.py
+    papel: Coleta a API de resultados de 2026 e verifica a assinatura digital de cada resposta.
+  - arquivo: projetos/eleicoes/analise/validar_distribuicao_pi.py
+    papel: Lê as seções do Piauí, reconstrói os votos válidos (EL0003) e confere os totais oficiais (tolerância zero).
+  - arquivo: projetos/eleicoes/analise/preparar_distribuicao_pi.py
+    papel: Monta a base do produto, a página (arquivo único) e a página de paridade JS × Python.
+  - arquivo: projetos/eleicoes/produtos/2026-10_distribuicao-votos-candidato-pi/src/nucleo.js
+    papel: Somas, percentuais e Pearson no navegador, espelhando o Python (L0002).
+
+sobre: >-
+  Produto do Laboratório de Dados Públicos, por Alexandre Cajazeira — professor EBTT de
+  Informática e pesquisador em ciência de dados aplicada a políticas públicas, transparência
+  e cidadania.
+
+uso_de_ia: >-
+  Claude (Claude Code, Anthropic) apoiou a conferência dos dados, a preparação da base e a
+  implementação desta página. Decisões metodológicas e revisão são do pesquisador; a IA não é autora
+  (Portaria CNPq nº 2.664/2026).
+
+licenca: "Código: MIT · Dados derivados: CC BY 4.0"
+
+citacao: "CAJAZEIRA, Alexandre. Onde estão os votos? Distribuição territorial de candidaturas no Piauí (2018, 2022 e 2026). Laboratório de Dados Públicos, 2026."
+
+decisoes_resumo:
+  L0001: Códigos municipais TSE e IBGE ligados só quando UF e nome normalizado coincidem de forma única; nada é aproximado.
+  L0002: Produtos em arquivo único; cálculos em Python, com somas e correlações leves no navegador conferidas por paridade.
+  EL0002: No Piauí, os três municípios com apóstrofo no nome foram pareados manualmente, completando os 224.
+  EL0003: Votos válidos por seção reconstruídos com o destino oficial dos votos (exclui anulados, sub judice e nulos técnicos).
+  EL0004: Cor da candidatura pelo grupo do partido — PT/PV/PCdoB (federação), União Progressista (PP + União), PSD, MDB e Outros; neste produto, o PL também tem cor própria (azul claro; decisão local).
+  EL0007: Mesma pessoa candidata entre eleições = nome civil completo + data de nascimento (única por eleição; CPF só para conferir).
+  EL0006: Cores dos grupos fixas e validadas para daltonismo (PT/PV/PCdoB vermelho, PSD laranja, MDB verde, União Progressista azul, Outros cinza).

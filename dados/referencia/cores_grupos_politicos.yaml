@@ -1,0 +1,13 @@
+# Paleta semântica dos grupos políticos — EL0006 (aprovada 2026-10-05; PT e PSD revistos pelo pesquisador em 2026-10-06).
+# Ordem fixa; a cor segue o grupo, nunca a posição no ranking.
+# Modo escuro: mesmas cores do claro (aprovado pelo pesquisador em 2026-10-05).
+ordem: [PT, PSD, MDB, PP, Outros]
+claro:
+  PT: "#d73027"
+  PSD: "#f28e2b"
+  MDB: "#3d7a18"
+  PP: "#22508f"
+  Outros: "var(--cor-texto-suave)"
+escuro: igual_ao_claro
+pedido_original: {PT: "#fb8072", PSD: "#8da0cb", MDB: "#a6d854", PP: "#386cb0"}
+nota_pp_2026: "União Progressista = PP + União Brasil em todas as eleições (em 2026, federados na Federação União Progressista)."

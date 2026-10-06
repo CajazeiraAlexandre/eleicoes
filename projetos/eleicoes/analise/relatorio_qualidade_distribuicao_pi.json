@@ -1,0 +1,3117 @@
+{
+ "gerado_em": "2026-10-06T14:42:28-03:00",
+ "escopo": {
+  "uf": "PI",
+  "eleicao": "geral ordinária (CD_TIPO_ELEICAO=2)",
+  "anos": [
+   2018,
+   2022,
+   2026
+  ],
+  "chave_secao": [
+   "NR_TURNO",
+   "CD_CARGO",
+   "CD_MUNICIPIO",
+   "NR_ZONA",
+   "NR_SECAO"
+  ],
+  "classificacao_votavel": "95 branco; 96 nulo; 97/98 especiais; 2 dígitos em cargos 6/7/8 = legenda",
+  "regra_ausencia": "sem linha = 0 votos",
+  "correspondencia_municipal": "L0001 + EL0002 (224 municípios do PI com código IBGE)",
+  "tolerancia_votos": 0
+ },
+ "anos": {
+  "2018": {
+   "fontes": {
+    "votacao_secao_uf": {
+     "arquivo": "dados/bruto/tse/votacao_secao/votacao_secao_2018_PI.zip",
+     "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/votacao_secao/votacao_secao_2018_PI.zip",
+     "sha256": "c3c92426efb79c1c10438cdc0c937f8e8349735fb305aeac2955d6a6cb7f95e3",
+     "gerado_na_fonte": "Wed, 24 Apr 2024 17:18:55 GMT"
+    },
+    "votacao_secao_br": {
+     "arquivo": "dados/bruto/tse/votacao_secao/votacao_secao_2018_BR.zip",
+     "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/votacao_secao/votacao_secao_2018_BR.zip",
+     "sha256": "dde2250058a7efa3b7ee336520556905456cb75d7debf99ea4badfc4d598a48c",
+     "gerado_na_fonte": "Fri, 15 Aug 2025 14:15:53 GMT"
+    },
+    "locais": {
+     "arquivo": "dados/bruto/tse/eleitorado_local_votacao/eleitorado_local_votacao_2018.zip",
+     "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/eleitorado_locais_votacao/eleitorado_local_votacao_2018.zip",
+     "sha256": "a0478dd3ad7b3ce7332058121f280d98454e3e7a4a54d146aee943402a544fb4",
+     "gerado_na_fonte": "Fri, 25 Apr 2025 20:35:33 GMT"
+    },
+    "partido_munzona": {
+     "arquivo": "dados/bruto/tse/votacao_partido_munzona/votacao_partido_munzona_2018.zip",
+     "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/votacao_partido_munzona/votacao_partido_munzona_2018.zip",
+     "sha256": "c3ab9e78efd8d11033d650451252cb5c019a699e79bec7e04371a3a4022143df",
+     "gerado_na_fonte": "Thu, 25 Jul 2024 01:01:27 GMT"
+    },
+    "detalhe_munzona": {
+     "arquivo": "dados/bruto/tse/detalhe_votacao_munzona/detalhe_votacao_munzona_2018.zip",
+     "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/detalhe_votacao_munzona/detalhe_votacao_munzona_2018.zip",
+     "sha256": "df68c258a2261dff37b379f65ea5f2e8de7b3d824bb2340d8f4830274a3fabb5",
+     "gerado_na_fonte": "Tue, 29 Jul 2025 16:29:08 GMT"
+    },
+    "candidatos": {
+     "arquivo": "dados/bruto/tse/candidatos/consulta_cand_2018.zip",
+     "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/consulta_cand/consulta_cand_2018.zip",
+     "sha256": "57f6881f1aa036142886ae548afd275e7ee6695643a2ab62826f2ee232d3fd44",
+     "gerado_na_fonte": "Wed, 13 Nov 2024 16:20:54 GMT"
+    }
+   },
+   "A_secao_x_detalhe": {
+    "nivel": "município × zona (sem detalhe por seção em 2018 — opção B)",
+    "chaves_votacao": 53580,
+    "chaves_munzona": 1380,
+    "chaves_detalhe_por_turno_cargo": {
+     "1/1": 8930,
+     "1/3": 8930,
+     "1/5": 8930,
+     "1/6": 8930,
+     "1/7": 8930,
+     "2/1": 8930
+    },
+    "so_na_votacao": 0,
+    "so_no_detalhe": 0,
+    "so_no_detalhe_sem_votos": 0,
+    "chaves_detalhe_duplicadas": 0,
+    "votos_especiais_97_98": 0,
+    "divergencias": 0,
+    "amostras_divergencias": [],
+    "totais_votacao": {
+     "nominal": 11813384,
+     "legenda": 309102,
+     "branco": 521517,
+     "nulo": 1288835
+    },
+    "nulos_tecnicos_oficiais": 0,
+    "linhas_votacao": 980351
+   },
+   "B_secoes_x_munzona": "2018: arquivo de candidaturas por município/zona não baixado (opção B); categorias conferidas em A",
+   "C_locais": {
+    "secoes_cadastro": 19992,
+    "locais": 3616,
+    "locais_com_coordenada": 3298,
+    "locais_sem_coordenada": 318,
+    "secoes_detalhe_sem_cadastro": 0,
+    "amostras_sem_cadastro": [],
+    "secoes_local_divergente_detalhe_cadastro": 0,
+    "amostras_local_divergente": [],
+    "locais_com_coordenada_sem_municipio_ibge": 0,
+    "locais_fora_do_proprio_municipio": 70,
+    "fora_ate_1km": 38,
+    "fora_mais_de_10km": 14,
+    "amostras_fora_do_municipio": [
+     {
+      "local": [
+       "11193",
+       "46",
+       "1074"
+      ],
+      "nome": "ESCOLA BRISDALINA RUFINA DE CARVALHO",
+      "municipio": "MARCOS PARENTE",
+      "lat": -6.7882306,
+      "lon": -43.5713888,
+      "distancia_km_aprox": 25.07
+     },
+     {
+      "local": [
+       "12084",
+       "59",
+       "1066"
+      ],
+      "nome": "UNIDADE ESCOLAR JOAO FELIX",
+      "municipio": "ALVORADA DO GURGUÉIA",
+      "lat": -8.8232086,
+      "lon": -44.2188244,
+      "distancia_km_aprox": 21.79
+     },
+     {
+      "local": [
+       "10553",
+       "50",
+       "1260"
+      ],
+      "nome": "UNIDADE ESCOLAR JOSÉ ROSENDO FILHO",
+      "municipio": "CONCEIÇÃO DO CANINDÉ",
+      "lat": -7.8574674,
+      "lon": -41.9103303,
+      "distancia_km_aprox": 21.59
+     },
+     {
+      "local": [
+       "10162",
+       "25",
+       "1040"
+      ],
+      "nome": "UNIDADE ESCOLAR ISAIAS RODRIGUES DE SOUSA",
+      "municipio": "CANAVIEIRA",
+      "lat": -7.0904052,
+      "lon": -43.5095299,
+      "distancia_km_aprox": 20.62
+     },
+     {
+      "local": [
+       "10162",
+       "25",
+       "1023"
+      ],
+      "nome": "UNIDADE ESCOLAR ULYSSES GUIMARAES",
+      "municipio": "CANAVIEIRA",
+      "lat": -7.0909367,
+      "lon": -43.5094203,
+      "distancia_km_aprox": 20.57
+     },
+     {
+      "local": [
+       "10162",
+       "25",
+       "1015"
+      ],
+      "nome": "UNIDADE ESCOLAR MARIANO ROBERTO",
+      "municipio": "CANAVIEIRA",
+      "lat": -7.0909454,
+      "lon": -43.5094169,
+      "distancia_km_aprox": 20.57
+     },
+     {
+      "local": [
+       "10162",
+       "25",
+       "1031"
+      ],
+      "nome": "UNIDADE ESCOLAR JOAO BATISTA DE ARAUJO DOS SANTOS",
+      "municipio": "CANAVIEIRA",
+      "lat": -7.0909264,
+      "lon": -43.5094301,
+      "distancia_km_aprox": 20.57
+     },
+     {
+      "local": [
+       "10162",
+       "25",
+       "1058"
+      ],
+      "nome": "UNIDADE ESCOLAR FRANCISCO MOURA",
+      "municipio": "CANAVIEIRA",
+      "lat": -7.0905612,
+      "lon": -43.5112802,
+      "distancia_km_aprox": 20.54
+     },
+     {
+      "local": [
+       "12033",
+       "64",
+       "1171"
+      ],
+      "nome": "UNIDADE ESCOLAR JOÃO JOSÉ DE ALENCAR",
+      "municipio": "SÃO JOSÉ DO PIAUÍ",
+      "lat": -6.6678471,
+      "lon": -41.7079626,
+      "distancia_km_aprox": 19.59
+     },
+     {
+      "local": [
+       "10871",
+       "35",
+       "1104"
+      ],
+      "nome": "ESCOLA MUNICIPAL SALOMÃO CUSTÓDIO",
+      "municipio": "GILBUÉS",
+      "lat": -9.7222409,
+      "lon": -44.8568437,
+      "distancia_km_aprox": 15.78
+     },
+     {
+      "local": [
+       "11258",
+       "58",
+       "1023"
+      ],
+      "nome": "GINASIO 'DEP. FRANCISCO JOSE DE CARVALHO'",
+      "municipio": "MIGUEL LEÃO",
+      "lat": -5.5632015,
+      "lon": -42.6083481,
+      "distancia_km_aprox": 15.24
+     },
+     {
+      "local": [
+       "11258",
+       "58",
+       "1031"
+      ],
+      "nome": "UNIDADE ESCOLAR 'ESTADO DO ACRE'",
+      "municipio": "MIGUEL LEÃO",
+      "lat": -5.5632207,
+      "lon": -42.6083412,
+      "distancia_km_aprox": 15.24
+     },
+     {
+      "local": [
+       "11258",
+       "58",
+       "1015"
+      ],
+      "nome": "CAMARA DE VEREADORES",
+      "municipio": "MIGUEL LEÃO",
+      "lat": -5.5632409,
+      "lon": -42.6084249,
+      "distancia_km_aprox": 15.23
+     },
+     {
+      "local": [
+       "11436",
+       "68",
+       "1058"
+      ],
+      "nome": "UNIDADE ESCOLAR TIO ZEZITO",
+      "municipio": "PADRE MARCOS",
+      "lat": -7.1457013,
+      "lon": -40.936524,
+      "distancia_km_aprox": 14.56
+     },
+     {
+      "local": [
+       "12270",
+       "82",
+       "1074"
+      ],
+      "nome": "U. E. MUNICIPAL JOSE SOBREIRA",
+      "municipio": "VÁRZEA GRANDE",
+      "lat": -6.3975904,
+      "lon": -42.2631569,
+      "distancia_km_aprox": 9.51
+     }
+    ],
+    "lista_fora_do_municipio": [
+     {
+      "local": [
+       "11193",
+       "46",
+       "1074"
+      ],
+      "nome": "ESCOLA BRISDALINA RUFINA DE CARVALHO",
+      "municipio": "MARCOS PARENTE",
+      "lat": -6.7882306,
+      "lon": -43.5713888,
+      "distancia_km_aprox": 25.07
+     },
+     {
+      "local": [
+       "12084",
+       "59",
+       "1066"
+      ],
+      "nome": "UNIDADE ESCOLAR JOAO FELIX",
+      "municipio": "ALVORADA DO GURGUÉIA",
+      "lat": -8.8232086,
+      "lon": -44.2188244,
+      "distancia_km_aprox": 21.79
+     },
+     {
+      "local": [
+       "10553",
+       "50",
+       "1260"
+      ],
+      "nome": "UNIDADE ESCOLAR JOSÉ ROSENDO FILHO",
+      "municipio": "CONCEIÇÃO DO CANINDÉ",
+      "lat": -7.8574674,
+      "lon": -41.9103303,
+      "distancia_km_aprox": 21.59
+     },
+     {
+      "local": [
+       "10162",
+       "25",
+       "1040"
+      ],
+      "nome": "UNIDADE ESCOLAR ISAIAS RODRIGUES DE SOUSA",
+      "municipio": "CANAVIEIRA",
+      "lat": -7.0904052,
+      "lon": -43.5095299,
+      "distancia_km_aprox": 20.62
+     },
+     {
+      "local": [
+       "10162",
+       "25",
+       "1023"
+      ],
+      "nome": "UNIDADE ESCOLAR ULYSSES GUIMARAES",
+      "municipio": "CANAVIEIRA",
+      "lat": -7.0909367,
+      "lon": -43.5094203,
+      "distancia_km_aprox": 20.57
+     },
+     {
+      "local": [
+       "10162",
+       "25",
+       "1015"
+      ],
+      "nome": "UNIDADE ESCOLAR MARIANO ROBERTO",
+      "municipio": "CANAVIEIRA",
+      "lat": -7.0909454,
+      "lon": -43.5094169,
+      "distancia_km_aprox": 20.57
+     },
+     {
+      "local": [
+       "10162",
+       "25",
+       "1031"
+      ],
+      "nome": "UNIDADE ESCOLAR JOAO BATISTA DE ARAUJO DOS SANTOS",
+      "municipio": "CANAVIEIRA",
+      "lat": -7.0909264,
+      "lon": -43.5094301,
+      "distancia_km_aprox": 20.57
+     },
+     {
+      "local": [
+       "10162",
+       "25",
+       "1058"
+      ],
+      "nome": "UNIDADE ESCOLAR FRANCISCO MOURA",
+      "municipio": "CANAVIEIRA",
+      "lat": -7.0905612,
+      "lon": -43.5112802,
+      "distancia_km_aprox": 20.54
+     },
+     {
+      "local": [
+       "12033",
+       "64",
+       "1171"
+      ],
+      "nome": "UNIDADE ESCOLAR JOÃO JOSÉ DE ALENCAR",
+      "municipio": "SÃO JOSÉ DO PIAUÍ",
+      "lat": -6.6678471,
+      "lon": -41.7079626,
+      "distancia_km_aprox": 19.59
+     },
+     {
+      "local": [
+       "10871",
+       "35",
+       "1104"
+      ],
+      "nome": "ESCOLA MUNICIPAL SALOMÃO CUSTÓDIO",
+      "municipio": "GILBUÉS",
+      "lat": -9.7222409,
+      "lon": -44.8568437,
+      "distancia_km_aprox": 15.78
+     },
+     {
+      "local": [
+       "11258",
+       "58",
+       "1023"
+      ],
+      "nome": "GINASIO 'DEP. FRANCISCO JOSE DE CARVALHO'",
+      "municipio": "MIGUEL LEÃO",
+      "lat": -5.5632015,
+      "lon": -42.6083481,
+      "distancia_km_aprox": 15.24
+     },
+     {
+      "local": [
+       "11258",
+       "58",
+       "1031"
+      ],
+      "nome": "UNIDADE ESCOLAR 'ESTADO DO ACRE'",
+      "municipio": "MIGUEL LEÃO",
+      "lat": -5.5632207,
+      "lon": -42.6083412,
+      "distancia_km_aprox": 15.24
+     },
+     {
+      "local": [
+       "11258",
+       "58",
+       "1015"
+      ],
+      "nome": "CAMARA DE VEREADORES",
+      "municipio": "MIGUEL LEÃO",
+      "lat": -5.5632409,
+      "lon": -42.6084249,
+      "distancia_km_aprox": 15.23
+     },
+     {
+      "local": [
+       "11436",
+       "68",
+       "1058"
+      ],
+      "nome": "UNIDADE ESCOLAR TIO ZEZITO",
+      "municipio": "PADRE MARCOS",
+      "lat": -7.1457013,
+      "lon": -40.936524,
+      "distancia_km_aprox": 14.56
+     },
+     {
+      "local": [
+       "12270",
+       "82",
+       "1074"
+      ],
+      "nome": "U. E. MUNICIPAL JOSE SOBREIRA",
+      "municipio": "VÁRZEA GRANDE",
+      "lat": -6.3975904,
+      "lon": -42.2631569,
+      "distancia_km_aprox": 9.51
+     },
+     {
+      "local": [
+       "10910",
+       "52",
+       "1066"
+      ],
+      "nome": "ESCOLA MUNICIPAL CÍCERO LINO DO NASCIMENTO",
+      "municipio": "HUGO NAPOLEÃO",
+      "lat": -5.8947232,
+      "lon": -42.6427106,
+      "distancia_km_aprox": 9.12
+     },
+     {
+      "local": [
+       "10910",
+       "52",
+       "1040"
+      ],
+      "nome": "UNIDADE ESCOLAR 'ANTONIO FREITAS'",
+      "municipio": "HUGO NAPOLEÃO",
+      "lat": -5.8936196,
+      "lon": -42.6355424,
+      "distancia_km_aprox": 8.61
+     },
+     {
+      "local": [
+       "12696",
+       "53",
+       "1040"
+      ],
+      "nome": "U. E. JOSE MARIANO",
+      "municipio": "COCAL DOS ALVES",
+      "lat": -3.4891011,
+      "lon": -41.5038748,
+      "distancia_km_aprox": 7.55
+     },
+     {
+      "local": [
+       "11851",
+       "59",
+       "1082"
+      ],
+      "nome": "ESCOLA CINOBELINO PEREIRA DOS SANTOS",
+      "municipio": "SANTA LUZ",
+      "lat": -8.8232063,
+      "lon": -44.2188103,
+      "distancia_km_aprox": 5.64
+     },
+     {
+      "local": [
+       "11851",
+       "59",
+       "1074"
+      ],
+      "nome": "UNIDADE ESCOLAR ANTONIO PRUDENCIO DOS SANTOS",
+      "municipio": "SANTA LUZ",
+      "lat": -8.8231993,
+      "lon": -44.2187935,
+      "distancia_km_aprox": 5.64
+     },
+     {
+      "local": [
+       "11851",
+       "59",
+       "1058"
+      ],
+      "nome": "GRUPO ESCOLAR DE OVELHAS",
+      "municipio": "SANTA LUZ",
+      "lat": -8.8232176,
+      "lon": -44.2188058,
+      "distancia_km_aprox": 5.64
+     },
+     {
+      "local": [
+       "11851",
+       "59",
+       "1104"
+      ],
+      "nome": "UNIDADE ESCOLAR JOSE VICENTE DE SA",
+      "municipio": "SANTA LUZ",
+      "lat": -8.8232086,
+      "lon": -44.2188244,
+      "distancia_km_aprox": 5.63
+     },
+     {
+      "local": [
+       "12041",
+       "22",
+       "1031"
+      ],
+      "nome": "GRUPO ESCOLAR NOSSA SENHORA DA CONCEICAO",
+      "municipio": "SEBASTIÃO BARROS",
+      "lat": -10.7991839,
+      "lon": -44.9017929,
+      "distancia_km_aprox": 2.84
+     },
+     {
+      "local": [
+       "10243",
+       "13",
+       "1171"
+      ],
+      "nome": "UNIDADE ESCOLAR JOAO PEDRO DE OLIVEIRA",
+      "municipio": "CORONEL JOSÉ DIAS",
+      "lat": -9.25021195,
+      "lon": -42.24315719,
+      "distancia_km_aprox": 2.59
+     },
+     {
+      "local": [
+       "12300",
+       "26",
+       "1066"
+      ],
+      "nome": "UNIDADE ESCOLAR DESCOBERTA",
+      "municipio": "RIACHO FRIO",
+      "lat": -10.04266002,
+      "lon": -44.78668629,
+      "distancia_km_aprox": 2.32
+     },
+     {
+      "local": [
+       "10391",
+       "33",
+       "1252"
+      ],
+      "nome": "UNIDADE ESCOLAR MARIA BONIFÁCIO DE FREITAS",
+      "municipio": "BURITI DOS LOPES",
+      "lat": -3.2803726,
+      "lon": -41.9315247,
+      "distancia_km_aprox": 2.01
+     },
+     {
+      "local": [
+       "10901",
+       "47",
+       "1074"
+      ],
+      "nome": "U. E.THEMISTOCLES DE AREA MATOS",
+      "municipio": "NOVO SANTO ANTÔNIO",
+      "lat": -5.2768634,
+      "lon": -42.0303719,
+      "distancia_km_aprox": 1.97
+     },
+     {
+      "local": [
+       "10545",
+       "7",
+       "1171"
+      ],
+      "nome": "UNIDADE ESC. MANOEL RODRIGUES DE MELO",
+      "municipio": "SIGEFREDO PACHECO",
+      "lat": -5.0085509,
+      "lon": -41.7049673,
+      "distancia_km_aprox": 1.93
+     },
+     {
+      "local": [
+       "10430",
+       "96",
+       "1333"
+      ],
+      "nome": "GRUPO ESCOLAR ELEOTERIO DA COSTA ARAUJO",
+      "municipio": "CAMPO MAIOR",
+      "lat": -4.805565,
+      "lon": -42.3801717,
+      "distancia_km_aprox": 1.69
+     },
+     {
+      "local": [
+       "12394",
+       "7",
+       "1090"
+      ],
+      "nome": "UNIDADE ESCOLAR JOSE CANDIDO GAIOSO",
+      "municipio": "JATOBÁ DO PIAUÍ",
+      "lat": -5.0038144,
+      "lon": -41.918315,
+      "distancia_km_aprox": 1.36
+     },
+     {
+      "local": [
+       "12688",
+       "33",
+       "1074"
+      ],
+      "nome": "UNIDADE ESCOLAR FRANCISCO LUIZ DA SILVA",
+      "municipio": "CAXINGÓ",
+      "lat": -3.43944462,
+      "lon": -41.95168181,
+      "distancia_km_aprox": 1.26
+     },
+     {
+      "local": [
+       "12300",
+       "26",
+       "1058"
+      ],
+      "nome": "UNIDADE ESCOLAR MELANCIAS",
+      "municipio": "RIACHO FRIO",
+      "lat": -10.05637483,
+      "lon": -45.07714319,
+      "distancia_km_aprox": 1.04
+     },
+     {
+      "local": [
+       "10189",
+       "32",
+       "1031"
+      ],
+      "nome": "GRUPO ESCOLAR BASILIO DE ABREU SEPULVEDA",
+      "municipio": "COIVARAS",
+      "lat": -5.2658024,
+      "lon": -42.3084214,
+      "distancia_km_aprox": 1.0
+     },
+     {
+      "local": [
+       "10065",
+       "33",
+       "1074"
+      ],
+      "nome": "GRUPO ESCOLAR MARIA MARQUES PORTELA",
+      "municipio": "BOM PRINCÍPIO DO PIAUÍ",
+      "lat": -3.1944819,
+      "lon": -41.5085161,
+      "distancia_km_aprox": 0.97
+     },
+     {
+      "local": [
+       "10677",
+       "62",
+       "1155"
+      ],
+      "nome": "UNIDADE ESCOLAR MUNICIPAL JOAQUIM PINHEIRO DE MOURA",
+      "municipio": "DOM EXPEDITO LOPES",
+      "lat": -6.9974176,
+      "lon": -41.6179043,
+      "distancia_km_aprox": 0.89
+     },
+     {
+      "local": [
+       "10588",
+       "95",
+       "1090"
+      ],
+      "nome": "UNIDADE ESCOLAR LAGOA DA CARAIBA",
+      "municipio": "VÁRZEA BRANCA",
+      "lat": -9.3784148,
+      "lon": -42.8205498,
+      "distancia_km_aprox": 0.88
+     },
+     {
+      "local": [
+       "10782",
+       "62",
+       "1031"
+      ],
+      "nome": "UNIDADE ESCOLAR MUNICIPAL MANOEL DOMINGOS DE SOUSA",
+      "municipio": "GEMINIANO",
+      "lat": -7.2456303,
+      "lon": -41.2167682,
+      "distancia_km_aprox": 0.8
+     },
+     {
+      "local": [
+       "10480",
+       "62",
+       "1082"
+      ],
+      "nome": "UNIDADE ESCOLAR MUNICIPAL ARMINIO MONTEIRO DE MOURA",
+      "municipio": "SANTANA DO PIAUÍ",
+      "lat": -7.0004257,
+      "lon": -41.4754591,
+      "distancia_km_aprox": 0.53
+     },
+     {
+      "local": [
+       "12076",
+       "39",
+       "1384"
+      ],
+      "nome": "UNIDADE ESCOLAR DA LOCALIDADE JENIPAPEIRO DE BAIXO",
+      "municipio": "SÃO MIGUEL DO TAPUIO",
+      "lat": -5.6314789,
+      "lon": -41.7729914,
+      "distancia_km_aprox": 0.53
+     },
+     {
+      "local": [
+       "11576",
+       "12",
+       "1635"
+      ],
+      "nome": "UNIDADE ESCOLAR DA TAPERA DOS VITAL",
+      "municipio": "PEDRO II",
+      "lat": -4.5080089,
+      "lon": -41.1843738,
+      "distancia_km_aprox": 0.52
+     },
+     {
+      "local": [
+       "12467",
+       "19",
+       "1112"
+      ],
+      "nome": "UNIDADE ESCOLAR MUNICIPAL DE PORTEIRAS",
+      "municipio": "MASSAPÊ DO PIAUÍ",
+      "lat": -7.5385209,
+      "lon": -41.2317697,
+      "distancia_km_aprox": 0.48
+     },
+     {
+      "local": [
+       "11134",
+       "91",
+       "1520"
+      ],
+      "nome": "UNIDADE ESCOLAR JUSTINIANE BRITO",
+      "municipio": "LUIS CORREIA",
+      "lat": -3.33744,
+      "lon": -41.4030933,
+      "distancia_km_aprox": 0.46
+     },
+     {
+      "local": [
+       "10871",
+       "35",
+       "1058"
+      ],
+      "nome": "ESCOLA MUNICIPAL DIVINA PASTORA",
+      "municipio": "GILBUÉS",
+      "lat": -9.9539956,
+      "lon": -45.395585,
+      "distancia_km_aprox": 0.43
+     },
+     {
+      "local": [
+       "12157",
+       "37",
+       "1120"
+      ],
+      "nome": "POSTO DE SAÚDE ADERSON PLUTARCO BEZERRA",
+      "municipio": "SIMPLÍCIO MENDES",
+      "lat": -7.61657,
+      "lon": -42.2068683,
+      "distancia_km_aprox": 0.41
+     },
+     {
+      "local": [
+       "10766",
+       "15",
+       "1074"
+      ],
+      "nome": "UNIDADE ESCOLAR DO CORRENTINHO",
+      "municipio": "CURRAIS",
+      "lat": -9.004192,
+      "lon": -45.0879945,
+      "distancia_km_aprox": 0.4
+     },
+     {
+      "local": [
+       "12092",
+       "30",
+       "1171"
+      ],
+      "nome": "GRUPO ESCOLAR MUNICIPAL DE MUNDO NOVO",
+      "municipio": "SÃO PEDRO DO PIAUÍ",
+      "lat": -5.9315483,
+      "lon": -42.6786433,
+      "distancia_km_aprox": 0.37
+     },
+     {
+      "local": [
+       "12688",
+       "33",
+       "1082"
+      ],
+      "nome": "UNIDADE ESCOLAR SÃO FRANCISCO",
+      "municipio": "CAXINGÓ",
+      "lat": -3.32577591,
+      "lon": -41.93983634,
+      "distancia_km_aprox": 0.36
+     },
+     {
+      "local": [
+       "12122",
+       "38",
+       "1112"
+      ],
+      "nome": "CRECHE MUNICIPAL BARRA DOS PEREIROS",
+      "municipio": "BETÂNIA DO PIAUÍ",
+      "lat": -8.14273,
+      "lon": -40.9218186,
+      "distancia_km_aprox": 0.25
+     },
+     {
+      "local": [
+       "10847",
+       "79",
+       "1139"
+      ],
+      "nome": "UNIDADE ESCOLAR CACIMBA DO JATOBA",
+      "municipio": "JUREMA",
+      "lat": -9.3228431,
+      "lon": -43.2067191,
+      "distancia_km_aprox": 0.21
+     },
+     {
+      "local": [
+       "10588",
+       "95",
+       "1058"
+      ],
+      "nome": "U. E. JOSE LUIZ",
+      "municipio": "VÁRZEA BRANCA",
+      "lat": -9.2685288,
+      "lon": -42.8993352,
+      "distancia_km_aprox": 0.2
+     },
+     {
+      "local": [
+       "11673",
+       "11",
+       "1244"
+      ],
+      "nome": "UNIDADE ESCOLAR DE SAO LUIS",
+      "municipio": "PIRIPIRI",
+      "lat": -4.180669,
+      "lon": -41.7894113,
+      "distancia_km_aprox": 0.2
+     },
+     {
+      "local": [
+       "11134",
+       "91",
+       "1384"
+      ],
+      "nome": "UNIDADE ESCOLAR MACHADO DE ASSIS",
+      "municipio": "LUIS CORREIA",
+      "lat": -3.1260792,
+      "lon": -41.4893767,
+      "distancia_km_aprox": 0.19
+     },
+     {
+      "local": [
+       "10405",
+       "74",
+       "1040"
+      ],
+      "nome": "GRUPO ESCOLAR CAIÇARAS",
+      "municipio": "PASSAGEM FRANCA DO PIAUÍ",
+      "lat": -5.6403287,
+      "lon": -42.4429948,
+      "distancia_km_aprox": 0.19
+     },
+     {
+      "local": [
+       "12394",
+       "7",
+       "1139"
+      ],
+      "nome": "UNIDADE ESCOLAR RAFAEL NOGUEIRA PASSOS",
+      "municipio": "JATOBÁ DO PIAUÍ",
+      "lat": -4.829665,
+      "lon": -42.0019999,
+      "distancia_km_aprox": 0.14
+     },
+     {
+      "local": [
+       "10529",
+       "21",
+       "1066"
+      ],
+      "nome": "GRUPO ESCOLAR DO POV. TRANSUAL",
+      "municipio": "SÃO JOSÉ DO DIVINO",
+      "lat": -3.7204798,
+      "lon": -41.8653034,
+      "distancia_km_aprox": 0.13
+     },
+     {
+      "local": [
+       "11592",
+       "10",
+       "1597"
+      ],
+      "nome": "UNIDADE ESCOLAR MANOEL DA CRUZ L. SOBRINHO",
+      "municipio": "PICOS",
+      "lat": -7.1515566,
+      "lon": -41.6274869,
+      "distancia_km_aprox": 0.12
+     },
+     {
+      "local": [
+       "11991",
+       "20",
+       "1546"
+      ],
+      "nome": "UNIDADE ESCOLAR RIACHO DO ANSELMO",
+      "municipio": "SÃO JOÃO DO PIAUÍ",
+      "lat": -8.1924469,
+      "lon": -42.2823629,
+      "distancia_km_aprox": 0.11
+     },
+     {
+      "local": [
+       "10251",
+       "35",
+       "1074"
+      ],
+      "nome": "ESCOLA MUNICIPAL ANTONIA GOMES",
+      "municipio": "BARREIRAS DO PIAUÍ",
+      "lat": -9.8269112,
+      "lon": -45.4915682,
+      "distancia_km_aprox": 0.11
+     },
+     {
+      "local": [
+       "10944",
+       "10",
+       "1066"
+      ],
+      "nome": "UNIDADE ESCOLAR MANOEL GONCALVES",
+      "municipio": "PAQUETÁ",
+      "lat": -7.0169438,
+      "lon": -41.7302706,
+      "distancia_km_aprox": 0.09
+     },
+     {
+      "local": [
+       "10430",
+       "96",
+       "1260"
+      ],
+      "nome": "UNIDADE ESCOLAR FRANCISCO DE BARROS",
+      "municipio": "CAMPO MAIOR",
+      "lat": -4.6950799,
+      "lon": -42.2525954,
+      "distancia_km_aprox": 0.07
+     },
+     {
+      "local": [
+       "10073",
+       "32",
+       "1384"
+      ],
+      "nome": "UNIDADE ESCOLAR MUNICIPAL AIRTON SENA",
+      "municipio": "ALTOS",
+      "lat": -5.1708043,
+      "lon": -42.578395,
+      "distancia_km_aprox": 0.06
+     },
+     {
+      "local": [
+       "12025",
+       "5",
+       "1031"
+      ],
+      "nome": "GRUPO ESCOLAR JOSE RODRIGUES DE ALMEIDA",
+      "municipio": "SÃO JOÃO DA VARJOTA",
+      "lat": -6.837951,
+      "lon": -41.9345129,
+      "distancia_km_aprox": 0.06
+     },
+     {
+      "local": [
+       "10944",
+       "10",
+       "1090"
+      ],
+      "nome": "UNIDADE ESCOLAR GABRIEL FRANCISCO DE MOURA",
+      "municipio": "PAQUETÁ",
+      "lat": -7.0156242,
+      "lon": -41.6872464,
+      "distancia_km_aprox": 0.06
+     },
+     {
+      "local": [
+       "11398",
+       "5",
+       "1414"
+      ],
+      "nome": "ESCOLA MUNICIPAL JOAO DA COSTA MOREIRA",
+      "municipio": "OEIRAS",
+      "lat": -6.9819968,
+      "lon": -42.5075778,
+      "distancia_km_aprox": 0.05
+     },
+     {
+      "local": [
+       "10065",
+       "33",
+       "1082"
+      ],
+      "nome": "ESCOLA MUNICIPAL CISINO PEREIRA DE FREITAS",
+      "municipio": "BOM PRINCÍPIO DO PIAUÍ",
+      "lat": -3.1040938,
+      "lon": -41.5991924,
+      "distancia_km_aprox": 0.05
+     },
+     {
+      "local": [
+       "12025",
+       "5",
+       "1155"
+      ],
+      "nome": "UNIDADE ESCOLAR CRISTO REI",
+      "municipio": "SÃO JOÃO DA VARJOTA",
+      "lat": -6.9432607,
+      "lon": -41.9910769,
+      "distancia_km_aprox": 0.03
+     },
+     {
+      "local": [
+       "12726",
+       "97",
+       "1104"
+      ],
+      "nome": "ESCOLA MUNICIPAL DIONISIO CARVALHO",
+      "municipio": "NAZÁRIA",
+      "lat": -5.4979729,
+      "lon": -42.8112444,
+      "distancia_km_aprox": 0.02
+     },
+     {
+      "local": [
+       "12114",
+       "13",
+       "1465"
+      ],
+      "nome": "UNIDADE ESCOLAR JOAO BRAZ DO ROSARIO",
+      "municipio": "SÃO RAIMUNDO NONATO",
+      "lat": -9.28334399,
+      "lon": -42.82376535,
+      "distancia_km_aprox": 0.01
+     },
+     {
+      "local": [
+       "12394",
+       "7",
+       "1112"
+      ],
+      "nome": "ESCOLA MUNICIPAL DA MONTANHA",
+      "municipio": "JATOBÁ DO PIAUÍ",
+      "lat": -4.7605416,
+      "lon": -41.9300869,
+      "distancia_km_aprox": 0.01
+     },
+     {
+      "local": [
+       "10855",
+       "40",
+       "1201"
+      ],
+      "nome": "UNIDADE ESCOLAR MUNICIPAL CORINTO MACHADO MATOS",
+      "municipio": "FRONTEIRAS",
+      "lat": -7.0774292,
+      "lon": -40.4586467,
+      "distancia_km_aprox": 0.0
+     }
+    ],
+    "coordenadas_compartilhadas_por_mais_de_um_local": 11,
+    "amostras_coordenadas_compartilhadas": {
+     "-3.6015085,-41.4433783": 3,
+     "-7.4479096,-40.8269966": 3,
+     "-7.3288127,-40.7924666": 2,
+     "-3.6077959,-41.457034": 2,
+     "-7.3538806,-40.9081733": 2,
+     "-7.1457013,-40.936524": 2,
+     "-7.4421722,-40.6624702": 2,
+     "-7.2392462,-40.953349": 2,
+     "-7.3290149,-40.7921124": 2,
+     "-7.293947,-40.8174083": 2
+    }
+   },
+   "D_validos_EL0003": {
+    "chaves_municipio_zona": 1380,
+    "divergencias": 0,
+    "amostras": [],
+    "validos_reconstruidos": 12030734,
+    "validos_oficiais": 12030734,
+    "fonte_destino": "situação no cadastro de candidaturas 2018 + identificação pelos totais município/zona (opção B)",
+    "regra": "cadastro APTO/INAPTO + identificação pelos totais oficiais (opção B)",
+    "inaptos_com_voto": 13,
+    "anulados_pelos_totais_oficiais": [
+     {
+      "turno": "1",
+      "cargo": "5",
+      "sq_candidato": "180000625910",
+      "nome_urna": "ELIZEU AGUIAR",
+      "situacao_cadastro": "APTO",
+      "votos": 79781,
+      "zonas_conferidas": 230
+     }
+    ],
+    "legendas_anuladas": [],
+    "votos_nominais_por_destino": {
+     "cargo 1 / Válido": 3688151,
+     "cargo 3 / Válido": 1736845,
+     "cargo 5 / Anulado (totais oficiais)": 79781,
+     "cargo 5 / Válido": 3001133,
+     "cargo 6 / Anulado (INAPTO)": 7530,
+     "cargo 6 / Válido": 1647120,
+     "cargo 7 / Anulado (INAPTO)": 4441,
+     "cargo 7 / Válido": 1648383
+    }
+   },
+   "status_automatizado": "sem divergências de votos"
+  },
+  "2022": {
+   "fontes": {
+    "votacao_secao_uf": {
+     "arquivo": "dados/bruto/tse/votacao_secao/votacao_secao_2022_PI.zip",
+     "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/votacao_secao/votacao_secao_2022_PI.zip",
+     "sha256": "3883b3e9a67ce1b20723606e3a59d3d3d88562cbf1be8ce350e74a11dd31e99e",
+     "gerado_na_fonte": "Mon, 22 Jun 2026 14:45:28 GMT"
+    },
+    "votacao_secao_br": {
+     "arquivo": "dados/bruto/tse/votacao_secao/votacao_secao_2022_BR.zip",
+     "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/votacao_secao/votacao_secao_2022_BR.zip",
+     "sha256": "9353993de5cf03778aef44e01d4925e7ee105f5262491d344a2f0dbc956b0139",
+     "gerado_na_fonte": "Thu, 24 Nov 2022 14:26:58 GMT"
+    },
+    "detalhe_secao": {
+     "arquivo": "dados/bruto/tse/detalhe_votacao_secao/detalhe_votacao_secao_2022.zip",
+     "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/detalhe_votacao_secao/detalhe_votacao_secao_2022.zip",
+     "sha256": "ad22c50b9e6d9dfb096a2170680a190f1734895ba89d8977b95fd63ca02c03da",
+     "gerado_na_fonte": "Fri, 31 Jul 2026 19:47:56 GMT"
+    },
+    "locais": {
+     "arquivo": "dados/bruto/tse/eleitorado_local_votacao/eleitorado_local_votacao_2022.zip",
+     "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/eleitorado_locais_votacao/eleitorado_local_votacao_2022.zip",
+     "sha256": "6dc19c1ddb746cc067469e70ad5018f202334d97cd540edc8c9de3321e66da23",
+     "gerado_na_fonte": "Thu, 10 Sep 2026 18:22:35 GMT"
+    },
+    "munzona": {
+     "arquivo": "dados/bruto/tse/votacao_candidato_munzona/votacao_candidato_munzona_2022.zip",
+     "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/votacao_candidato_munzona/votacao_candidato_munzona_2022.zip",
+     "sha256": "805a0568e8cf0e5d6768d18389ef9c02c04c8441587a6a6997150bd3f6a4c094",
+     "gerado_na_fonte": "Sat, 03 Oct 2026 07:27:38 GMT"
+    },
+    "partido_munzona": {
+     "arquivo": "dados/bruto/tse/votacao_partido_munzona/votacao_partido_munzona_2022.zip",
+     "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/votacao_partido_munzona/votacao_partido_munzona_2022.zip",
+     "sha256": "195a9eff051446de0ef5f9c28a808a4a02902216dcad56803dabb01fc46125db",
+     "gerado_na_fonte": "Sat, 03 Oct 2026 06:53:58 GMT"
+    },
+    "detalhe_munzona": {
+     "arquivo": "dados/bruto/tse/detalhe_votacao_munzona/detalhe_votacao_munzona_2022.zip",
+     "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/detalhe_votacao_munzona/detalhe_votacao_munzona_2022.zip",
+     "sha256": "359e13b193598dc93d99c6a29310cbf2c758615b8b981d334c38364086bb063d",
+     "gerado_na_fonte": "Sat, 03 Oct 2026 06:40:45 GMT"
+    }
+   },
+   "A_secao_x_detalhe": {
+    "chaves_votacao": 53778,
+    "chaves_detalhe": 53778,
+    "chaves_detalhe_por_turno_cargo": {
+     "1/1": 8963,
+     "1/3": 8963,
+     "1/5": 8963,
+     "1/6": 8963,
+     "1/7": 8963,
+     "2/1": 8963
+    },
+    "so_na_votacao": 0,
+    "so_no_detalhe": 0,
+    "so_no_detalhe_sem_votos": 0,
+    "amostras_so_votacao": [],
+    "amostras_so_detalhe_com_votos": [],
+    "votos_especiais_97_98": 0,
+    "divergencias": 0,
+    "amostras_divergencias": [],
+    "totais_detalhe": {
+     "nominal": 11598491,
+     "legenda": 236239,
+     "branco": 325054,
+     "nulo": 500415,
+     "anulados_apu_sep": 0,
+     "validos": 11834730
+    },
+    "totais_votacao": {
+     "nominal": 11598491,
+     "legenda": 236239,
+     "branco": 325054,
+     "nulo": 500415
+    },
+    "secoes_anuladas": 0,
+    "secoes_nao_instaladas": 0,
+    "linhas_votacao": 858121,
+    "chaves_detalhe_duplicadas": 0
+   },
+   "B_secoes_x_munzona": {
+    "chaves_munzona": 87630,
+    "chaves_secao_agregadas": 38005,
+    "chaves_munzona_com_zero_voto": 49983,
+    "so_munzona_com_votos": 0,
+    "candidaturas_ausentes_do_munzona": [
+     "180001601250",
+     "180001612889",
+     "180001646180",
+     "180001739381"
+    ],
+    "votos_candidaturas_ausentes": 16459,
+    "divergencias": 0,
+    "amostras_divergencias": [],
+    "total_votos_munzona": 11582032,
+    "total_votos_secoes": 11598491
+   },
+   "C_locais": {
+    "secoes_cadastro": 21326,
+    "locais": 3377,
+    "locais_com_coordenada": 3342,
+    "locais_sem_coordenada": 35,
+    "secoes_detalhe_sem_cadastro": 0,
+    "amostras_sem_cadastro": [],
+    "secoes_local_divergente_detalhe_cadastro": 0,
+    "amostras_local_divergente": [],
+    "locais_com_coordenada_sem_municipio_ibge": 0,
+    "locais_fora_do_proprio_municipio": 57,
+    "fora_ate_1km": 35,
+    "fora_mais_de_10km": 9,
+    "amostras_fora_do_municipio": [
+     {
+      "local": [
+       "12602",
+       "72",
+       "1015"
+      ],
+      "nome": "CRECHE MAE VICENCA",
+      "municipio": "RIBEIRA DO PIAUÍ",
+      "lat": -7.6030055,
+      "lon": -43.0240016,
+      "distancia_km_aprox": 31.69
+     },
+     {
+      "local": [
+       "12084",
+       "59",
+       "1040"
+      ],
+      "nome": "UNIDADE ESCOLAR ENEDINA ARAUJO",
+      "municipio": "ALVORADA DO GURGUÉIA",
+      "lat": -8.8231903,
+      "lon": -44.2188112,
+      "distancia_km_aprox": 21.79
+     },
+     {
+      "local": [
+       "10871",
+       "35",
+       "1104"
+      ],
+      "nome": "ESCOLA MUNICIPAL SALOMÃO CUSTÓDIO",
+      "municipio": "GILBUÉS",
+      "lat": -9.72241428,
+      "lon": -44.85685019,
+      "distancia_km_aprox": 15.77
+     },
+     {
+      "local": [
+       "12610",
+       "35",
+       "1066"
+      ],
+      "nome": "ESCOLA MUNICIPAL NOSSA SENHORA DE FÁTIMA",
+      "municipio": "SÃO GONÇALO DO GURGUÉIA",
+      "lat": -9.8339527,
+      "lon": -45.3438146,
+      "distancia_km_aprox": 14.8
+     },
+     {
+      "local": [
+       "12610",
+       "35",
+       "1058"
+      ],
+      "nome": "UNIDADE ESCOLAR EDILON BRANCO DE SOUSA",
+      "municipio": "SÃO GONÇALO DO GURGUÉIA",
+      "lat": -9.8319173,
+      "lon": -45.3359769,
+      "distancia_km_aprox": 14.45
+     },
+     {
+      "local": [
+       "10251",
+       "35",
+       "1058"
+      ],
+      "nome": "UNIDADE ESCOLAR LUIS DE FRANCA NUNES",
+      "municipio": "BARREIRAS DO PIAUÍ",
+      "lat": -9.8289265,
+      "lon": -45.3346935,
+      "distancia_km_aprox": 11.61
+     },
+     {
+      "local": [
+       "10251",
+       "35",
+       "1040"
+      ],
+      "nome": "UNIDADE ESCOLAR SAO JOSE",
+      "municipio": "BARREIRAS DO PIAUÍ",
+      "lat": -9.8289298,
+      "lon": -45.3346914,
+      "distancia_km_aprox": 11.61
+     },
+     {
+      "local": [
+       "10251",
+       "35",
+       "1082"
+      ],
+      "nome": "ESCOLA MUNICIPAL CASTRO ALVES",
+      "municipio": "BARREIRAS DO PIAUÍ",
+      "lat": -9.8289537,
+      "lon": -45.3346606,
+      "distancia_km_aprox": 11.61
+     },
+     {
+      "local": [
+       "10251",
+       "35",
+       "1112"
+      ],
+      "nome": "UNIDADE ESCOLAR ONORINO ALVES PUGAS",
+      "municipio": "BARREIRAS DO PIAUÍ",
+      "lat": -9.8289364,
+      "lon": -45.3346875,
+      "distancia_km_aprox": 11.61
+     },
+     {
+      "local": [
+       "11851",
+       "59",
+       "1104"
+      ],
+      "nome": "UNIDADE ESCOLAR JOSE VICENTE DE SA",
+      "municipio": "SANTA LUZ",
+      "lat": -8.8232086,
+      "lon": -44.2188244,
+      "distancia_km_aprox": 5.63
+     },
+     {
+      "local": [
+       "12041",
+       "22",
+       "1031"
+      ],
+      "nome": "GRUPO ESCOLAR NOSSA SENHORA DA CONCEICAO",
+      "municipio": "SEBASTIÃO BARROS",
+      "lat": -10.7991839,
+      "lon": -44.9017929,
+      "distancia_km_aprox": 2.84
+     },
+     {
+      "local": [
+       "10871",
+       "35",
+       "1139"
+      ],
+      "nome": "UNIDADE ESCOLAR BOM JESUS",
+      "municipio": "GILBUÉS",
+      "lat": -9.754253,
+      "lon": -45.3027781,
+      "distancia_km_aprox": 2.79
+     },
+     {
+      "local": [
+       "10243",
+       "13",
+       "1171"
+      ],
+      "nome": "UNIDADE ESCOLAR JOAO PEDRO DE OLIVEIRA",
+      "municipio": "CORONEL JOSÉ DIAS",
+      "lat": -9.25027456,
+      "lon": -42.24316358,
+      "distancia_km_aprox": 2.58
+     },
+     {
+      "local": [
+       "12300",
+       "26",
+       "1066"
+      ],
+      "nome": "UNIDADE ESCOLAR DESCOBERTA",
+      "municipio": "RIACHO FRIO",
+      "lat": -10.04261004,
+      "lon": -44.7867723,
+      "distancia_km_aprox": 2.31
+     },
+     {
+      "local": [
+       "10391",
+       "33",
+       "1562"
+      ],
+      "nome": "UBS IRACEMA",
+      "municipio": "BURITI DOS LOPES",
+      "lat": -3.2803485,
+      "lon": -41.9312673,
+      "distancia_km_aprox": 1.99
+     }
+    ],
+    "lista_fora_do_municipio": [
+     {
+      "local": [
+       "12602",
+       "72",
+       "1015"
+      ],
+      "nome": "CRECHE MAE VICENCA",
+      "municipio": "RIBEIRA DO PIAUÍ",
+      "lat": -7.6030055,
+      "lon": -43.0240016,
+      "distancia_km_aprox": 31.69
+     },
+     {
+      "local": [
+       "12084",
+       "59",
+       "1040"
+      ],
+      "nome": "UNIDADE ESCOLAR ENEDINA ARAUJO",
+      "municipio": "ALVORADA DO GURGUÉIA",
+      "lat": -8.8231903,
+      "lon": -44.2188112,
+      "distancia_km_aprox": 21.79
+     },
+     {
+      "local": [
+       "10871",
+       "35",
+       "1104"
+      ],
+      "nome": "ESCOLA MUNICIPAL SALOMÃO CUSTÓDIO",
+      "municipio": "GILBUÉS",
+      "lat": -9.72241428,
+      "lon": -44.85685019,
+      "distancia_km_aprox": 15.77
+     },
+     {
+      "local": [
+       "12610",
+       "35",
+       "1066"
+      ],
+      "nome": "ESCOLA MUNICIPAL NOSSA SENHORA DE FÁTIMA",
+      "municipio": "SÃO GONÇALO DO GURGUÉIA",
+      "lat": -9.8339527,
+      "lon": -45.3438146,
+      "distancia_km_aprox": 14.8
+     },
+     {
+      "local": [
+       "12610",
+       "35",
+       "1058"
+      ],
+      "nome": "UNIDADE ESCOLAR EDILON BRANCO DE SOUSA",
+      "municipio": "SÃO GONÇALO DO GURGUÉIA",
+      "lat": -9.8319173,
+      "lon": -45.3359769,
+      "distancia_km_aprox": 14.45
+     },
+     {
+      "local": [
+       "10251",
+       "35",
+       "1058"
+      ],
+      "nome": "UNIDADE ESCOLAR LUIS DE FRANCA NUNES",
+      "municipio": "BARREIRAS DO PIAUÍ",
+      "lat": -9.8289265,
+      "lon": -45.3346935,
+      "distancia_km_aprox": 11.61
+     },
+     {
+      "local": [
+       "10251",
+       "35",
+       "1040"
+      ],
+      "nome": "UNIDADE ESCOLAR SAO JOSE",
+      "municipio": "BARREIRAS DO PIAUÍ",
+      "lat": -9.8289298,
+      "lon": -45.3346914,
+      "distancia_km_aprox": 11.61
+     },
+     {
+      "local": [
+       "10251",
+       "35",
+       "1082"
+      ],
+      "nome": "ESCOLA MUNICIPAL CASTRO ALVES",
+      "municipio": "BARREIRAS DO PIAUÍ",
+      "lat": -9.8289537,
+      "lon": -45.3346606,
+      "distancia_km_aprox": 11.61
+     },
+     {
+      "local": [
+       "10251",
+       "35",
+       "1112"
+      ],
+      "nome": "UNIDADE ESCOLAR ONORINO ALVES PUGAS",
+      "municipio": "BARREIRAS DO PIAUÍ",
+      "lat": -9.8289364,
+      "lon": -45.3346875,
+      "distancia_km_aprox": 11.61
+     },
+     {
+      "local": [
+       "11851",
+       "59",
+       "1104"
+      ],
+      "nome": "UNIDADE ESCOLAR JOSE VICENTE DE SA",
+      "municipio": "SANTA LUZ",
+      "lat": -8.8232086,
+      "lon": -44.2188244,
+      "distancia_km_aprox": 5.63
+     },
+     {
+      "local": [
+       "12041",
+       "22",
+       "1031"
+      ],
+      "nome": "GRUPO ESCOLAR NOSSA SENHORA DA CONCEICAO",
+      "municipio": "SEBASTIÃO BARROS",
+      "lat": -10.7991839,
+      "lon": -44.9017929,
+      "distancia_km_aprox": 2.84
+     },
+     {
+      "local": [
+       "10871",
+       "35",
+       "1139"
+      ],
+      "nome": "UNIDADE ESCOLAR BOM JESUS",
+      "municipio": "GILBUÉS",
+      "lat": -9.754253,
+      "lon": -45.3027781,
+      "distancia_km_aprox": 2.79
+     },
+     {
+      "local": [
+       "10243",
+       "13",
+       "1171"
+      ],
+      "nome": "UNIDADE ESCOLAR JOAO PEDRO DE OLIVEIRA",
+      "municipio": "CORONEL JOSÉ DIAS",
+      "lat": -9.25027456,
+      "lon": -42.24316358,
+      "distancia_km_aprox": 2.58
+     },
+     {
+      "local": [
+       "12300",
+       "26",
+       "1066"
+      ],
+      "nome": "UNIDADE ESCOLAR DESCOBERTA",
+      "municipio": "RIACHO FRIO",
+      "lat": -10.04261004,
+      "lon": -44.7867723,
+      "distancia_km_aprox": 2.31
+     },
+     {
+      "local": [
+       "10391",
+       "33",
+       "1562"
+      ],
+      "nome": "UBS IRACEMA",
+      "municipio": "BURITI DOS LOPES",
+      "lat": -3.2803485,
+      "lon": -41.9312673,
+      "distancia_km_aprox": 1.99
+     },
+     {
+      "local": [
+       "10901",
+       "47",
+       "1074"
+      ],
+      "nome": "U. E.THEMISTOCLES DE AREA MATOS",
+      "municipio": "NOVO SANTO ANTÔNIO",
+      "lat": -5.2768634,
+      "lon": -42.0303719,
+      "distancia_km_aprox": 1.97
+     },
+     {
+      "local": [
+       "10545",
+       "7",
+       "1171"
+      ],
+      "nome": "UNIDADE ESC. MANOEL RODRIGUES DE MELO",
+      "municipio": "SIGEFREDO PACHECO",
+      "lat": -5.0085509,
+      "lon": -41.7049673,
+      "distancia_km_aprox": 1.93
+     },
+     {
+      "local": [
+       "10430",
+       "96",
+       "1333"
+      ],
+      "nome": "GRUPO ESCOLAR ELEOTERIO DA COSTA ARAUJO",
+      "municipio": "CAMPO MAIOR",
+      "lat": -4.8058258,
+      "lon": -42.3804725,
+      "distancia_km_aprox": 1.71
+     },
+     {
+      "local": [
+       "12394",
+       "7",
+       "1090"
+      ],
+      "nome": "UNIDADE ESCOLAR JOSE CANDIDO GAIOSO",
+      "municipio": "JATOBÁ DO PIAUÍ",
+      "lat": -5.0038144,
+      "lon": -41.918315,
+      "distancia_km_aprox": 1.36
+     },
+     {
+      "local": [
+       "12688",
+       "33",
+       "1074"
+      ],
+      "nome": "UNIDADE ESCOLAR FRANCISCO LUIZ DA SILVA",
+      "municipio": "CAXINGÓ",
+      "lat": -3.4394852,
+      "lon": -41.951673,
+      "distancia_km_aprox": 1.26
+     },
+     {
+      "local": [
+       "12300",
+       "26",
+       "1058"
+      ],
+      "nome": "UNIDADE ESCOLAR MELANCIAS",
+      "municipio": "RIACHO FRIO",
+      "lat": -10.05628719,
+      "lon": -45.07723665,
+      "distancia_km_aprox": 1.06
+     },
+     {
+      "local": [
+       "10189",
+       "32",
+       "1031"
+      ],
+      "nome": "GRUPO ESCOLAR BASILIO DE ABREU SEPULVEDA",
+      "municipio": "COIVARAS",
+      "lat": -5.2656931,
+      "lon": -42.3083072,
+      "distancia_km_aprox": 1.01
+     },
+     {
+      "local": [
+       "10065",
+       "33",
+       "1074"
+      ],
+      "nome": "GRUPO ESCOLAR MARIA MARQUES PORTELA",
+      "municipio": "BOM PRINCÍPIO DO PIAUÍ",
+      "lat": -3.1944909,
+      "lon": -41.5085451,
+      "distancia_km_aprox": 0.97
+     },
+     {
+      "local": [
+       "10677",
+       "62",
+       "1155"
+      ],
+      "nome": "UNIDADE ESCOLAR MUNICIPAL JOAQUIM PINHEIRO DE MOURA",
+      "municipio": "DOM EXPEDITO LOPES",
+      "lat": -6.9974176,
+      "lon": -41.6179043,
+      "distancia_km_aprox": 0.89
+     },
+     {
+      "local": [
+       "10588",
+       "95",
+       "1090"
+      ],
+      "nome": "U.E. LAGOA DA CARAIBA",
+      "municipio": "VÁRZEA BRANCA",
+      "lat": -9.3784148,
+      "lon": -42.8205498,
+      "distancia_km_aprox": 0.88
+     },
+     {
+      "local": [
+       "10782",
+       "62",
+       "1031"
+      ],
+      "nome": "UNIDADE ESCOLAR MUNICIPAL MANOEL DOMINGOS DE SOUSA",
+      "municipio": "GEMINIANO",
+      "lat": -7.2456303,
+      "lon": -41.2167682,
+      "distancia_km_aprox": 0.8
+     },
+     {
+      "local": [
+       "11576",
+       "12",
+       "1635"
+      ],
+      "nome": "UNIDADE ESCOLAR DA TAPERA DOS VITAL",
+      "municipio": "PEDRO II",
+      "lat": -4.5079868,
+      "lon": -41.1843228,
+      "distancia_km_aprox": 0.53
+     },
+     {
+      "local": [
+       "10480",
+       "62",
+       "1082"
+      ],
+      "nome": "UNIDADE ESCOLAR MUNICIPAL ARMINIO MONTEIRO DE MOURA",
+      "municipio": "SANTANA DO PIAUÍ",
+      "lat": -7.0004257,
+      "lon": -41.4754591,
+      "distancia_km_aprox": 0.53
+     },
+     {
+      "local": [
+       "12076",
+       "39",
+       "1384"
+      ],
+      "nome": "UNIDADE ESCOLAR DA LOCALIDADE JENIPAPEIRO DE BAIXO",
+      "municipio": "SÃO MIGUEL DO TAPUIO",
+      "lat": -5.6313756,
+      "lon": -41.7728941,
+      "distancia_km_aprox": 0.52
+     },
+     {
+      "local": [
+       "12467",
+       "19",
+       "1112"
+      ],
+      "nome": "UNIDADE ESCOLAR DURUTEU DE BARROS FILHO",
+      "municipio": "MASSAPÊ DO PIAUÍ",
+      "lat": -7.5385799,
+      "lon": -41.2316762,
+      "distancia_km_aprox": 0.47
+     },
+     {
+      "local": [
+       "11134",
+       "91",
+       "1520"
+      ],
+      "nome": "UNIDADE ESCOLAR NOSSA SENHORA DE FÁTIMA ",
+      "municipio": "LUIS CORREIA",
+      "lat": -3.3373925,
+      "lon": -41.4031071,
+      "distancia_km_aprox": 0.45
+     },
+     {
+      "local": [
+       "12092",
+       "30",
+       "1171"
+      ],
+      "nome": "GRUPO ESCOLAR MUNICIPAL DE MUNDO NOVO",
+      "municipio": "SÃO PEDRO DO PIAUÍ",
+      "lat": -5.9367756,
+      "lon": -42.6787974,
+      "distancia_km_aprox": 0.44
+     },
+     {
+      "local": [
+       "12157",
+       "37",
+       "1120"
+      ],
+      "nome": "POSTO DE SAÚDE ADERSON PLUTARCO BEZERRA",
+      "municipio": "SIMPLÍCIO MENDES",
+      "lat": -7.6164997,
+      "lon": -42.2068131,
+      "distancia_km_aprox": 0.42
+     },
+     {
+      "local": [
+       "10871",
+       "35",
+       "1058"
+      ],
+      "nome": "ESCOLA MUNICIPAL DIVINA PASTORA",
+      "municipio": "GILBUÉS",
+      "lat": -9.9539563,
+      "lon": -45.3954187,
+      "distancia_km_aprox": 0.41
+     },
+     {
+      "local": [
+       "12688",
+       "33",
+       "1082"
+      ],
+      "nome": "UNIDADE ESCOLAR SÃO FRANCISCO",
+      "municipio": "CAXINGÓ",
+      "lat": -3.3259153,
+      "lon": -41.939886,
+      "distancia_km_aprox": 0.34
+     },
+     {
+      "local": [
+       "12122",
+       "38",
+       "1112"
+      ],
+      "nome": "CRECHE MUNICIPAL BARRA DOS PEREIROS",
+      "municipio": "BETÂNIA DO PIAUÍ",
+      "lat": -8.1426764,
+      "lon": -40.9218637,
+      "distancia_km_aprox": 0.25
+     },
+     {
+      "local": [
+       "10847",
+       "79",
+       "1139"
+      ],
+      "nome": "UNIDADE ESCOLAR CACIMBA DO JATOBA",
+      "municipio": "JUREMA",
+      "lat": -9.3228818,
+      "lon": -43.2068364,
+      "distancia_km_aprox": 0.22
+     },
+     {
+      "local": [
+       "11673",
+       "11",
+       "1244"
+      ],
+      "nome": "UNIDADE ESCOLAR DE SAO LUIS",
+      "municipio": "PIRIPIRI",
+      "lat": -4.1804358,
+      "lon": -41.7893418,
+      "distancia_km_aprox": 0.22
+     },
+     {
+      "local": [
+       "10588",
+       "95",
+       "1058"
+      ],
+      "nome": "U. E. PROF. VICENTE RIBEIRO",
+      "municipio": "VÁRZEA BRANCA",
+      "lat": -9.268496,
+      "lon": -42.8992579,
+      "distancia_km_aprox": 0.21
+     },
+     {
+      "local": [
+       "11134",
+       "91",
+       "1384"
+      ],
+      "nome": "UNIDADE ESCOLAR MACHADO DE ASSIS",
+      "municipio": "LUIS CORREIA",
+      "lat": -3.1260841,
+      "lon": -41.4894298,
+      "distancia_km_aprox": 0.19
+     },
+     {
+      "local": [
+       "10405",
+       "74",
+       "1040"
+      ],
+      "nome": "GRUPO ESCOLAR CAIÇARAS",
+      "municipio": "PASSAGEM FRANCA DO PIAUÍ",
+      "lat": -5.6403287,
+      "lon": -42.4429948,
+      "distancia_km_aprox": 0.19
+     },
+     {
+      "local": [
+       "12394",
+       "7",
+       "1139"
+      ],
+      "nome": "UNIDADE ESCOLAR RAFAEL NOGUEIRA PASSOS",
+      "municipio": "JATOBÁ DO PIAUÍ",
+      "lat": -4.829665,
+      "lon": -42.0019999,
+      "distancia_km_aprox": 0.14
+     },
+     {
+      "local": [
+       "11592",
+       "10",
+       "1597"
+      ],
+      "nome": "UNIDADE ESCOLAR MANOEL DA CRUZ L. SOBRINHO",
+      "municipio": "PICOS",
+      "lat": -7.1515566,
+      "lon": -41.6274869,
+      "distancia_km_aprox": 0.12
+     },
+     {
+      "local": [
+       "10529",
+       "21",
+       "1066"
+      ],
+      "nome": "GRUPO ESCOLAR DO POV. TRANSUAL",
+      "municipio": "SÃO JOSÉ DO DIVINO",
+      "lat": -3.7205336,
+      "lon": -41.8653499,
+      "distancia_km_aprox": 0.12
+     },
+     {
+      "local": [
+       "10251",
+       "35",
+       "1074"
+      ],
+      "nome": "ESCOLA MUNICIPAL ANTONIA GOMES",
+      "municipio": "BARREIRAS DO PIAUÍ",
+      "lat": -9.82696215,
+      "lon": -45.49152672,
+      "distancia_km_aprox": 0.1
+     },
+     {
+      "local": [
+       "11991",
+       "20",
+       "1546"
+      ],
+      "nome": "UNIDADE ESCOLAR RIACHO DO ANSELMO",
+      "municipio": "SÃO JOÃO DO PIAUÍ",
+      "lat": -8.1924503,
+      "lon": -42.2825411,
+      "distancia_km_aprox": 0.1
+     },
+     {
+      "local": [
+       "10944",
+       "10",
+       "1066"
+      ],
+      "nome": "UNIDADE ESCOLAR MANOEL GONCALVES",
+      "municipio": "PAQUETÁ",
+      "lat": -7.0169438,
+      "lon": -41.7302706,
+      "distancia_km_aprox": 0.09
+     },
+     {
+      "local": [
+       "10073",
+       "32",
+       "1384"
+      ],
+      "nome": "UNIDADE ESCOLAR MUNICIPAL AIRTON SENA",
+      "municipio": "ALTOS",
+      "lat": -5.1708043,
+      "lon": -42.578395,
+      "distancia_km_aprox": 0.06
+     },
+     {
+      "local": [
+       "10944",
+       "10",
+       "1090"
+      ],
+      "nome": "UNIDADE ESCOLAR GABRIEL FRANCISCO DE MOURA",
+      "municipio": "PAQUETÁ",
+      "lat": -7.0156242,
+      "lon": -41.6872464,
+      "distancia_km_aprox": 0.06
+     },
+     {
+      "local": [
+       "12025",
+       "5",
+       "1031"
+      ],
+      "nome": "GRUPO ESCOLAR JOSE RODRIGUES DE ALMEIDA",
+      "municipio": "SÃO JOÃO DA VARJOTA",
+      "lat": -6.837951,
+      "lon": -41.9345129,
+      "distancia_km_aprox": 0.06
+     },
+     {
+      "local": [
+       "10065",
+       "33",
+       "1082"
+      ],
+      "nome": "ESCOLA MUNICIPAL CISINO PEREIRA DE FREITAS",
+      "municipio": "BOM PRINCÍPIO DO PIAUÍ",
+      "lat": -3.10403,
+      "lon": -41.5992683,
+      "distancia_km_aprox": 0.05
+     },
+     {
+      "local": [
+       "11398",
+       "5",
+       "1414"
+      ],
+      "nome": "ESCOLA MUNICIPAL JOAO DA COSTA MOREIRA",
+      "municipio": "OEIRAS",
+      "lat": -6.9819166,
+      "lon": -42.5075598,
+      "distancia_km_aprox": 0.04
+     },
+     {
+      "local": [
+       "10391",
+       "33",
+       "1201"
+      ],
+      "nome": "CEI - LAURA RODRIGUES DE ARAUJO",
+      "municipio": "BURITI DOS LOPES",
+      "lat": -3.2246543,
+      "lon": -41.9718765,
+      "distancia_km_aprox": 0.03
+     },
+     {
+      "local": [
+       "12025",
+       "5",
+       "1155"
+      ],
+      "nome": "UNIDADE ESCOLAR CRISTO REI",
+      "municipio": "SÃO JOÃO DA VARJOTA",
+      "lat": -6.9432607,
+      "lon": -41.9910769,
+      "distancia_km_aprox": 0.03
+     },
+     {
+      "local": [
+       "12726",
+       "97",
+       "1104"
+      ],
+      "nome": "ESCOLA MUNICIPAL DIONISIO CARVALHO",
+      "municipio": "NAZÁRIA",
+      "lat": -5.4979316,
+      "lon": -42.8114401,
+      "distancia_km_aprox": 0.02
+     },
+     {
+      "local": [
+       "12114",
+       "13",
+       "1465"
+      ],
+      "nome": "UNIDADE ESCOLAR JOAO BRAZ DO ROSARIO",
+      "municipio": "SÃO RAIMUNDO NONATO",
+      "lat": -9.28338413,
+      "lon": -42.82368777,
+      "distancia_km_aprox": 0.02
+     },
+     {
+      "local": [
+       "12394",
+       "7",
+       "1112"
+      ],
+      "nome": "ESCOLA MUNICIPAL DA MONTANHA",
+      "municipio": "JATOBÁ DO PIAUÍ",
+      "lat": -4.7605416,
+      "lon": -41.9300869,
+      "distancia_km_aprox": 0.01
+     }
+    ],
+    "coordenadas_compartilhadas_por_mais_de_um_local": 2,
+    "amostras_coordenadas_compartilhadas": {
+     "-4.0518591,-41.9197312": 2,
+     "-4.7599511,-42.5674174": 2
+    }
+   },
+   "D_validos_EL0003": {
+    "chaves_municipio_zona": 1380,
+    "divergencias": 0,
+    "amostras": [],
+    "validos_reconstruidos": 11800321,
+    "validos_oficiais": 11800321,
+    "fonte_destino": "NM_TIPO_DESTINACAO_VOTOS do arquivo município/zona 2022",
+    "inconsistentes": 0,
+    "ausentes_tratados_como_anulados": [
+     {
+      "turno": "1",
+      "sq_candidato": "180001601250",
+      "nome_urna": "CORONEL DIEGO MELO",
+      "cargo": "3"
+     },
+     {
+      "turno": "1",
+      "sq_candidato": "180001612889",
+      "nome_urna": "DOUTOR LÁZARO",
+      "cargo": "7"
+     },
+     {
+      "turno": "1",
+      "sq_candidato": "180001646180",
+      "nome_urna": "PROFESSOR FAGNER",
+      "cargo": "6"
+     },
+     {
+      "turno": "1",
+      "sq_candidato": "180001739381",
+      "nome_urna": "RICARDO BANDEIRA ",
+      "cargo": "6"
+     }
+    ],
+    "legendas_anuladas": [
+     "1/6/20"
+    ],
+    "votos_legenda_anulada": 127,
+    "votos_nominais_por_destino": {
+     "cargo 1 / Válido": 4062834,
+     "cargo 3 / Anulado": 15133,
+     "cargo 3 / Anulado (INAPTO; ausente do arquivo município/zona)": 15588,
+     "cargo 3 / Válido": 1935323,
+     "cargo 5 / Válido": 1874043,
+     "cargo 6 / Anulado": 2354,
+     "cargo 6 / Anulado (INAPTO; ausente do arquivo município/zona)": 325,
+     "cargo 6 / Válido": 1867492,
+     "cargo 7 / Anulado": 336,
+     "cargo 7 / Anulado (INAPTO; ausente do arquivo município/zona)": 546,
+     "cargo 7 / Válido": 1824078,
+     "cargo 7 / Válido (legenda)": 439
+    }
+   },
+   "status_automatizado": "sem divergências de votos"
+  },
+  "2026": {
+   "fontes": {
+    "votacao_secao_uf": {
+     "arquivo": "dados/bruto/tse/votacao_secao/votacao_secao_2026_PI.zip",
+     "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/votacao_secao/votacao_secao_2026_PI.zip",
+     "sha256": "487e26148fe2a1ba8b8b38e76f492778b176108348ecfa133211b85c132528e0",
+     "gerado_na_fonte": "Mon, 05 Oct 2026 16:59:20 GMT"
+    },
+    "votacao_secao_br": {
+     "arquivo": "dados/bruto/tse/votacao_secao/votacao_secao_2026_BR.zip",
+     "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/votacao_secao/votacao_secao_2026_BR.zip",
+     "sha256": "67a166b242c8681a19f7e8fdf1193b8c5636449bdb3f61463acfc98c52b7b869",
+     "gerado_na_fonte": "Mon, 05 Oct 2026 16:58:12 GMT"
+    },
+    "detalhe_secao": {
+     "arquivo": "dados/bruto/tse/detalhe_votacao_secao/detalhe_votacao_secao_2026.zip",
+     "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/detalhe_votacao_secao/detalhe_votacao_secao_2026.zip",
+     "sha256": "4e5dcf3b6909ec067aa508f5597001e64cd3c4d11d2e863b764a78eeb9f2698e",
+     "gerado_na_fonte": "Mon, 05 Oct 2026 13:57:47 GMT"
+    },
+    "locais": {
+     "arquivo": "dados/bruto/tse/eleitorado_local_votacao/eleitorado_local_votacao_2026.zip",
+     "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/eleitorado_locais_votacao/eleitorado_local_votacao_2026.zip",
+     "sha256": "26f2c191a81de2d309a6f650001f54ee4195801c418882f3fe8c2c661d7097d4",
+     "gerado_na_fonte": "Sun, 04 Oct 2026 09:30:51 GMT"
+    }
+   },
+   "A_secao_x_detalhe": {
+    "chaves_votacao": 51125,
+    "chaves_detalhe": 51125,
+    "chaves_detalhe_por_turno_cargo": {
+     "1/1": 10225,
+     "1/3": 10225,
+     "1/5": 10225,
+     "1/6": 10225,
+     "1/7": 10225
+    },
+    "so_na_votacao": 0,
+    "so_no_detalhe": 0,
+    "so_no_detalhe_sem_votos": 0,
+    "amostras_so_votacao": [],
+    "amostras_so_detalhe_com_votos": [],
+    "votos_especiais_97_98": 0,
+    "divergencias": 0,
+    "amostras_divergencias": [],
+    "totais_detalhe": {
+     "nominal": 11822159,
+     "legenda": 244037,
+     "branco": 543592,
+     "nulo": 828025,
+     "anulados_apu_sep": 0,
+     "validos": 12066196
+    },
+    "totais_votacao": {
+     "nominal": 11822159,
+     "legenda": 244037,
+     "branco": 543592,
+     "nulo": 828025
+    },
+    "secoes_anuladas": 0,
+    "secoes_nao_instaladas": 0,
+    "linhas_votacao": 922913,
+    "chaves_detalhe_duplicadas": 0
+   },
+   "B_secoes_x_munzona": "arquivo município/zona do ano publicado sem linhas; ver conferência pela API",
+   "C_locais": {
+    "secoes_cadastro": 11261,
+    "locais": 3481,
+    "locais_com_coordenada": 3402,
+    "locais_sem_coordenada": 79,
+    "secoes_detalhe_sem_cadastro": 0,
+    "amostras_sem_cadastro": [],
+    "secoes_local_divergente_detalhe_cadastro": 0,
+    "amostras_local_divergente": [],
+    "locais_com_coordenada_sem_municipio_ibge": 0,
+    "locais_fora_do_proprio_municipio": 48,
+    "fora_ate_1km": 36,
+    "fora_mais_de_10km": 2,
+    "amostras_fora_do_municipio": [
+     {
+      "local": [
+       "10871",
+       "35",
+       "1104"
+      ],
+      "nome": "ESCOLA MUNICIPAL SALOMÃO CUSTÓDIO",
+      "municipio": "GILBUÉS",
+      "lat": -9.7223476,
+      "lon": -44.8568719,
+      "distancia_km_aprox": 15.77
+     },
+     {
+      "local": [
+       "12696",
+       "53",
+       "1082"
+      ],
+      "nome": "U. E. FRANCISCO CARDOSO BATISTA",
+      "municipio": "COCAL DOS ALVES",
+      "lat": -3.4712815,
+      "lon": -41.5545197,
+      "distancia_km_aprox": 11.15
+     },
+     {
+      "local": [
+       "12041",
+       "22",
+       "1031"
+      ],
+      "nome": "GRUPO ESCOLAR NOSSA SENHORA DA CONCEICAO",
+      "municipio": "SEBASTIÃO BARROS",
+      "lat": -10.79912251,
+      "lon": -44.90175379,
+      "distancia_km_aprox": 2.83
+     },
+     {
+      "local": [
+       "10243",
+       "13",
+       "1171"
+      ],
+      "nome": "UNIDADE ESCOLAR JOAO PEDRO DE OLIVEIRA",
+      "municipio": "CORONEL JOSÉ DIAS",
+      "lat": -9.25027456,
+      "lon": -42.24316358,
+      "distancia_km_aprox": 2.58
+     },
+     {
+      "local": [
+       "12300",
+       "26",
+       "1066"
+      ],
+      "nome": "UNIDADE ESCOLAR DESCOBERTA",
+      "municipio": "RIACHO FRIO",
+      "lat": -10.04274104,
+      "lon": -44.78684493,
+      "distancia_km_aprox": 2.3
+     },
+     {
+      "local": [
+       "10782",
+       "62",
+       "1139"
+      ],
+      "nome": "UNIDADE BÁSICA DE SAÚDE JOÃO DE CARVALHO (JOÃO SOLDADO)",
+      "municipio": "GEMINIANO",
+      "lat": -7.1220277,
+      "lon": -41.174359,
+      "distancia_km_aprox": 2.17
+     },
+     {
+      "local": [
+       "10391",
+       "33",
+       "1252"
+      ],
+      "nome": "UNIDADE ESCOLAR MARIA BONIFÁCIO DE FREITAS",
+      "municipio": "BURITI DOS LOPES",
+      "lat": -3.2803633,
+      "lon": -41.9315545,
+      "distancia_km_aprox": 2.02
+     },
+     {
+      "local": [
+       "10545",
+       "7",
+       "1171"
+      ],
+      "nome": "ASSEMBLEIA DE DEUS ",
+      "municipio": "SIGEFREDO PACHECO",
+      "lat": -5.0085466,
+      "lon": -41.7050961,
+      "distancia_km_aprox": 1.93
+     },
+     {
+      "local": [
+       "10430",
+       "96",
+       "1333"
+      ],
+      "nome": "GRUPO ESCOLAR ELEOTERIO DA COSTA ARAUJO",
+      "municipio": "CAMPO MAIOR",
+      "lat": -4.8058258,
+      "lon": -42.3804725,
+      "distancia_km_aprox": 1.71
+     },
+     {
+      "local": [
+       "12394",
+       "7",
+       "1090"
+      ],
+      "nome": "POSTO DE SAUDE BELA VISTA ",
+      "municipio": "JATOBÁ DO PIAUÍ",
+      "lat": -5.0032675,
+      "lon": -41.9186453,
+      "distancia_km_aprox": 1.3
+     },
+     {
+      "local": [
+       "12688",
+       "33",
+       "1074"
+      ],
+      "nome": "UNIDADE ESCOLAR FRANCISCO LUIZ DA SILVA",
+      "municipio": "CAXINGÓ",
+      "lat": -3.4394852,
+      "lon": -41.951673,
+      "distancia_km_aprox": 1.26
+     },
+     {
+      "local": [
+       "12300",
+       "26",
+       "1058"
+      ],
+      "nome": "UNIDADE ESCOLAR MELANCIAS",
+      "municipio": "RIACHO FRIO",
+      "lat": -10.05634458,
+      "lon": -45.07725073,
+      "distancia_km_aprox": 1.06
+     },
+     {
+      "local": [
+       "10065",
+       "33",
+       "1074"
+      ],
+      "nome": "GRUPO ESCOLAR MARIA MARQUES PORTELA",
+      "municipio": "BOM PRINCÍPIO DO PIAUÍ",
+      "lat": -3.1944909,
+      "lon": -41.5085451,
+      "distancia_km_aprox": 0.97
+     },
+     {
+      "local": [
+       "10677",
+       "62",
+       "1155"
+      ],
+      "nome": "ESCOLAR MUNICIPA JOAQUIM PINHEIRO DE MOURA",
+      "municipio": "DOM EXPEDITO LOPES",
+      "lat": -6.9974176,
+      "lon": -41.6179043,
+      "distancia_km_aprox": 0.89
+     },
+     {
+      "local": [
+       "10588",
+       "95",
+       "1090"
+      ],
+      "nome": "U.E. LAGOA DA CARAIBA",
+      "municipio": "VÁRZEA BRANCA",
+      "lat": -9.3784148,
+      "lon": -42.8205498,
+      "distancia_km_aprox": 0.88
+     }
+    ],
+    "lista_fora_do_municipio": [
+     {
+      "local": [
+       "10871",
+       "35",
+       "1104"
+      ],
+      "nome": "ESCOLA MUNICIPAL SALOMÃO CUSTÓDIO",
+      "municipio": "GILBUÉS",
+      "lat": -9.7223476,
+      "lon": -44.8568719,
+      "distancia_km_aprox": 15.77
+     },
+     {
+      "local": [
+       "12696",
+       "53",
+       "1082"
+      ],
+      "nome": "U. E. FRANCISCO CARDOSO BATISTA",
+      "municipio": "COCAL DOS ALVES",
+      "lat": -3.4712815,
+      "lon": -41.5545197,
+      "distancia_km_aprox": 11.15
+     },
+     {
+      "local": [
+       "12041",
+       "22",
+       "1031"
+      ],
+      "nome": "GRUPO ESCOLAR NOSSA SENHORA DA CONCEICAO",
+      "municipio": "SEBASTIÃO BARROS",
+      "lat": -10.79912251,
+      "lon": -44.90175379,
+      "distancia_km_aprox": 2.83
+     },
+     {
+      "local": [
+       "10243",
+       "13",
+       "1171"
+      ],
+      "nome": "UNIDADE ESCOLAR JOAO PEDRO DE OLIVEIRA",
+      "municipio": "CORONEL JOSÉ DIAS",
+      "lat": -9.25027456,
+      "lon": -42.24316358,
+      "distancia_km_aprox": 2.58
+     },
+     {
+      "local": [
+       "12300",
+       "26",
+       "1066"
+      ],
+      "nome": "UNIDADE ESCOLAR DESCOBERTA",
+      "municipio": "RIACHO FRIO",
+      "lat": -10.04274104,
+      "lon": -44.78684493,
+      "distancia_km_aprox": 2.3
+     },
+     {
+      "local": [
+       "10782",
+       "62",
+       "1139"
+      ],
+      "nome": "UNIDADE BÁSICA DE SAÚDE JOÃO DE CARVALHO (JOÃO SOLDADO)",
+      "municipio": "GEMINIANO",
+      "lat": -7.1220277,
+      "lon": -41.174359,
+      "distancia_km_aprox": 2.17
+     },
+     {
+      "local": [
+       "10391",
+       "33",
+       "1252"
+      ],
+      "nome": "UNIDADE ESCOLAR MARIA BONIFÁCIO DE FREITAS",
+      "municipio": "BURITI DOS LOPES",
+      "lat": -3.2803633,
+      "lon": -41.9315545,
+      "distancia_km_aprox": 2.02
+     },
+     {
+      "local": [
+       "10545",
+       "7",
+       "1171"
+      ],
+      "nome": "ASSEMBLEIA DE DEUS ",
+      "municipio": "SIGEFREDO PACHECO",
+      "lat": -5.0085466,
+      "lon": -41.7050961,
+      "distancia_km_aprox": 1.93
+     },
+     {
+      "local": [
+       "10430",
+       "96",
+       "1333"
+      ],
+      "nome": "GRUPO ESCOLAR ELEOTERIO DA COSTA ARAUJO",
+      "municipio": "CAMPO MAIOR",
+      "lat": -4.8058258,
+      "lon": -42.3804725,
+      "distancia_km_aprox": 1.71
+     },
+     {
+      "local": [
+       "12394",
+       "7",
+       "1090"
+      ],
+      "nome": "POSTO DE SAUDE BELA VISTA ",
+      "municipio": "JATOBÁ DO PIAUÍ",
+      "lat": -5.0032675,
+      "lon": -41.9186453,
+      "distancia_km_aprox": 1.3
+     },
+     {
+      "local": [
+       "12688",
+       "33",
+       "1074"
+      ],
+      "nome": "UNIDADE ESCOLAR FRANCISCO LUIZ DA SILVA",
+      "municipio": "CAXINGÓ",
+      "lat": -3.4394852,
+      "lon": -41.951673,
+      "distancia_km_aprox": 1.26
+     },
+     {
+      "local": [
+       "12300",
+       "26",
+       "1058"
+      ],
+      "nome": "UNIDADE ESCOLAR MELANCIAS",
+      "municipio": "RIACHO FRIO",
+      "lat": -10.05634458,
+      "lon": -45.07725073,
+      "distancia_km_aprox": 1.06
+     },
+     {
+      "local": [
+       "10065",
+       "33",
+       "1074"
+      ],
+      "nome": "GRUPO ESCOLAR MARIA MARQUES PORTELA",
+      "municipio": "BOM PRINCÍPIO DO PIAUÍ",
+      "lat": -3.1944909,
+      "lon": -41.5085451,
+      "distancia_km_aprox": 0.97
+     },
+     {
+      "local": [
+       "10677",
+       "62",
+       "1155"
+      ],
+      "nome": "ESCOLAR MUNICIPA JOAQUIM PINHEIRO DE MOURA",
+      "municipio": "DOM EXPEDITO LOPES",
+      "lat": -6.9974176,
+      "lon": -41.6179043,
+      "distancia_km_aprox": 0.89
+     },
+     {
+      "local": [
+       "10588",
+       "95",
+       "1090"
+      ],
+      "nome": "U.E. LAGOA DA CARAIBA",
+      "municipio": "VÁRZEA BRANCA",
+      "lat": -9.3784148,
+      "lon": -42.8205498,
+      "distancia_km_aprox": 0.88
+     },
+     {
+      "local": [
+       "10782",
+       "62",
+       "1031"
+      ],
+      "nome": "UNIDADE BÁSICA DE SAUDE EXPEDITO MANUEL FONTES",
+      "municipio": "GEMINIANO",
+      "lat": -7.2456303,
+      "lon": -41.2167682,
+      "distancia_km_aprox": 0.8
+     },
+     {
+      "local": [
+       "10480",
+       "62",
+       "1082"
+      ],
+      "nome": "ESCOLA MUNICIPAL ARMÍNIO MONTEIRO DE MOURA",
+      "municipio": "SANTANA DO PIAUÍ",
+      "lat": -7.0004257,
+      "lon": -41.4754591,
+      "distancia_km_aprox": 0.53
+     },
+     {
+      "local": [
+       "11576",
+       "12",
+       "1635"
+      ],
+      "nome": "UNIDADE ESCOLAR DA TAPERA DOS VITAL",
+      "municipio": "PEDRO II",
+      "lat": -4.5079868,
+      "lon": -41.1843228,
+      "distancia_km_aprox": 0.53
+     },
+     {
+      "local": [
+       "12076",
+       "39",
+       "1384"
+      ],
+      "nome": "UNIDADE ESCOLAR DA LOCALIDADE JENIPAPEIRO DE BAIXO",
+      "municipio": "SÃO MIGUEL DO TAPUIO",
+      "lat": -5.6313756,
+      "lon": -41.7728941,
+      "distancia_km_aprox": 0.52
+     },
+     {
+      "local": [
+       "12467",
+       "19",
+       "1112"
+      ],
+      "nome": "UNIDADE ESCOLAR DURUTEU DE BARROS FILHO",
+      "municipio": "MASSAPÊ DO PIAUÍ",
+      "lat": -7.5385039,
+      "lon": -41.2317166,
+      "distancia_km_aprox": 0.47
+     },
+     {
+      "local": [
+       "11134",
+       "91",
+       "1520"
+      ],
+      "nome": "UNIDADE ESCOLAR NOSSA SENHORA DE FÁTIMA ",
+      "municipio": "LUIS CORREIA",
+      "lat": -3.3373925,
+      "lon": -41.4031071,
+      "distancia_km_aprox": 0.45
+     },
+     {
+      "local": [
+       "12092",
+       "30",
+       "1171"
+      ],
+      "nome": "GRUPO ESCOLAR MUNICIPAL DE MUNDO NOVO",
+      "municipio": "SÃO PEDRO DO PIAUÍ",
+      "lat": -5.9366412,
+      "lon": -42.6787967,
+      "distancia_km_aprox": 0.44
+     },
+     {
+      "local": [
+       "10871",
+       "35",
+       "1058"
+      ],
+      "nome": "ESCOLA MUNICIPAL DIVINA PASTORA",
+      "municipio": "GILBUÉS",
+      "lat": -9.9540117,
+      "lon": -45.3955167,
+      "distancia_km_aprox": 0.42
+     },
+     {
+      "local": [
+       "12157",
+       "37",
+       "1120"
+      ],
+      "nome": "UBS ADERSON PLUTARCO BEZERRA",
+      "municipio": "SIMPLÍCIO MENDES",
+      "lat": -7.6164543,
+      "lon": -42.2068064,
+      "distancia_km_aprox": 0.42
+     },
+     {
+      "local": [
+       "12688",
+       "33",
+       "1082"
+      ],
+      "nome": "UNIDADE ESCOLAR SÃO FRANCISCO",
+      "municipio": "CAXINGÓ",
+      "lat": -3.3259153,
+      "lon": -41.939886,
+      "distancia_km_aprox": 0.34
+     },
+     {
+      "local": [
+       "10189",
+       "32",
+       "1031"
+      ],
+      "nome": "GRUPO ESCOLAR BASILIO DE ABREU SEPULVEDA (CRUZEIRO)",
+      "municipio": "COIVARAS",
+      "lat": -5.26687714,
+      "lon": -42.31697231,
+      "distancia_km_aprox": 0.3
+     },
+     {
+      "local": [
+       "12122",
+       "38",
+       "1112"
+      ],
+      "nome": "CRECHE MUNICIPAL BARRA DOS PEREIROS",
+      "municipio": "BETÂNIA DO PIAUÍ",
+      "lat": -8.1426713,
+      "lon": -40.921839,
+      "distancia_km_aprox": 0.24
+     },
+     {
+      "local": [
+       "11673",
+       "11",
+       "1244"
+      ],
+      "nome": "UNIDADE ESCOLAR DE SAO LUIS",
+      "municipio": "PIRIPIRI",
+      "lat": -4.1804358,
+      "lon": -41.7893418,
+      "distancia_km_aprox": 0.22
+     },
+     {
+      "local": [
+       "10588",
+       "95",
+       "1058"
+      ],
+      "nome": "U. E. PROF. VICENTE RIBEIRO",
+      "municipio": "VÁRZEA BRANCA",
+      "lat": -9.268496,
+      "lon": -42.8992579,
+      "distancia_km_aprox": 0.21
+     },
+     {
+      "local": [
+       "10847",
+       "79",
+       "1139"
+      ],
+      "nome": "UNIDADE ESCOLAR CACIMBA DO JATOBA",
+      "municipio": "JUREMA",
+      "lat": -9.3228597,
+      "lon": -43.2067022,
+      "distancia_km_aprox": 0.2
+     },
+     {
+      "local": [
+       "11134",
+       "91",
+       "1384"
+      ],
+      "nome": "UNIDADE ESCOLAR MACHADO DE ASSIS",
+      "municipio": "LUIS CORREIA",
+      "lat": -3.1260841,
+      "lon": -41.4894298,
+      "distancia_km_aprox": 0.19
+     },
+     {
+      "local": [
+       "12394",
+       "7",
+       "1139"
+      ],
+      "nome": "UNIDADE ESCOLAR RAFAEL NOGUEIRA PASSOS",
+      "municipio": "JATOBÁ DO PIAUÍ",
+      "lat": -4.8296335,
+      "lon": -42.0019399,
+      "distancia_km_aprox": 0.13
+     },
+     {
+      "local": [
+       "11592",
+       "10",
+       "1597"
+      ],
+      "nome": "UNIDADE ESCOLAR MANOEL DA CRUZ L. SOBRINHO",
+      "municipio": "PICOS",
+      "lat": -7.1514363,
+      "lon": -41.6275641,
+      "distancia_km_aprox": 0.13
+     },
+     {
+      "local": [
+       "10529",
+       "21",
+       "1066"
+      ],
+      "nome": "GRUPO ESCOLAR DO POV. TRANSUAL",
+      "municipio": "SÃO JOSÉ DO DIVINO",
+      "lat": -3.72053,
+      "lon": -41.8652733,
+      "distancia_km_aprox": 0.13
+     },
+     {
+      "local": [
+       "10391",
+       "33",
+       "1600"
+      ],
+      "nome": "UNIDADE ESCOLAR BENEDITO SOUSA",
+      "municipio": "BURITI DOS LOPES",
+      "lat": -3.2239199,
+      "lon": -41.9737401,
+      "distancia_km_aprox": 0.1
+     },
+     {
+      "local": [
+       "11991",
+       "20",
+       "1546"
+      ],
+      "nome": "UNIDADE ESCOLAR RIACHO DO ANSELMO",
+      "municipio": "SÃO JOÃO DO PIAUÍ",
+      "lat": -8.1924503,
+      "lon": -42.2825411,
+      "distancia_km_aprox": 0.1
+     },
+     {
+      "local": [
+       "10251",
+       "35",
+       "1074"
+      ],
+      "nome": "ESCOLA MUNICIPAL ANTONIA GOMES",
+      "municipio": "BARREIRAS DO PIAUÍ",
+      "lat": -9.8270049,
+      "lon": -45.4914697,
+      "distancia_km_aprox": 0.1
+     },
+     {
+      "local": [
+       "10944",
+       "10",
+       "1066"
+      ],
+      "nome": "UNIDADE ESCOLAR MANOEL GONCALVES",
+      "municipio": "PAQUETÁ",
+      "lat": -7.0169585,
+      "lon": -41.7302472,
+      "distancia_km_aprox": 0.09
+     },
+     {
+      "local": [
+       "10073",
+       "32",
+       "1384"
+      ],
+      "nome": "UNIDADE ESCOLAR MUNICIPAL AIRTON SENA (RETIRO)",
+      "municipio": "ALTOS",
+      "lat": -5.1709619,
+      "lon": -42.578335,
+      "distancia_km_aprox": 0.07
+     },
+     {
+      "local": [
+       "10944",
+       "10",
+       "1090"
+      ],
+      "nome": "UNIDADE ESCOLAR GABRIEL FRANCISCO DE MOURA",
+      "municipio": "PAQUETÁ",
+      "lat": -7.0156229,
+      "lon": -41.6872929,
+      "distancia_km_aprox": 0.06
+     },
+     {
+      "local": [
+       "10065",
+       "33",
+       "1082"
+      ],
+      "nome": "ESCOLA MUNICIPAL CISINO PEREIRA DE FREITAS",
+      "municipio": "BOM PRINCÍPIO DO PIAUÍ",
+      "lat": -3.10403,
+      "lon": -41.5992683,
+      "distancia_km_aprox": 0.05
+     },
+     {
+      "local": [
+       "10138",
+       "79",
+       "1040"
+      ],
+      "nome": "UNIDADE ESCOLAR FÉLIX JOSÉ DA COSTA",
+      "municipio": "ANÍSIO DE ABREU",
+      "lat": -9.1434733,
+      "lon": -42.9876883,
+      "distancia_km_aprox": 0.04
+     },
+     {
+      "local": [
+       "12025",
+       "5",
+       "1155"
+      ],
+      "nome": "UNIDADE ESCOLAR CRISTO REI",
+      "municipio": "SÃO JOÃO DA VARJOTA",
+      "lat": -6.94322,
+      "lon": -41.9912017,
+      "distancia_km_aprox": 0.04
+     },
+     {
+      "local": [
+       "12726",
+       "97",
+       "1104"
+      ],
+      "nome": "ESCOLA MUNICIPAL DIONISIO CARVALHO",
+      "municipio": "NAZÁRIA",
+      "lat": -5.4980501,
+      "lon": -42.811146,
+      "distancia_km_aprox": 0.03
+     },
+     {
+      "local": [
+       "11398",
+       "5",
+       "1414"
+      ],
+      "nome": "ESCOLA MUNICIPAL JOAO DA COSTA MOREIRA",
+      "municipio": "OEIRAS",
+      "lat": -6.9818191,
+      "lon": -42.5075533,
+      "distancia_km_aprox": 0.03
+     },
+     {
+      "local": [
+       "12114",
+       "13",
+       "1465"
+      ],
+      "nome": "UNIDADE ESCOLAR JOAO BRAZ DO ROSARIO",
+      "municipio": "SÃO RAIMUNDO NONATO",
+      "lat": -9.28338413,
+      "lon": -42.82368777,
+      "distancia_km_aprox": 0.02
+     },
+     {
+      "local": [
+       "12394",
+       "7",
+       "1180"
+      ],
+      "nome": "IGREJA DA MORADA NOVA",
+      "municipio": "JATOBÁ DO PIAUÍ",
+      "lat": -4.7647851,
+      "lon": -41.9635639,
+      "distancia_km_aprox": 0.02
+     },
+     {
+      "local": [
+       "12483",
+       "52",
+       "1015"
+      ],
+      "nome": "ESCOLA MUNICIPAL GUILHERMINA FALCÃO TEIXEIRA",
+      "municipio": "OLHO D'ÁGUA DO PIAUÍ",
+      "lat": -5.8886959,
+      "lon": -42.6072079,
+      "distancia_km_aprox": 0.0
+     }
+    ],
+    "coordenadas_compartilhadas_por_mais_de_um_local": 0,
+    "amostras_coordenadas_compartilhadas": {}
+   },
+   "D_validos_EL0003": {
+    "municipio_cargo": 1120,
+    "divergencias_validos": 0,
+    "amostras_validos": [],
+    "candidatura_municipio": 75595,
+    "divergencias_votos_candidatura": 0,
+    "amostras_votos": [],
+    "candidaturas_ausentes_da_api_nulo_tecnico": [
+     "180002539029",
+     "180002539132",
+     "180002540682",
+     "180002540687",
+     "180002544457",
+     "180002544459",
+     "180002552107",
+     "180002554121",
+     "280002554479"
+    ],
+    "divergencias_nulos_tecnicos": 0,
+    "amostras_nulos_tecnicos": [],
+    "validos_reconstruidos": 12022196,
+    "validos_api": 12022196,
+    "fonte_destino": "campo dvt da API de resultados do TSE (snapshot verificado)",
+    "coletado_em": "2026-10-05T14:50:21-03:00",
+    "arquivos_municipais": 1120,
+    "destinos_inconsistentes": 0,
+    "legendas_anuladas": [
+     "1/6/27",
+     "1/6/29",
+     "1/6/33",
+     "1/6/35"
+    ],
+    "votos_legenda_anulada": 634,
+    "votos_nominais_por_destino": {
+     "cargo 1 / Nulo técnico (ausente da API)": 52,
+     "cargo 1 / Válido": 2146394,
+     "cargo 3 / Anulado sub judice": 5075,
+     "cargo 3 / Válido": 2021200,
+     "cargo 5 / Anulado sub judice": 25524,
+     "cargo 5 / Nulo técnico (ausente da API)": 6188,
+     "cargo 5 / Válido": 3640949,
+     "cargo 6 / Anulado sub judice": 4995,
+     "cargo 6 / Nulo técnico (ausente da API)": 674,
+     "cargo 6 / Válido": 2026624,
+     "cargo 7 / Anulado sub judice": 827,
+     "cargo 7 / Nulo técnico (ausente da API)": 31,
+     "cargo 7 / Válido": 1943626
+    }
+   },
+   "status_automatizado": "sem divergências de votos"
+  }
+ },
+ "limites": [
+  "Não confere percentuais, agregações em JS nem correlações (testes de paridade à parte).",
+  "Coordenadas fora do polígono municipal são reportadas, não corrigidas; a malha é IBGE 2022.",
+  "2026: dados totalizados de 2026-10-05; conferência com a API do TSE é feita à parte."
+ ]
+}

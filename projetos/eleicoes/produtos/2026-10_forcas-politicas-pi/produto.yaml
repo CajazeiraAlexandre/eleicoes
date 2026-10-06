@@ -1,0 +1,286 @@
+id: 2026-10_forcas-politicas-pi
+titulo: "Forças políticas no Piauí: PT, PSD, MDB e os demais (2018–2026)"
+tipo: narrativa            # exploratorio | narrativa | visualizacao | painel | nota-tecnica (docs/TIPOS_DE_PRODUTO.md)
+status: publicado         # rascunho | revisao | publicado | arquivado — publicação aprovada pelo pesquisador (2026-10-06), repositório público eleicoes
+versao: "1.0"             # 1ª versão consolidada (pesquisador, 2026-10-06)
+versao_data: 2026-10-06
+deriva_de: null           # reaproveita dados e código de 2026-10_distribuicao-votos-candidato-pi (não é derivado)
+
+# ---- briefing (respostas às perguntas iniciais; ver CLAUDE.md, seção 6.0) — 2026-10-05 ----
+pergunta: >-
+  Como se distribuem as forças dos grandes grupos políticos do Piauí (federação
+  do PT, PSD, MDB e demais) no 1º turno de 2026 e nas eleições de 2022 e 2024:
+  onde cada grupo é mais forte em cada cargo (4.1), onde o voto do grupo é
+  coeso entre cargos e onde é fragmentado (4.2), e onde a liderança territorial
+  mudou de um grupo para outro entre eleições (4.3).
+publico: Público geral e imprensa.
+uso_final: Página web (site do laboratório); sem autorização de publicação.
+formato:
+  tipo_pagina: narrativa em episódios (4.1 → 4.2 → 4.3) + seção exploratória final "seu município"
+  usabilidade: navegação entre episódios boa no celular (prioridade do pesquisador)
+  entrega: HTML único autocontido (L0002)
+design_system: padrao
+
+recorte:
+  territorio: Piauí
+  eleicoes:
+    "2022": {turno: 1, cargos: [deputado_federal, deputado_estadual]}
+    "2024": {cargos: [vereador, prefeito], vereador: 1º turno, prefeito: eleitos em 1º ou 2º turno, suplementares: excluídas}
+    "2026": {turno: 1, cargos: [deputado_federal, deputado_estadual]}
+  unidades:
+    municipio: todas as eleições
+    regioes_ibge: [regiao_geografica_imediata, regiao_geografica_intermediaria]   # agregadas a partir dos municípios
+    territorios_desenvolvimento_pi: >-
+      12 Territórios de Desenvolvimento (dataset pi.territorios_desenvolvimento;
+      Wikipédia como fonte secundária por decisão do pesquisador em 2026-10-05,
+      3 lacunas da fonte resolvidas por ele)
+  local_votacao: fora deste produto
+
+grupos:
+  regra: partido da candidatura na própria eleição, federação do PT como grupo (EL0004)
+  lista:
+    PT: Federação Brasil da Esperança (PT, PCdoB, PV) em cada eleição
+    PSD: PSD
+    MDB: MDB
+    PP: PP + União Brasil em 2022, 2024 e 2026 (em 2026, Federação União Progressista) — revisão do EL0004 em 2026-10-06; sem rótulo de "oposição" (princípio 6)
+    Outros: demais partidos, agregados; lista aberta numa tabela
+
+indicadores:
+  forca_votos: >-
+    % dos votos válidos do cargo obtidos pelo grupo (nominais das candidaturas +
+    legenda dos partidos do grupo), por unidade; níveis agregados somam votos e
+    válidos antes de dividir; válidos conforme EL0003
+  forca_cadeiras: deputados e vereadores eleitos por grupo
+  prefeitos: número de prefeitos eleitos por grupo (2024) e % dos municípios
+  coesao_4_2: >-
+    [2026-10-05] comparações: Estadual × Federal (2022, 2026), Vereador 2024 × Estadual 2026 e,
+    a pedido do pesquisador, estabilidade no tempo Estadual 2022 × 2026 e Federal 2022 × 2026;
+    grupo escolhido clicando nos quadros de correlação (sem seletor);
+    mapa e dispersão seguem os mesmos filtros (grupo, unidade), dispersão com círculos iguais ou
+    ∝ votos e destaque ligado entre os dois.
+    coerência entre cargos — diferença em p.p. entre a participação do grupo para
+    deputado estadual e federal (e vereador 2024) em cada unidade, e correlação
+    entre essas participações (ADR de indicador a redigir)
+  migracao_4_3: >-
+    mudança de liderança territorial — municípios/regiões liderados pelo grupo X
+    numa eleição e pelo grupo Y na seguinte (2022 → 2024 → 2026), em diagrama de
+    Sankey; sem inferência ecológica de transferência de votos (decisão 2026-10-05)
+  intensidade_lideranca: >-
+    % dos válidos do grupo líder e margem para o segundo (EL0005, I6); classes
+    de claridade no mapa a validar no esboço (proposta < 40, 40–60, ≥ 60%)
+  mapas: >-
+    Mapa | Bolhas (cartograma de Dorling, área ∝ votos válidos, votos do grupo ou
+    válidos do 1º cargo na coesão; cor = indicador), troca animada via flubber;
+    pedido do pesquisador em 2026-10-05
+  sankey_opcoes: >-
+    etapa de 2024 opcional (Prefeito eleito | Vereador | Sem 2024 — fluxos diretos
+    2022 → 2026 contados em Python); destaque ao passar o mouse; clique fixa o
+    destaque (para leitura/print) e "Limpar destaque", novo clique ou Esc desfazem;
+    "Ver lista (N)" abre lista compacta (4 colunas, rolagem) dos municípios do destaque fixado
+  grafico_intensidade: >-
+    seletor próprio de eleição e cargo; círculos iguais ou com área ∝ votos válidos
+    do município; boxplot por grupo (quartis lineares e bigodes de Tukey 1,5 × IIQ, calculados
+    em Python — resumo_boxplot) + um círculo por município com dica e acesso à
+    ficha; pedido do pesquisador em 2026-10-05
+  estilo_referencias_autor: >-
+    [2026-10-06] incorporado das referências do autor (autor/referencias.yaml, Flourish 2024):
+    rodapé por gráfico (fonte com link, cobertura, nota, autoria), instrução de uso acima dos
+    gráficos, placar calculado dos dados, linha de 50% e rótulos com contorno nas barras,
+    boxplot com faixa interquartil hachurada e mediana rotulada + frases dos quartis, hachura
+    nas lacunas dos mapas
+  evolucao_2022_2026: >-
+    gráfico de inclinação do % dos válidos por grupo (Dep. Estadual e Federal), recorte Piauí,
+    Território ou Região intermediária; PP tracejado (federação em 2026); grupo sem candidatos
+    em 2022 só em 2026 — lê a base Python, sem cálculo novo
+  revisao_2026_10_06: >-
+    títulos dos episódios (Composição e distribuição de forças; Evolução e consistência dos
+    grupos; Migrações e viradas; Seu município) — evolução 2022→2026 movida para o ep. 2;
+    "Bolhas" → "Círculos"; legendas maiores (~70% da largura) e marcas de cor ampliadas;
+    contorno e eixos padronizados entre polígonos, círculos fixos e proporcionais; fonte curta
+    por gráfico com link para o rodapé; orientações em "ⓘ Como ler o gráfico" recolhível;
+    lupa de busca e seleção no próprio mapa (painel com acesso à ficha, sem pular de seção);
+    link do autor → GitHub; no tempo (2022×2026) variação com sinal (ampliou/reduziu) em
+    escala divergente; raio mínimo dos círculos e área maior quando há poucas unidades;
+    PT #d73027 e PSD laranja #f28e2b (EL0006)
+  fora_de_escala: >-
+    decisão do pesquisador (2026-10-06, opção a): em círculos de área proporcional (mapa,
+    dispersão, boxplot por votos), se a maior unidade tem mais de 3× o valor da segunda, a
+    escala vai até a segunda e a maior fica no tamanho máximo, com contorno tracejado e nota
+    "fora de escala" (caso de Teresina)
+  bloco_metodologia: >-
+    rodapé substituído pelo bloco recolhível "Fontes de Dados, Metodologia e Códigos"
+    (inspirado no README do Agregador O POVO): textos em src/metodologia.yaml + partes
+    automáticas (fontes com datas e hash do manifesto, ADRs, trechos de código lidos do
+    Python, conferência de qualidade, versão/commit) e download do CSV por município.
+    virou padrão de todos os produtos do laboratório (L0003, 2026-10-06)
+  revisao_2026_10_06_b: >-
+    pedidos do pesquisador: (1) União no grupo PP também em 2022 e 2024 (EL0004 revisto; base
+    refeita, QA ok); (2) variação estadual/federal 2022 × 2026 também em votos absolutos
+    (seletor Medida "% dos válidos | Votos" no gráfico de evolução, no mapa, na dispersão e nas
+    tabelas; no mapa em votos a cor satura no percentil 95 do módulo da variação — proposta,
+    aguarda validação; dispersão em votos com eixos em raiz quadrada — proposta, aguarda
+    validação); (3) rótulo "fora de escala" do mapa movido para o canto superior esquerdo com
+    linha de ligação; removido da dispersão e do boxplot (fica a nota abaixo do gráfico);
+    (4) seletores do tipo alternar com largura do conteúdo; (5) título "Dispersão"
+  revisao_2026_10_06_c: >-
+    pedidos do pesquisador: (1) Evolução e Consistência viram episódios separados (5 episódios:
+    Composição, Evolução 2022→2026, Consistência entre cargos, Migrações, Seu município); na
+    Evolução, mapa + gráfico de distribuição sem eixo vertical (eixo X = variação da Medida,
+    p.p. ou votos, 0 no centro — decisão do pesquisador: sem taxa relativa), mesma escala de cor
+    do mapa (cinza = redução, cor do grupo = ampliação); (2) Consistência: cor cheia do grupo =
+    voto casado (diferença ~0), tom claro = dividido (decisão do pesquisador); (3) "próxima seção"
+    leva ao topo do episódio (correção: o menu fixo anulava a rolagem); (4) vagas e votos num
+    gráfico único de barras 100% (Mostrar: Votos válidos | Vagas), rótulo com % e absoluto, tabela
+    em "Ver tabela"; (5) "Unidade" → "Recorte territorial"; (6) Mapa | Círculos e Tamanho
+    compactos, abaixo do gráfico e da legenda; (7) botão único "Detalhar distribuição de um único
+    grupo" ⇄ "Mapa de lideranças"
+  revisao_2026_10_06_d: >-
+    pedidos do pesquisador: (1) seleção independente por bloco (mapa + gráfico ligado; boxplot
+    sozinho), guardada só na memória da página (saiu do endereço); "Limpar seleção" limpa de fato
+    (antes alternava); no celular, painel com nome e dados também sob o gráfico; (2) consistência
+    entre cargos com escala divergente: diferença com sinal (% no 1º cargo − % no 2º, a partir de
+    variacao_pp da base), cor do grupo = maior no 1º cargo, cinza = maior no 2º, claro = voto
+    casado; (3) Sankey: rótulo com % e número de municípios; (4) nomes de exibição
+    "PT/PV/PCdoB" e "União Progressista" (chaves internas inalteradas; sem asterisco, os nomes
+    couberam); (5) legenda de intensidade em grade fixa com a faixa escrita sobre a cor e 4 faixas
+    (< 40, 40–50, 50–60, ≥ 60% — limites propostos, a validar)
+  revisao_2026_10_06_e: >-
+    consistência entre cargos: a escala com sinal (qual cargo pendeu) foi descartada pelo
+    pesquisador; decisão: divergente pelo tamanho da diferença |% 1º − % 2º|, com centro neutro
+    na mediana do grupo naquela comparação — cor do grupo = mais casado que o típico (até 0
+    p.p.), cinza = mais dividido (até o máximo); tabelas "mais se dividiu" e "mais casado"
+  revisao_2026_10_06_f: >-
+    pedidos do pesquisador: (1) legendas de cor e de tamanho (círculos) logo acima do desenho, em
+    mapas e gráficos; notas, painel de seleção e controles abaixo; (2) títulos no padrão
+    "Tipo: o que mostra" (Mapa, Gráfico de barras, Gráfico de linhas, Gráfico de distribuição,
+    Gráfico de dispersão, Diagrama de fluxos, Boxplot, Quadros, Contagem, Tabela), números
+    curtos no subtítulo; (3) abertura com "Federação Brasil da Esperança (PT/PV/PCdoB)" e nota
+    de painel exploratório com link para a página do autor
+  revisao_2026_10_06_g: >-
+    pedidos do pesquisador: (1) Mapa | Círculos pequeno, sobre o canto inferior direito do mapa
+    (área vazia ao lado do PI); (2) padrões: gráfico de linhas em votos; distribuição e dispersão
+    com círculos proporcionais; mapas em Mapa, exceto o de liderança (episódio 1), que abre em
+    Círculos (chave própria formaLider); (3) títulos sem o tipo do recurso, descritivos e curtos;
+    onde há escolha de medida no título, a própria frase é o seletor ("Participação dos grupos em
+    votos válidos / vagas conquistadas…", "Votos / % dos votos válidos de cada grupo…")
+  revisao_2026_10_06_h: >-
+    mapas: legendas (cor, tamanho, sem dados) logo abaixo do desenho e acima das notas; legenda de
+    intensidade compactada; Mapa | Círculos numa barra sem fundo no topo do mapa, ao lado da busca
+  revisao_2026_10_06_i: >-
+    gráfico de linhas (Evolução): Recorte territorial passou para dentro do título (lista com
+    aparência de texto); entre o título e o gráfico ficam só o subtítulo e o "Como ler"
+  revisao_2026_10_06_j: >-
+    seletores na frase do título (formato aprovado no gráfico de linhas) em todo o produto:
+    mapa do episódio 1 (recorte, eleição/cargo e grupo), mapa da Evolução (medida, recorte, cargo),
+    Consistência (comparação no título da correlação; recorte no título do mapa), fluxos (cargo e
+    etapa de 2024), boxplot (eleição/cargo) e ficha do município; ficam como botões compactos
+    abaixo dos gráficos só Tamanho e Largura (fluxos); "x" da busca limpa a seleção
+  revisao_2026_10_06_k: >-
+    padrões de interface, componentes e bloco de metodologia promovidos ao design system do
+    laboratório (L0003): o app.js passou a usar web/componentes (window.Lab) e o HTML é montado por
+    labdados.produto_web; o bloco de metodologia por labdados.metodologia. Paridade conferida em 14
+    estados (texto e elementos idênticos). Citação passou ao metodologia.yaml; corrigido o "null" sob o
+    mapa em círculos sem unidade fora de escala
+  revisao_2026_10_06_l: >-
+    etapas A e B da inclusão de 2018 e 2020 (pesquisador): baixados votacao_partido e
+    detalhe_votacao 2018/2020, votacao_candidato 2020 e consulta_cand 2018 (eleitos; evita o arquivo
+    de 395 MB), ~102 MB; base com 2018 (Dep. Estadual e Federal) e 2020 (Vereador e Prefeito);
+    grupos antes das federações: PT + PCdoB + PV e PP + DEM + PSL; prefeito 2020 com 2º turno
+    (Teresina) e, onde a ordinária não elegeu ninguém, o eleito na extraordinária (Juazeiro do
+    Piauí, Murici dos Portelas) — EL0004 revisto; conferência de tolerância zero sem divergências;
+    consistência ganhou 2018, estadual/federal 2018 × 2022 e vereador 2020 × 2024. A interface
+    (etapa C) ainda mostra só 2022–2026
+  revisao_2026_10_06_m: >-
+    etapa C (parcial, pedido do pesquisador): gráfico de linhas da Evolução com seletor no título
+    "eleições gerais (2018 → 2022 → 2026)" (Dep. Estadual e Federal) ou "eleições municipais
+    (2020 → 2024)" (Vereador e Prefeito), sem misturar as duas; "Outros" segue como uma linha;
+    componente Lab.linhasPontas (N momentos); subtítulo com a variação do 1º ao último momento
+    (comparações estadual/federal 2018 × 2026 e prefeito 2020 × 2024 acrescentadas na base);
+    episódio renomeado "Evolução no tempo". Demais gráficos seguem em 2022–2026
+  revisao_2026_10_06_n: >-
+    dica de "Outros" (pedido do pesquisador) com os 5 maiores partidos do grupo na unidade (votos e
+    % dos válidos) e "mais N partidos", no gráfico de linhas, nas barras de composição (votos) e na
+    ficha do município; lido de `partidos` e `grupo_partido` da base (só seleção e ordenação, L0002)
+  revisao_2026_10_06_o: >-
+    etapa C concluída — 2018 e 2020 em todo o produto: composição e mapas do episódio 1 (10 eleições),
+    boxplot e CSV; Evolução com 8 comparações no título do mapa (2022→2026, 2018→2022, 2018→2026,
+    vereador e prefeito 2020→2024); Consistência com 2018 (estadual × federal); fluxos com período
+    no título (2022 → 2026 ou 2018 → 2026, 5 etapas com as municipais) — Lab.sankey aceita N etapas;
+    ficha com prefeitos de 2020 e 2024; textos de abertura e metodologia com os novos anos
+  revisao_2026_10_06_p: >-
+    divisão por partido também na dica de PT/PV/PCdoB e União Progressista (pedido do pesquisador):
+    a dica de "Outros" virou resumoGrupo, para todo grupo com mais de um partido com votos
+  revisao_2026_10_06_q: >-
+    fluxos (pedido do pesquisador): padrão Deputado Estadual, 2018 → 2026, só eleições gerais; opções
+    novas "só eleições municipais (prefeito)" e "(vereador)", 2020 → 2024 (cargo e período saem do
+    título); peso da largura = válidos do cargo da última etapa (2026; nas municipais, 2024), com o ano
+    e o cargo citados nos textos; "Como ler" descreve cada etapa pelo nome
+  revisao_2026_10_06_r: >-
+    Consistência (pedido do pesquisador): ao final da seção, gráfico de linhas com a correlação de
+    Pearson entre Dep. Estadual e Dep. Federal por grupo em 2018, 2022 e 2026 (valores da base Python),
+    escala fixa de 0 a 1; PSD e MDB sem ponto em 2022 (sem candidatos a um dos cargos), com nota.
+    Lab.linhasPontas ganhou a opção `dominio`
+  revisao_2026_10_06_s: >-
+    composição (episódio 1, pedido do pesquisador): filtro de cargo no título ("em cada eleição —
+    [todos os cargos ▾]"), padrão todos; barras e tabela mostram só o cargo escolhido
+  revisao_2026_10_06_t: >-
+    abertura (pedido do pesquisador): parágrafo com as cinco seções do produto e frase pequena acima
+    do menu ("Utilize o menu para navegar para uma seção específica do produto:")
+  regra_ausencia: sem linha = 0 votos; grupo sem candidatos no cargo = indefinido (EL0004/EL0005)
+
+cores:
+  pedido_do_pesquisador: {PT: "#fb8072", PSD: "#8da0cb", MDB: "#a6d854", PP: "#386cb0", Outros: "a definir"}
+  validacao_2026_10_05: >-
+    as cores pedidas falham no validador (claridade do MDB, saturação do PSD,
+    contraste). Ajuste mantendo os matizes passa em todos os checks no modo claro:
+    PT #f4806e, PSD #7487d6, MDB #3d7a18, PP #22508f (aviso de contraste do PT →
+    rótulos diretos e tabela). Modo escuro ainda não fechado. Outros: cinza neutro.
+  registro: paleta semântica em dados/referencia/ com ADR (CLAUDE.md seção 8)
+
+# ---- tudo que o produto usa precisa estar declarado ----
+datasets:
+  - tse.votacao_candidato_munzona     # 2020, 2022, 2024, 2026
+  - tse.votacao_partido_munzona       # votos por partido 2018–2026
+  - tse.detalhe_votacao_munzona       # válidos 2018–2024
+  - tse.votacao_secao                 # 2026 PI (válidos EL0003 enquanto o detalhe municipal 2026 não sai)
+  - tse.detalhe_votacao_secao         # 2026
+  - tse.resultados_2026_1t            # destino dos votos 2026 (EL0003)
+  - tse.candidatos
+  - ibge.municipios_regiao_imediata
+  - ibge.malha_municipios_2022
+  - pi.territorios_desenvolvimento
+decisoes: [L0001, L0002, L0003, EL0002, EL0003, EL0004, EL0005, EL0006]
+analise:
+  - analise/forcas_pi.py              # tabela de grupos, conferência e base com indicadores (EL0004/EL0005)
+  - analise/html_forcas_pi.py         # index.html autocontido (contornos por nível + cores EL0006)
+  - analise/validar_distribuicao_pi.py  # funções de leitura e válidos por seção (EL0003), reaproveitadas
+componentes_web: [lab.css, lab-nucleo.js, lab-selecao.js, lab-escalas.js, lab-mapa.js, lab-graficos.js, lab-sankey.js, lab-metodologia.js]   # L0003
+
+validacoes_concluidas:
+  - item: Relatório de qualidade (2026-10-05)
+    resultado: >-
+      Σ partidos = válidos oficiais em 448/448 (2022), 447/448 (2024) e 448/448
+      (2026) combinações cargo × município; eleitos = bancadas (30 DE, 10 DF em
+      2022 e 2026); 224 prefeitos (1 por município); 2026: nominais por seção =
+      arquivo oficial em 66.528 chaves, e as 6 candidaturas ausentes do arquivo
+      oficial são exatamente as de nulo técnico (EL0003).
+    relatorio: projetos/eleicoes/analise/relatorio_qualidade_forcas_pi.json
+  - item: Lacuna registrada (decisão do pesquisador, 2026-10-05)
+    resultado: >-
+      Caraúbas do Piauí, Vereador 2024 — sem linhas nos arquivos de partido e
+      candidatura (cópias de 02–03/10/2026); fora dos indicadores de vereador,
+      "sem dados" no Sankey, aviso na página.
+
+validacoes_pendentes:
+  - Limites das 4 faixas de intensidade da liderança (40, 50, 60%)
+  - Evolução em votos: cor do mapa saturada no percentil 95 do módulo da variação; eixo da distribuição em escala logarítmica simétrica (constante 100)
+  - Itens ainda em aberto das referências: duelo entre dois grupos (indicador s(A) − s(B) e faixa de ±2 p.p.), busca de município em todos os episódios, passo a passo guiado
+  - Trocar a fonte dos Territórios pela Lei 6.967/2017 (Anexo Único) quando o portal oficial voltar
+  - Validade temporal das Regiões Imediatas/Intermediárias (2017) para 2022–2026 no PI
+  - Parâmetro das bolhas: soma das áreas = 30% da área do estado (teto de raio 60 px municípios / 110 px regiões)
+  - Peso do Sankey por votos: válidos do cargo em 2026 como peso único por município
+  - Texto: ausência de PSD (Dep. Estadual) e MDB (Dep. Federal) em 2022 é real (verificada em 3 fontes); explicação política só com fonte citada
+
+licenca:
+  codigo: MIT
+  dados_derivados: CC-BY-4.0
