@@ -2,8 +2,8 @@ id: 2026-10_distribuicao-votos-candidato-pi   # renomeado de ...-brasil em 2026-
 titulo: "Onde estão os votos? Distribuição territorial de candidaturas no Piauí"
 tipo: exploratorio            # exploratorio | narrativa | visualizacao | painel | nota-tecnica (docs/TIPOS_DE_PRODUTO.md)
 status: publicado         # rascunho | revisao | publicado | arquivado — publicação aprovada pelo pesquisador (2026-10-06), repositório público eleicoes
-versao: "1.0"             # 1ª versão consolidada (pesquisador, 2026-10-06)
-versao_data: 2026-10-06
+versao: "1.1"             # 1.0 consolidada em 2026-10-06; 1.1: download, votação na comparação, lista de perdas (2026-10-07)
+versao_data: 2026-10-07
 deriva_de: null           # id de outro produto, se for derivado
 
 # ---- briefing (respostas às perguntas iniciais; ver CLAUDE.md, seção 6.0) ----

@@ -219,12 +219,12 @@ ibge.municipios:
     com código TSE
   url_fonte: https://servicodados.ibge.gov.br/api/docs/localidades
   endpoint: https://servicodados.ibge.gov.br/api/v1/localidades/municipios
-  snapshot: perguntar
+  snapshot: sempre
   granularidade:
   - municipio
-  caminho: dados/referencia/ibge.municipios
+  caminho: dados/snapshots/ibge.municipios
   pipeline:
-  - fontes/ibge/baixar.py
+  - fontes/ibge/municipal.py
   decisoes: []
   status: planejado
 ibge.municipios_regiao_imediata:

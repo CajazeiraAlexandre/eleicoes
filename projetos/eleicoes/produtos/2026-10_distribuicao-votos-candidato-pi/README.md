@@ -59,6 +59,7 @@ O `index.html` é gerado (não editar à mão): interface em `src/` (`index.temp
 - Quem mudou de nome civil entre eleições não é reconhecido como a mesma pessoa.
 
 ## Histórico
+- **1.1 (2026-10-07):** botão “⬇ CSV” na tabela (todas as linhas, mesmas colunas); na comparação, a tabela traz votos e % dos válidos da eleição de comparação além da variação; nova lista “10 … onde mais perdeu votos / reduziu”, em cinza, abaixo da lista de ganhos (pesquisador).
 - 2026-10-05: escopo revisto para o Piauí e formato autocontido (L0002); a versão nacional de 2022 com servidor Python local foi substituída e removida na versão 1.0 (2026-10-06), com seus dados (450 MB) e scripts.
 - 2026-10-06: versão 1.0 — 2018 incluído, comparações entre eleições, níveis regionais, design system (L0003).
 

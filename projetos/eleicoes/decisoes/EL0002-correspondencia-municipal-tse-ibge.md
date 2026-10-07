@@ -37,6 +37,15 @@ A tabela CSV registra método e situação dos 224 pares. A malha GeoJSON só é
 - A geometria municipal é reproduzida em `data/municipios_pi.geojson`, sem simplificação.
 - A escolha da medida e da escala visual é específica do produto e está registrada em suas decisões locais, sem alterar esta correspondência.
 
+## Adendo nacional (2026-10-07, aprovado pelo pesquisador)
+
+- **Contexto:** o produto "O mapa da virada" usa todos os municípios do Brasil; a regra estrita da L0001 deixou 57 sem vínculo.
+- **Decisão:** 56 pares em `dados/referencia/correspondencia_tse_ibge_excecoes_nacionais.csv`, conferidos pelo pesquisador:
+  43 que diferem só por apóstrofo ou hífen (ex.: "OLHO D ÁGUA DAS FLORES" × "Olho d'Água das Flores") e 13 com grafia diferente
+  (ex.: Camacã × Camacan; Boa Saúde × Januário Cicco, nome oficial no IBGE). Nenhum código IBGE colide com os da L0001.
+- **Sem polígono:** Boa Esperança do Norte (MT; TSE 73709; IBGE 5101837), criado depois do Censo 2022: só em 2026, listado em tabela, fora do mapa e sem indicadores.
+- A tabela da L0001 não é alterada; o código junta L0001 + exceções do PI (acima) + exceções nacionais.
+
 ## Afeta
 
 - Datasets: `tse.votacao_secao`, `ibge.malha_municipios_2022`

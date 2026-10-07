@@ -127,7 +127,7 @@ rodape_obrigatorio: ["Fonte e data dos dados", "Link para o código", "Declaraç
 componentes:
   arquivos: [lab.css, lab-nucleo.js, lab-selecao.js, lab-escalas.js, lab-mapa.js, lab-graficos.js, lab-sankey.js, lab-metodologia.js]
   montagem: "labdados.produto_web.montar_html embute tokens, lab.css, lab-*.js, app.js e a base num HTML único (L0002)."
-  dependencias: ["D3 v7 (jsDelivr)", "d3-sankey 0.12 (fluxos)", "flubber 0.4 (transição mapa ⇄ círculos, opcional)"]
+  dependencias: ["D3 v7 (jsDelivr)", "d3-sankey 0.12 (fluxos)", "flubber 0.4 (transição mapa ⇄ círculos — obrigatório em todo produto que usa Lab.mapa; a montagem recusa o produto sem ele)"]
 
 padroes:
   estrutura_do_grafico:
@@ -149,7 +149,16 @@ padroes:
     - "Legendas (cor, tamanho dos círculos, 'sem dados') logo ABAIXO do desenho e acima das notas."
     - "Card da unidade selecionada logo abaixo do desenho, antes das legendas (perto do toque no celular)."
     - "Lacunas em hachura, nunca em cinza liso; legenda 'sem dados' quando houver."
-    - "Círculos (cartograma de Dorling): soma das áreas = 30% da área do território (45% com até 25 unidades); raio mínimo visível; transição animada respeita prefers-reduced-motion."
+    - "Círculos (cartograma de Dorling): soma das áreas = 30% da área do território (45% com até 25 unidades); raio mínimo visível."
+  mapa_transicao:
+    - "Todo mapa com a opção Mapa | Círculos troca de forma com TRANSIÇÃO SUAVE, nos dois sentidos: o leitor acompanha cada unidade do polígono ao círculo e de volta. Nunca um salto."
+    - "Movimento: cada círculo nasce no centro (centroide) da sua unidade e vai, afastado o mínimo, para a posição final do cartograma; na volta, o caminho inverso. Duração 1,4 s, aceleração suave (d3.easeCubicInOut), igual para todos os mapas."
+    - "Até 600 unidades (UFs, regiões, regiões imediatas e intermediárias): morph do polígono no círculo (flubber 0.4, anel principal de cada unidade)."
+    - "Acima de 600 unidades (municípios) ou sem flubber: transição alternativa — os polígonos desbotam enquanto os círculos crescem a partir do centro de cada unidade (e o inverso). O morph de milhares de polígonos trava o navegador."
+    - "Só a troca feita pelo leitor anima. Abrir a página já em círculos (endereço #forma=bolhas) ou redesenhar por mudança de filtro desenha direto na forma escolhida."
+    - "prefers-reduced-motion: troca sem animação."
+    - "A troca redesenha só o bloco do mapa: seleção, card da unidade, legendas e foco no botão Mapa | Círculos continuam; o resto da página não muda."
+    - "Dependência: o modelo do produto carrega flubber 0.4 (jsDelivr) sempre que usa Lab.mapa; labdados.produto_web.montar_html recusa montar sem ele."
     - "Recortes maiores que o município desenham os limites municipais finos por cima (sobreposicao)."
   selecao:
     - "Seleção independente por bloco (data-escopo): um mapa e o gráfico ligado a ele compartilham a seleção; outros blocos não são afetados."

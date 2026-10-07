@@ -384,6 +384,8 @@
         for (const u of linhas) {
           const a0 = antes.get(chave(u));
           u.ant = a0 || null;
+          u.votos0 = a0 ? a0.votos : null;
+          u.pct0 = a0 ? a0.pct : null;
           u.dif = !a0 ? null : estado.medida === "pct" ? (u.pct === null || a0.pct === null ? null : u.pct - a0.pct) : u.votos - a0.votos;
         }
         const op = opcoesCmp().find((o) => o.v === estado.cmp), c2 = e2.cargos[k].candidaturas[j];
@@ -653,24 +655,35 @@
     const nomeNivel = { municipio: "municípios", imediata: "regiões imediatas", intermediaria: "regiões intermediárias", territorio: "territórios de desenvolvimento",
       zona: "zonas", local: "locais de votação" }[estado.nivel];
     const vTop = cmpInfo ? (u) => u.dif ?? null : valorDe;
+    /** Lista de barras: comprimento proporcional ao |valor| do primeiro da lista. */
+    const listaBarras = (itens, cor) => {
+      const max = itens.length ? Math.abs(vTop(itens[0])) : 0;
+      const caixa = el("div", { class: "barras" });
+      for (const u of itens) {
+        const trilho = el("div", { class: "trilho" }, el("div"));
+        trilho.firstChild.style.width = `${max > 0 ? (100 * Math.abs(vTop(u))) / max : 0}%`;
+        trilho.firstChild.style.background = cor;
+        const linha = el("div", { class: "barra-linha", tabindex: 0 },
+          el("span", { class: "nome", text: estado.nivel === "municipio" ? u.nome : `${u.nome}${u.municipio ? " · " + nomeMun(u.municipio) : ""}` }),
+          el("span", { class: "valor", text: cmpInfo ? fmtDif(vTop(u)) : fmtValor(valorDe(u)) }), trilho);
+        linha.addEventListener("pointermove", (ev) => mostrarDica(ev, u.nome, linhasDica(u)));
+        linha.addEventListener("pointerleave", esconderDica);
+        caixa.append(linha);
+      }
+      return caixa;
+    };
     alvo.append(el("h3", { text: cmpInfo ? `10 ${nomeNivel} onde mais ${estado.medida === "pct" ? "ampliou" : "ganhou votos"} desde ${cmpInfo.rotulo}`
       : `10 ${nomeNivel} com maior ${estado.medida === "pct" ? "% dos válidos" : "número de votos"}` }));
     const top = linhas.filter((u) => vTop(u) !== null && (!cmpInfo || vTop(u) > 0)).sort((x, y) => vTop(y) - vTop(x)).slice(0, 10);
-    const max = top.length ? vTop(top[0]) : 0;
     if (cmpInfo && !top.length) alvo.append(el("p", { class: "nota", text: `Em nenhuma unidade ${estado.medida === "pct" ? "o percentual aumentou" : "houve ganho de votos"} em relação a ${cmpInfo.rotulo}.` }));
-    const caixa = el("div", { class: "barras" });
-    for (const u of top) {
-      const trilho = el("div", { class: "trilho" }, el("div"));
-      trilho.firstChild.style.width = `${max > 0 ? (100 * vTop(u)) / max : 0}%`;
-      trilho.firstChild.style.background = corCand(cand());
-      const linha = el("div", { class: "barra-linha", tabindex: 0 },
-        el("span", { class: "nome", text: estado.nivel === "municipio" ? u.nome : `${u.nome}${u.municipio ? " · " + nomeMun(u.municipio) : ""}` }),
-        el("span", { class: "valor", text: cmpInfo ? fmtDif(vTop(u)) : fmtValor(valorDe(u)) }), trilho);
-      linha.addEventListener("pointermove", (ev) => mostrarDica(ev, u.nome, linhasDica(u)));
-      linha.addEventListener("pointerleave", esconderDica);
-      caixa.append(linha);
+    alvo.append(listaBarras(top, corCand(cand())));
+    if (cmpInfo) {
+      // perdas: mesma escala de leitura, em cinza (a cor de "perdeu" no mapa divergente)
+      const perdas = linhas.filter((u) => vTop(u) !== null && vTop(u) < 0).sort((x, y) => vTop(x) - vTop(y)).slice(0, 10);
+      alvo.append(el("h3", { text: `10 ${nomeNivel} onde mais ${estado.medida === "pct" ? "reduziu" : "perdeu votos"} desde ${cmpInfo.rotulo}` }));
+      if (!perdas.length) alvo.append(el("p", { class: "nota", text: `Em nenhuma unidade ${estado.medida === "pct" ? "o percentual caiu" : "houve perda de votos"} em relação a ${cmpInfo.rotulo}.` }));
+      alvo.append(listaBarras(perdas, token("cor-texto-secundario")));
     }
-    alvo.append(caixa);
     alvo.append(rodape({ fontes: fontesAno(), nota: estado.medida === "pct" ? "Unidades pequenas podem ter percentuais altos com poucos votos; confira os votos na tabela." : null }));
   }
 
@@ -681,7 +694,11 @@
     if (comMun) colunas.push(["municipio", "Município"]);
     colunas.push(["votos", "Votos", true], ["validos", "Válidos do cargo", true]);
     if (cand().destino === "valido") colunas.push(["pct", "% dos válidos", true]);
-    if (cmpInfo) colunas.push(["dif", `Variação desde ${cmpInfo.rotulo}`, true]);
+    if (cmpInfo) {
+      colunas.push(["votos0", `Votos em ${cmpInfo.rotulo}`, true]);
+      if (cand().destino === "valido") colunas.push(["pct0", `% dos válidos em ${cmpInfo.rotulo}`, true]);
+      colunas.push(["dif", `Variação (${estado.medida === "pct" ? "p.p." : "votos"}) desde ${cmpInfo.rotulo}`, true]);
+    }
     if (estado.nivel === "local") colunas.push(["situacao", "No mapa"]);
     let ordem = estado.medida === "pct" && cand().destino === "valido" ? "pct" : "votos", desc = true;
     const wrap = el("details", {}, el("summary", { text: `Tabela (${fmtInt.format(linhas.length)} unidades)` }));
@@ -705,14 +722,41 @@
         el("td", { class: "n", text: fmtInt.format(u.votos) }),
         el("td", { class: "n", text: fmtInt.format(u.validos) }),
         cand().destino === "valido" ? el("td", { class: "n", text: u.pct === null ? "—" : `${fmtPct.format(u.pct)}%` }) : null,
+        cmpInfo ? el("td", { class: "n", text: u.votos0 === null ? "—" : fmtInt.format(u.votos0) }) : null,
+        cmpInfo && cand().destino === "valido" ? el("td", { class: "n", text: u.pct0 === null || u.pct0 === undefined ? "—" : `${fmtPct.format(u.pct0)}%` }) : null,
         cmpInfo ? el("td", { class: "n", text: fmtDif(u.dif) }) : null,
         estado.nivel === "local" ? el("td", {}, el("span", { class: `selo ${u.situacao === "ok" ? "" : "atencao"}`, text: rotSit[u.situacao] })) : null)));
     }
     preencher();
     caixa.append(t);
     wrap.append(caixa);
-    if (linhas.length > LIMITE) wrap.append(el("p", { class: "nota", text: `Mostrando ${fmtInt.format(LIMITE)} de ${fmtInt.format(linhas.length)} linhas; filtre por município para ver todas.` }));
-    return wrap;
+    if (linhas.length > LIMITE) wrap.append(el("p", { class: "nota", text: `Mostrando ${fmtInt.format(LIMITE)} de ${fmtInt.format(linhas.length)} linhas; filtre por município para ver todas ou baixe o CSV (todas as linhas).` }));
+    // download (CSV com todas as linhas e as mesmas colunas, na ordem atual da tabela)
+    const baixar = el("button", { type: "button", class: "baixar-tabela", title: "Baixar a tabela em CSV (todas as linhas)", "aria-label": "Baixar a tabela em CSV",
+      text: "⬇ CSV", onclick: () => baixarCSV(colunas, linhas, comMun) });
+    const caixaTab = el("div", { class: "tabela-caixa" }, wrap, baixar);
+    return caixaTab;
+  }
+
+  /** CSV da tabela: separador ";", UTF-8 com BOM (abre direto no Excel), números sem separador de milhar. */
+  function baixarCSV(colunas, linhas, comMun) {
+    const valor = (u, k) => {
+      if (k === "municipio") return nomeMun(u.municipio);
+      if (k === "situacao") return u.situacao;
+      const v = u[k];
+      if (v === null || v === undefined) return "";
+      return typeof v === "number" ? (Number.isInteger(v) ? String(v) : v.toFixed(4).replace(".", ",")) : String(v);
+    };
+    const aspas = (s) => `"${String(s).replace(/"/g, '""')}"`;
+    const cab = colunas.map(([, r]) => r);
+    const corpo = linhas.map((u) => colunas.map(([k]) => valor(u, k)));
+    const csv = "\ufeff" + [cab, ...corpo].map((l) => l.map(aspas).join(";")).join("\r\n");
+    const nome = [cand().nome_urna, cargo().nome, eleicao().rotulo, nivelTxt(estado.nivel), estado.municipio ? nomeMun(estado.municipio) : "PI", cmpInfo ? `comparacao ${cmpInfo.rotulo}` : ""]
+      .filter(Boolean).join(" ").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^\w]+/g, "_").replace(/^_|_$/g, "").toLowerCase();
+    const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
+    const a = el("a", { href: url, download: `onde_estao_os_votos_${nome}.csv` });
+    document.body.append(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
 
   // ---- comparação (Pearson)

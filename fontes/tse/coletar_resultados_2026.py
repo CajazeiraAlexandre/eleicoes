@@ -21,6 +21,9 @@ from labdados.catalogo import raiz
 from labdados.manifesto import registrar_arquivo, registrar_consulta
 
 DATASET_ID = "tse.resultados_2026_1t"
+# Presidente, 1º turno, todos os municípios do Brasil (produto "O mapa da virada", aprovado em 2026-10-07):
+# guarda só o conteúdo de cada arquivo (assinatura verificada na coleta), fora do git.
+DATASET_PRESIDENTE_MUN = "tse.resultados_2026_1t_presidente_municipios"
 BASE_OFICIAL = "https://resultados.tse.jus.br/oficial"
 URL_CONFIG_ELEICOES = f"{BASE_OFICIAL}/comum/config/ele-c.jws"
 URL_JWK_PRODUCAO = f"{BASE_OFICIAL}/app/assets/assinatura-jws/prod.jwk.json"
@@ -193,6 +196,37 @@ def montar_endpoints(eleicoes: list[dict[str, Any]],
     return endpoints
 
 
+def montar_endpoints_presidente_municipios(eleicoes: list[dict[str, Any]],
+                                           configuracoes: dict[str, dict[str, Any]]) -> list[EndpointResultado]:
+    """Presidente (cargo 1) em todos os municípios do Brasil, conforme a configuração da eleição federal.
+    O exterior (abrangência ZZ) fica de fora."""
+    federal = next(e for e in eleicoes if "Federal" in str(e["nm"]))
+    eleicao_id = str(federal["cd"])
+    config = configuracoes.get(eleicao_id)
+    if config is None or not isinstance(config.get("abr"), list):
+        raise ValueError(f"Configuração territorial ausente para a eleição federal {eleicao_id}.")
+    nome_cargo = dict(_cargos(federal)).get("1")
+    if nome_cargo is None:
+        raise ValueError("Cargo Presidente (código 1) não encontrado na configuração federal.")
+    endpoints: list[EndpointResultado] = []
+    for area in config["abr"]:
+        uf = str(area.get("cd", "")).lower()
+        if uf in ("zz", "br"):
+            continue
+        if not re.fullmatch(r"[a-z]{2}", uf):
+            raise ValueError(f"Abrangência territorial inválida na configuração {eleicao_id}.")
+        for municipio in area.get("mu") or []:
+            codigo = str(municipio.get("cd", ""))
+            if not codigo:
+                raise ValueError(f"Município sem código TSE em {uf}.")
+            endpoints.append(EndpointResultado(
+                eleicao_id=eleicao_id, eleicao=str(federal["nm"]), uf=uf, cargo_id="0001", cargo=nome_cargo,
+                municipio_tse=codigo, nivel="municipio", url=url_resultado(CICLO, eleicao_id, uf, "1", codigo)))
+    if len(endpoints) < 5000:
+        raise ValueError(f"Lista de municípios incompleta: {len(endpoints)}.")
+    return endpoints
+
+
 def _solicitar(client: httpx.Client, url: str) -> httpx.Response:
     ultimo_erro: httpx.HTTPError | None = None
     for tentativa in range(3):
@@ -270,6 +304,58 @@ def _salvar_snapshot(snapshot: dict[str, Any], tamanho_maximo_mb: float = LIMITE
     finally:
         parcial.unlink(missing_ok=True)
     registrar_arquivo(DATASET_ID, URL_CONFIG_ELEICOES, destino, tipo="snapshot")
+    return destino
+
+
+def coletar_presidente_municipios(simular: bool = False) -> Path | None:
+    """Coleta Presidente, 1º turno, por município (Brasil). Cada arquivo tem a assinatura EdDSA verificada;
+    o snapshot guarda o conteúdo (payload) e os metadados, sem repetir o JWS, e fica fora do git."""
+    destino = raiz() / "dados" / "snapshots" / DATASET_PRESIDENTE_MUN / "atual.json"
+    if not simular and not _fora_do_git(destino):
+        raise RuntimeError(f"{destino.parent} precisa estar no .gitignore antes da coleta.")
+    with httpx.Client(follow_redirects=True, timeout=httpx.Timeout(45.0, connect=20.0)) as client:
+        jwk = _obter_jwk(client)
+        config_eleicoes = _obter_configuracao(client, URL_CONFIG_ELEICOES, jwk)
+        eleicoes = eleicoes_gerais_2026(config_eleicoes["payload"])
+        configuracoes = {}
+        for eleicao in eleicoes:
+            eid = str(eleicao["cd"])
+            url = f"{BASE_OFICIAL}/{CICLO}/{eid}/config/mun-e{eid.zfill(6)}-cm.jws"
+            configuracoes[eid] = _obter_configuracao(client, url, jwk)["payload"]
+        endpoints = montar_endpoints_presidente_municipios(eleicoes, configuracoes)
+        if simular:
+            print(f"{len(endpoints)} municípios seriam consultados; nenhum foi baixado.")
+            for endpoint in endpoints[:5]:
+                print(endpoint.url)
+            return None
+
+        def baixar(endpoint: EndpointResultado) -> dict[str, Any]:
+            r = _obter_payload(client, endpoint.url, jwk)
+            return {**asdict(endpoint), "payload": r["payload"], "cabecalho_jws": r["cabecalho_jws"],
+                    "cabecalhos_http": r["cabecalhos_http"], "assinatura_verificada": True}
+
+        resultados, erros = [], []
+        with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
+            futuros = {executor.submit(baixar, e): e for e in endpoints}
+            for futuro in as_completed(futuros):
+                try:
+                    resultados.append(futuro.result())
+                except (RuntimeError, ValueError, httpx.HTTPError) as erro:
+                    erros.append((futuros[futuro].url, erro))
+        registrar_consulta(DATASET_PRESIDENTE_MUN, f"{BASE_OFICIAL}/{CICLO}/", n_registros=len(resultados))
+        if erros:
+            raise RuntimeError(f"{len(erros)} de {len(endpoints)} municípios falharam; primeira: {erros[0][0]}: {erros[0][1]}")
+    resultados.sort(key=lambda item: item["url"])
+    snapshot = {"coletado_em": dt.datetime.now().astimezone().isoformat(timespec="seconds"), "ciclo": CICLO,
+                "turno": int(TURNO), "escopo": "Presidente, 1º turno, por município (Brasil, sem exterior)",
+                "jwk_publica": jwk, "resultados": resultados}
+    destino.parent.mkdir(parents=True, exist_ok=True)
+    parcial = destino.with_suffix(".json.part")
+    parcial.write_text(json.dumps(snapshot, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
+    parcial.replace(destino)
+    registrar_arquivo(DATASET_PRESIDENTE_MUN, f"{BASE_OFICIAL}/{CICLO}/", destino, tipo="snapshot")
+    print(f"{len(resultados)} municípios com assinatura verificada: {destino.relative_to(raiz())} "
+          f"({destino.stat().st_size / 1_000_000:.1f} MB)")
     return destino
 
 
@@ -358,8 +444,15 @@ def main() -> None:
         "--permitir-grande", action="store_true",
         help="grava snapshot acima de 50 MB, somente se a pasta estiver no .gitignore (seção 4.2)",
     )
+    parser.add_argument(
+        "--presidente-municipios", action="store_true",
+        help="Presidente, 1º turno, em todos os municípios do Brasil (snapshot separado, fora do git)",
+    )
     args = parser.parse_args()
-    coletar(simular=args.simular, permitir_grande=args.permitir_grande)
+    if args.presidente_municipios:
+        coletar_presidente_municipios(simular=args.simular)
+    else:
+        coletar(simular=args.simular, permitir_grande=args.permitir_grande)
 
 
 if __name__ == "__main__":

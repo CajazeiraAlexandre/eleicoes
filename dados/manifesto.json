@@ -25,6 +25,26 @@
     },
     "ultima_atualizacao": "2026-10-03T13:56:08-03:00"
   },
+  "ibge.municipios": {
+    "arquivos": {
+      "dados/snapshots/ibge.municipios/2026-10-07.json": {
+        "baixado_em": "2026-10-07T14:14:19-03:00",
+        "bytes": 2759705,
+        "gerado_na_fonte": null,
+        "sha256": "b6c238e87e1c9709d0d88e652ee3bc5b827ba014db8d2f8c9af7bb12adce8adc",
+        "tipo": "snapshot",
+        "url": "https://servicodados.ibge.gov.br/api/v1/localidades/municipios"
+      }
+    },
+    "consultas": [
+      {
+        "em": "2026-10-07T14:14:19-03:00",
+        "endpoint": "https://servicodados.ibge.gov.br/api/v1/localidades/municipios",
+        "n_registros": 5571
+      }
+    ],
+    "ultima_atualizacao": "2026-10-07T14:14:19-03:00"
+  },
   "ibge.municipios_regiao_imediata": {
     "arquivos": {
       "dados/snapshots/ibge.municipios_regiao_imediata/2026-10-03.json": {

@@ -20,6 +20,9 @@
   "use strict";
   const Lab = window.Lab;
   const el = Lab.el;
+  const DURACAO = 1400;      // ms, ida e volta (design.yaml › padroes.mapa_transicao)
+  const MORPH_MAX = 600;     // acima disso, transição alternativa (morph de milhares de polígonos trava o navegador)
+  let avisouFlubber = false;
   const caminhoCirculo = (x, y, r) => `M${x - r},${y}a${r},${r} 0 1,0 ${2 * r},0a${r},${r} 0 1,0 ${-2 * r},0Z`;
   function anelPrincipal(f, caminho) {
     const g = f.geometry, polis = g.type === "Polygon" ? [g.coordinates] : g.coordinates;
@@ -129,9 +132,32 @@
         .on("pointerleave", Lab.esconderDica)
         .on("click", (ev, n) => Lab.selecionar(n.id, esc));
       const final = (n) => (bolhas ? caminhoCirculo(n.x, n.y, Math.max(n.r, 0.01)) : caminho(n.f));
-      if (de && opts.tamanho && typeof flubber !== "undefined") {
+      // Transição Mapa ⇄ Círculos (design.yaml › padroes.mapa_transicao): morph de cada unidade com flubber; sem
+      // flubber ou com muitas unidades, transição alternativa (polígonos desbotam enquanto os círculos crescem a partir
+      // do centro de cada unidade, e o inverso). Sem animação com prefers-reduced-motion (de = null).
+      const morph = typeof flubber !== "undefined" && nos.length <= MORPH_MAX;
+      if (de && opts.tamanho && typeof flubber === "undefined" && !avisouFlubber) {
+        avisouFlubber = true;
+        console.warn("lab-mapa: flubber ausente — transição Mapa ⇄ Círculos sem morph (inclua flubber 0.4 no modelo do produto).");
+      }
+      if (de && opts.tamanho && !morph) {
+        const interp = (n, ida) => { const xi = d3.interpolateNumber(ida ? n.x0 : n.x, ida ? n.x : n.x0), yi = d3.interpolateNumber(ida ? n.y0 : n.y, ida ? n.y : n.y0),
+          ri = d3.interpolateNumber(ida ? 0 : n.r, ida ? n.r : 0); return (t) => caminhoCirculo(xi(t), yi(t), Math.max(ri(t), 0.01)); };
+        if (bolhas) {   // mapa → círculos: polígonos (fantasmas) desbotam; círculos crescem do centro de cada unidade
+          const fantasmas = svg.insert("g", () => formas.node().parentNode).attr("pointer-events", "none");
+          fantasmas.selectAll("path").data(nos).join("path").attr("d", (n) => caminho(n.f)).attr("fill", (n) => preencherH(n.id))
+            .transition().duration(DURACAO).ease(d3.easeCubicInOut).style("opacity", 0).remove();
+          formas.attr("d", (n) => caminhoCirculo(n.x0, n.y0, 0.01)).transition().duration(DURACAO).ease(d3.easeCubicInOut).attrTween("d", (n) => interp(n, true));
+        } else {        // círculos → mapa: círculos (fantasmas) encolhem para o centro; polígonos surgem
+          formas.attr("d", final).style("opacity", 0).transition().duration(DURACAO).ease(d3.easeCubicInOut).style("opacity", 1);
+          const fantasmas = svg.append("g").attr("pointer-events", "none");
+          fantasmas.selectAll("path").data(nos.filter((n) => n.r > 0)).join("path").attr("fill", (n) => preencherH(n.id))
+            .attr("stroke", Lab.token("cor-superficie")).attr("stroke-width", 0.6)
+            .transition().duration(DURACAO).ease(d3.easeCubicInOut).attrTween("d", (n) => interp(n, false)).style("opacity", 0).remove();
+        }
+      } else if (de && opts.tamanho) {
         formas.attr("d", (n) => (bolhas ? anelPrincipal(n.f, caminho) : caminhoCirculo(n.x, n.y, Math.max(n.r, 0.01))))
-          .transition().duration(1600).ease(d3.easeCubicInOut)
+          .transition().duration(DURACAO).ease(d3.easeCubicInOut)
           .attrTween("d", (n) => {
             const r = Math.max(n.r, 0.5);
             const it = bolhas ? flubber.toCircle(anelPrincipal(n.f, caminho), n.x, n.y, r, { maxSegmentLength: 4 })

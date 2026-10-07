@@ -24,6 +24,7 @@ from __future__ import annotations
 import base64
 import gzip
 import json
+import re
 from pathlib import Path
 
 COMPONENTES_JS = ("lab-nucleo.js", "lab-selecao.js", "lab-escalas.js", "lab-mapa.js",
@@ -49,10 +50,23 @@ def ler_componentes(raiz: Path, nomes: tuple[str, ...] | list[str]) -> str:
     return "\n".join(partes)
 
 
+def exigir_flubber(modelo: str, app_js: str) -> None:
+    """Produto que usa Lab.mapa precisa carregar flubber 0.4 (transição suave Mapa ⇄ Círculos — design.yaml ›
+    padroes.mapa_transicao). Confere uma tag <script> ativa (fora de comentários HTML) no modelo."""
+    if "Lab.mapa(" not in app_js:
+        return
+    sem_comentarios = re.sub(r"<!--.*?-->", "", modelo, flags=re.S)
+    if not re.search(r"<script[^>]+src=[^>]*flubber", sem_comentarios):
+        raise ValueError("O produto usa Lab.mapa, mas o modelo HTML não carrega o flubber. Inclua "
+                         '<script src="https://cdn.jsdelivr.net/npm/flubber@0.4.2/build/flubber.min.js"></script> '
+                         "(transição Mapa ⇄ Círculos; design.yaml › padroes.mapa_transicao).")
+
+
 def montar_html(raiz: Path, modelo: str, *, app_js: str, base: dict, design_system: str = "padrao",
                 componentes_js=COMPONENTES_JS, componentes_css=COMPONENTES_CSS,
                 substituicoes: dict[str, str] | None = None) -> str:
     """Preenche o modelo HTML; erro se faltar alguma marca (nada é inserido às cegas)."""
+    exigir_flubber(modelo, app_js)
     marcas = {
         "/*__TOKENS_CSS__*/": (raiz / "design" / design_system / "tokens.css").read_text(encoding="utf-8"),
         "/*__LAB_CSS__*/": ler_componentes(raiz, componentes_css),
