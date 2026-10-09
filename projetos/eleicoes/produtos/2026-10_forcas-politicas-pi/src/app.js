@@ -566,7 +566,7 @@
       const saldo = G.map((g) => ({ g, a: n0.get(g) || 0, b: nF.get(g) || 0 })).filter((x) => x.a || x.b).sort((p, q) => Math.abs(q.b - q.a) - Math.abs(p.b - p.a));
       cartao.append(placar(saldo.slice(0, 3).map((x) => `${nomeG(x.g)}: ${x.a} → ${x.b} municípios (${x.b - x.a > 0 ? "+" : ""}${x.b - x.a})`).join(" · ")));
     }
-    Lab.sankey(cartao, { etapas: sk.etapas, sequencias: sk.sequencias, fluxos: sk.fluxos, ordem: [...G, "empate", "sem dados"],
+    Lab.sankey(cartao, { etapas: sk.etapas, sequencias: sk.sequencias, fluxos: sk.fluxos, ordem: [...G, "empate", "sem dados"], vertical: false,   // publicado na horizontal; o padrão vertical (2 etapas) vale para produtos novos
       valor: (f) => (est.skPeso === "municipios" ? f.municipios : f.validos_2026), cor: corGrupo, nome: nomeG,
       nomeItem: (m) => porTse.get(m).nome, nomeUnidades: "municípios", rotuloEtapa: (t) => t.replace(/^Deputado /, ""),
       dicaFluxo: (f) => [`${fmtInt.format(f.municipios)} municípios`, `${fmtInt.format(f.validos_2026)} votos válidos (${pesoTxt})`],

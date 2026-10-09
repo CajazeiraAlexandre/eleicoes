@@ -82,7 +82,7 @@ def gerar(raiz_lab: Path) -> Path:
     perfil = yaml.safe_load((raiz_lab / "autor/perfil.yaml").read_text(encoding="utf-8"))
     src = raiz_lab / PRODUTO / "src"
     html = montar_html(raiz_lab, (src / "index.template.html").read_text(encoding="utf-8"),
-                       app_js=(src / "app.js").read_text(encoding="utf-8"), base=base, design_system="padrao",
+                       app_js=(src / "app.js").read_text(encoding="utf-8"), base=base, design_system="padrao", produto_dir=raiz_lab / PRODUTO,
                        substituicoes={"__AUTOR__": perfil["nome_curto"],
                                       "__PORTFOLIO__": perfil.get("pagina_autor") or perfil.get("portfolio_url") or "../../../../docs/index.html"})
     destino = raiz_lab / PRODUTO / "index.html"

@@ -62,11 +62,37 @@ def exigir_flubber(modelo: str, app_js: str) -> None:
                          "(transição Mapa ⇄ Círculos; design.yaml › padroes.mapa_transicao).")
 
 
+def autoria(raiz: Path, produto_dir: Path | None) -> dict:
+    """GitHub do autor (autor/perfil.yaml › links.github) e repositório do produto para o rodapé de cada gráfico:
+    `repositorio` do produto.yaml ({nome, url}); senão o da frente do produto (projeto.yaml › frentes.<frente>.remoto);
+    senão `repositorio_publico` do projeto.yaml. Sem repositório, o rodapé não mostra "Projeto"."""
+    import yaml
+
+    perfil = yaml.safe_load((raiz / "autor" / "perfil.yaml").read_text(encoding="utf-8")) or {}
+    links = perfil.get("links") or {}
+    saida = {"autorUrl": links.get("github") or perfil.get("github")}
+    if produto_dir is None:
+        return saida
+    produto_dir = Path(produto_dir)
+    prod = yaml.safe_load((produto_dir / "produto.yaml").read_text(encoding="utf-8")) or {}
+    arq_proj = produto_dir.parents[1] / "projeto.yaml"
+    proj = (yaml.safe_load(arq_proj.read_text(encoding="utf-8")) or {}) if arq_proj.exists() else {}
+    repo = prod.get("repositorio")
+    if not repo and prod.get("destino") and (frente := (proj.get("frentes") or {}).get(prod["destino"])) and frente.get("remoto"):
+        repo = {"nome": frente.get("nome", prod["destino"]), "url": re.sub(r"\.git$", "", frente["remoto"])}
+    repo = repo or proj.get("repositorio_publico")
+    if repo:
+        saida["projeto"] = {"nome": repo["nome"], "url": repo["url"]}
+    return saida
+
+
 def montar_html(raiz: Path, modelo: str, *, app_js: str, base: dict, design_system: str = "padrao",
                 componentes_js=COMPONENTES_JS, componentes_css=COMPONENTES_CSS,
-                substituicoes: dict[str, str] | None = None) -> str:
-    """Preenche o modelo HTML; erro se faltar alguma marca (nada é inserido às cegas)."""
+                substituicoes: dict[str, str] | None = None, produto_dir: Path | None = None) -> str:
+    """Preenche o modelo HTML; erro se faltar alguma marca (nada é inserido às cegas). Com `produto_dir`, injeta a
+    autoria do rodapé (GitHub do autor e repositório do projeto) antes do app.js."""
     exigir_flubber(modelo, app_js)
+    app_js = f"Lab.configurar({json.dumps(autoria(raiz, produto_dir), ensure_ascii=False)});\n" + app_js
     marcas = {
         "/*__TOKENS_CSS__*/": (raiz / "design" / design_system / "tokens.css").read_text(encoding="utf-8"),
         "/*__LAB_CSS__*/": ler_componentes(raiz, componentes_css),
@@ -115,7 +141,7 @@ def gerar_produto(raiz: Path, produto_dir: Path, *, base: dict | None = None, qu
     subst = {"__AUTOR__": perfil.get("nome_curto") or perfil.get("nome", ""),
              "__PORTFOLIO__": perfil.get("pagina_autor") or perfil.get("portfolio_url") or "../../../../docs/index.html"}
     texto = modelo + app_js
-    html = montar_html(raiz, modelo, app_js=app_js, base=base, design_system=ds,
+    html = montar_html(raiz, modelo, app_js=app_js, base=base, design_system=ds, produto_dir=produto_dir,
                        substituicoes={k: v for k, v in subst.items() if k in texto})
     destino = produto_dir / "index.html"
     destino.write_text(html, encoding="utf-8")

@@ -10,10 +10,13 @@
   const tok = Lab.token;
 
   /** Linhas por momentos (2 ou mais pontas: 2018 → 2022 → 2026), com rótulos diretos sem sobreposição.
-   *  opts: { pontas: ["2018","2022","2026"], series: [{cor, valores: [v por ponta, null = sem dado], rotulo, dicas: [[título, linhas] por ponta]}],
-   *          fmt, aria, largura, dominio ([min, max] fixo; padrão: 0 até o maior valor) }
-   *  Linha só entre momentos vizinhos com dado. Rótulos: valor na 1ª ponta; valor e nome na última; meio só na dica. */
-  Lab.linhasPontas = (alvo, { pontas, series, fmt, aria, largura = 500, dominio = null }) => {
+   *  opts: { pontas: ["2018","2022","2026"], series: [{cor, valores: [v por ponta, null = sem dado], rotulo, dicas: [[título, linhas] por ponta],
+   *          tracejado (linha tracejada: segunda codificação além da cor)}], fmt, aria, largura, dominio ([min, max] fixo; padrão: 0 até o maior valor),
+   *          legenda (true: legenda abaixo, interativa) }
+   *  Linha só entre momentos vizinhos com dado. Rótulos: valor na 1ª ponta; valor e nome na última; meio só na dica.
+   *  Destaque (design.yaml › graficos.linhas_pontas): passar o mouse/tocar numa série (linha, ponto, rótulo) ou num item da
+   *  legenda realça a série e esmaece as demais; tocar num item da legenda fixa o destaque (tocar de novo solta). */
+  Lab.linhasPontas = (alvo, { pontas, series, fmt, aria, largura = 500, dominio = null, legenda = false }) => {
     const W = Math.min(largura, Lab.largura(largura)), H = 320, mg = { t: 26, b: 26, l: 58, r: 178 };
     const max = d3.max(series.flatMap((s) => s.valores).filter((v) => v !== null && v !== undefined)) || 1;
     const emPct = fmt === Lab.fmtPct;
@@ -31,24 +34,50 @@
     const afastar = (itens) => { itens.sort((a, b) => a.y - b.y); for (let k = 1; k < itens.length; k++) if (itens[k].y - itens[k - 1].y < 13) itens[k].y = itens[k - 1].y + 13; return itens; };
     const rotEsq = afastar(series.filter((s) => tem(s.valores[0])).map((s) => ({ s, y: sy(s.valores[0]) })));
     const rotDir = afastar(series.filter((s) => tem(s.valores[n - 1])).map((s) => ({ s, y: sy(s.valores[n - 1]) })));
+    const grupos = new Map(series.map((s) => [s, svg.append("g").attr("class", "serie")]));
+    let fixa = null;
+    const destacar = (alvoS) => {
+      const s_ = alvoS ?? fixa;
+      for (const [s, g] of grupos) g.attr("opacity", !s_ || s === s_ ? 1 : 0.18);
+      if (s_) grupos.get(s_).raise();
+      itensLeg.forEach(([s, it]) => it.classList.toggle("apagada", Boolean(s_) && s !== s_));
+    };
     for (const s of series) {
+      const g = grupos.get(s).on("pointerenter", () => destacar(s)).on("pointerleave", () => destacar(null));
       for (let i = 1; i < n; i++) if (tem(s.valores[i - 1]) && tem(s.valores[i]))
-        svg.append("line").attr("x1", sx(i - 1)).attr("y1", sy(s.valores[i - 1])).attr("x2", sx(i)).attr("y2", sy(s.valores[i]))
-          .attr("stroke", s.cor).attr("stroke-width", 2.5).attr("stroke-linecap", "round");
+        g.append("line").attr("x1", sx(i - 1)).attr("y1", sy(s.valores[i - 1])).attr("x2", sx(i)).attr("y2", sy(s.valores[i]))
+          .attr("stroke", s.cor).attr("stroke-width", 2.5).attr("stroke-linecap", "round").attr("stroke-dasharray", s.tracejado ? "5 4" : null);
       s.valores.forEach((v, i) => {
         if (!tem(v)) return;
         const d = s.dicas?.[i];
-        svg.append("circle").attr("class", "ponto").attr("cx", sx(i)).attr("cy", sy(v)).attr("r", 6).attr("fill", s.cor)
+        g.append("circle").attr("class", "ponto").attr("cx", sx(i)).attr("cy", sy(v)).attr("r", 6).attr("fill", s.cor)
           .on("pointermove", (ev) => d && Lab.mostrarDica(ev, d[0], d[1])).on("pointerleave", Lab.esconderDica);
       });
     }
-    const rot = (x, y, txt, ancora) => svg.append("text").attr("x", x).attr("y", y + 4).attr("text-anchor", ancora).style("font-size", "12px").style("font-weight", 600).style("fill", tok("cor-texto")).text(txt);
-    for (const { s, y } of rotEsq) rot(x0 - 9, y, fmt(s.valores[0]), "end");
-    for (const { s, y } of rotDir) rot(x1 + 9, y, `${fmt(s.valores[n - 1])} ${s.rotulo}`, "start");
+    const rot = (g, x, y, txt, ancora) => g.append("text").attr("x", x).attr("y", y + 4).attr("text-anchor", ancora).style("font-size", "12px").style("font-weight", 600).style("fill", tok("cor-texto")).text(txt);
+    for (const { s, y } of rotEsq) rot(grupos.get(s), x0 - 9, y, fmt(s.valores[0]), "end");
+    for (const { s, y } of rotDir) rot(grupos.get(s), x1 + 9, y, `${fmt(s.valores[n - 1])} ${s.rotulo}`, "start");
+    const itensLeg = [];
+    if (legenda) {
+      const leg = Lab.el("div", { class: "legenda legenda-interativa", role: "group", "aria-label": "Séries: passe o mouse ou toque para destacar" });
+      for (const s of series) {
+        const amostra = Lab.el("span", { class: `amostra-linha${s.tracejado ? " tracejada" : ""}`, "aria-hidden": "true" });
+        amostra.style.color = s.cor;
+        const it = Lab.el("button", { type: "button", class: "item-legenda", "aria-pressed": "false" }, amostra, ` ${s.rotulo}`);
+        it.addEventListener("pointerenter", () => destacar(s));
+        it.addEventListener("pointerleave", () => destacar(null));
+        it.addEventListener("focus", () => destacar(s));
+        it.addEventListener("blur", () => destacar(null));
+        it.addEventListener("click", () => { fixa = fixa === s ? null : s; itensLeg.forEach(([x, b]) => b.setAttribute("aria-pressed", String(x === fixa))); destacar(null); });
+        itensLeg.push([s, it]);
+        leg.append(it);
+      }
+      alvo.append(leg);
+    }
   };
   /** Duas pontas (antes → depois): atalho de Lab.linhasPontas. series: [{cor, v0, v1, rotulo, dica0, dica1}]. */
-  Lab.linhasDuasPontas = (alvo, { pontas, series, fmt, aria, largura = 500 }) => Lab.linhasPontas(alvo, { pontas, fmt, aria, largura,
-    series: series.map((s) => ({ cor: s.cor, valores: [s.v0, s.v1], rotulo: s.rotulo, dicas: [s.dica0, s.dica1] })) });
+  Lab.linhasDuasPontas = (alvo, { pontas, series, fmt, aria, largura = 500, legenda = false }) => Lab.linhasPontas(alvo, { pontas, fmt, aria, largura, legenda,
+    series: series.map((s) => ({ cor: s.cor, valores: [s.v0, s.v1], rotulo: s.rotulo, dicas: [s.dica0, s.dica1], tracejado: s.tracejado })) });
 
   /** Distribuição sem eixo vertical (beeswarm): cada unidade na posição do seu valor; 0 no centro.
    *  opts: { pontos: [{u, d, peso}], cor(d), simlog (bool: eixo logarítmico simétrico), marcas, fmtMarca,

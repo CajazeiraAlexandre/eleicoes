@@ -1,0 +1,117 @@
+id: 2026-10_locais-de-votacao
+titulo: "Onde o 2º turno se decide em sua cidade: locais de votação, Presidente 2026"
+tipo: painel            # exploratorio | narrativa | visualizacao | painel | nota-tecnica (docs/TIPOS_DE_PRODUTO.md)
+status: publicado         # rascunho | revisao | publicado | arquivado — publicação aprovada pelo pesquisador (2026-10-09), repositório público eleicoes
+versao: "1.0"             # 1.0 publicada em 2026-10-09
+deriva_de: 2026-10_mapa-da-virada   # seção "Locais de votação" do Mapa da virada, em página própria para print e exportação
+
+# ---- briefing (respostas às perguntas iniciais; ver CLAUDE.md, seção 6.0) ----
+pergunta: >-
+  Em cada local de votação de uma cidade escolhida: quantos eleitores aptos, quanto votaram Lula, Flávio
+  Bolsonaro, Augusto Cury, Renan Santos e os demais no 1º turno de 2026, qual foi a abstenção — e quanto isso
+  variou em relação ao 1º turno de 2022 no mesmo local.
+publico: Pesquisador, imprensa e público geral; tabela pensada para print e exportação.
+recorte:
+  eleicao: "Presidente, 1º turno de 2026 × 1º turno de 2022"
+  territorio: Brasil, um município por vez (exterior fora)
+  unidade: local de votação (seções somadas; seções agregadas no local da principal)
+  colunas: "Lula, Flávio, Cury, Renan, Outros (Caiado e demais) — pesquisador, 2026-10-08"
+variacao: >-
+  Pelo grupo de 2026 aplicado a 2022 (EL0008): Lula × grupo de Lula em 2022 (inclui Ciro/PDT); Flávio × PL
+  (Bolsonaro); Cury e Renan sem candidatura do grupo em 2022 → variação "—"; Outros × demais de 2022.
+  Mesmo local pelo EL0009. Votos em % dos válidos (com o número de votos) e variação em p.p.; abstenção em %
+  dos aptos e variação em p.p. (pesquisador, 2026-10-08).
+exportacao: [CSV, PNG da tabela]
+uso_final: Página autocontida (abre com duplo clique); a tabela é para print e exportação.
+design_system: null       # null = design_system_padrao do projeto.yaml (ver design/sistemas.yaml)
+
+# ---- tudo que o produto usa precisa estar declarado (inventário e exportação dependem disso) ----
+datasets:
+  - tse.votacao_secao                      # votos por seção, Presidente 1º turno 2022 e 2026 (_BR)
+  - tse.detalhe_votacao_secao              # aptos e abstenções por seção, Presidente 1º turno 2022 e 2026
+  - tse.eleitorado_local_votacao           # local, endereço, tipo e coordenadas das seções 2022 e 2026
+  - tse.votacao_candidato_munzona          # destino dos votos e partido das candidaturas de 2022 (EL0003)
+  - tse.detalhe_votacao_munzona            # conferência 2022 (aptos, abstenções, válidos por município)
+  - tse.votacao_partido_munzona            # conferência 2022 (votos por grupo e município)
+  - tse.resultados_2026_1t_presidente_municipios   # destino dos votos de 2026 e conferência por município (API)
+  - ibge.malha_municipios_2022             # contorno do município e coordenada dentro/fora
+  - tse.candidatos                         # nomes das candidaturas a Presidente 2018 e 2022 (aba 1º → 2º turno)
+  # base municipal do Mapa da virada (evolução 2018–2026 e conferência de 2022), refeita por analise/preparar_mapa_virada.py
+  - ibge.censo2022_municipios
+  - ibge.pib_municipios
+  - mds.bolsa_familia_municipios
+  - ibge.municipios_regiao_imediata
+decisoes: [L0001, L0002, L0003, EL0002, EL0003, EL0008, EL0009]
+analise:
+  - analise/preparar_locais_votacao.py     # data/locais/<IBGE>.js, relatório de conferência e HTML
+  - analise/preparar_locais_mapa_virada.py # seção → local, regra do mesmo local (EL0009), contornos
+  - analise/preparar_mapa_virada.py        # base municipal 2018–2026 (rodar antes; grava a base do Mapa da virada)
+  - analise/validar_mapa_virada.py         # leitura dos arquivos do TSE, correspondência TSE ⇄ IBGE e grupos (EL0008)
+componentes_web:          # arquivos de web/componentes/ embutidos no HTML (padrão do design system; ADR L0003)
+  [lab.css, lab-nucleo.js, lab-escalas.js, lab-graficos.js, lab-metodologia.js]
+
+decisoes_locais:
+  2026_10_09_ajustes: >-
+    Pedido do pesquisador: (1) mapa no padrão do projeto — bolhas em cartograma de Dorling (sem sobreposição,
+    45% da envoltória dos locais, teto de 30 px, fora de escala rotulado) e transição Pontos ⇄ Bolhas; (2) PNG
+    com o total e os 20 primeiros locais na ordem mostrada, com aviso dos demais (CSV completo); (3) análise
+    rápida: linhas 2018–2026 (1º turno) em % do eleitorado apto — grupos EL0008, brancos e nulos (inclui
+    anulados) e abstenção, tracejadas — e quadro de locais com par que subiram/caíram, com mediana. Sankey
+    não usado: fluxo de eleitores exigiria inferência ecológica (sem ADR). Cores aprovadas pelo pesquisador
+    (2026-10-09); validador: croma baixo em Outros/brancos/abstenção é intencional, com rótulos diretos,
+    tracejado e tabela como segunda codificação.
+  2026_10_09_votos_em_disputa: >-
+    Foco implícito pedido pelo pesquisador: locais com mais oportunidade de ampliar a votação de Lula, na forma
+    simétrica aprovada no Mapa da virada — seletor de candidatura com Lula como padrão, mesma conta para todas.
+    Votos em disputa (absolutos, % ao lado) = abstenções + brancos e nulos + votos fora da disputa principal (Lula ×
+    Flávio Bolsonaro), sem os do próprio grupo; perdas desde 2022 (votos 2022 − 2026, se positivo, locais com par)
+    mostradas à parte, fora da soma, para não contar a mesma pessoa duas vezes (função
+    preparar_locais_votacao.votos_em_disputa, testada). Recurso escolhido: dispersão variação desde 2022 × votos
+    em disputa, destaque = perdeu participação e disputa acima da mediana dos locais; cinco nomes no gráfico.
+    Também: cores de Cury e Renan trocadas neste produto; "Flávio Bolsonaro" sempre por extenso (duas linhas no
+    rótulo do gráfico no celular).
+  2026_10_09_entre_turnos: >-
+    Pedido do pesquisador (A+B): histórico do 1º para o 2º turno. (A) Na dispersão "votos em disputa", a cor dos
+    locais em destaque = com quem ficou o ganho de votos do local entre os turnos de 2022 (Lula × Bolsonaro);
+    (B) quadro da cidade com o saldo entre turnos de 2018 e 2022. Comparação POR CANDIDATURA (PT × PSL/PL), não
+    por grupo EL0008 (no 1º turno o grupo de Lula soma o PDT de Ciro; aprovado pelo pesquisador). Saldo do lugar,
+    não fluxo de eleitores (função saldo_entre_turnos, testada). 2022 por local (detalhe e votação por seção,
+    2º turno; conferência sem divergência); 2018 só por cidade (sem novo download). Cortes da fatia (35/45/55/65%)
+    são PROPOSTA.
+  2026_10_09_visualizacao: >-
+    Pedidos do pesquisador: (1) evolução com medida % do eleitorado apto × votos e legenda que destaca a série no
+    hover/foco (tocar fixa) — padrão atualizado no design system (Lab.linhasPontas: legenda, tracejado; design.yaml
+    graficos.linhas_pontas); (2) seletores redesenham no lugar (Lab.noLugar, dados do município em cache), sem
+    voltar ao topo; (3) "votos em disputa" só para Lula e Flávio Bolsonaro (candidaturas do 2º turno);
+    (4) subtítulo explicando votos em disputa e tamanho dos círculos fixo / eleitores aptos / votos perdidos desde 2022.
+  2026_10_09_abas: >-
+    Pedido do pesquisador (menos rolagem, acesso direto): barra fixa com a cidade e abas Resumo · Votos em disputa ·
+    Mapa · Tabela; cada aba mostra só a sua parte (e só ela é calculada); a aba fica no endereço (#mun=…&aba=tabela),
+    para links diretos; setas do teclado trocam de aba. No celular, com cidade escolhida, o abre recolhe em
+    "Sobre esta página".
+  2026_10_09_aba_entre_turnos: >-
+    Pedido do pesquisador (o quadro "Do 1º para o 2º turno" comunicava pouco e o histórico estava pouco
+    aproveitado): aba própria "Entre turnos" — frase com a leitura principal; barras de quem ficou com o ganho
+    entre os turnos (PT × PSL/PL) na cidade, no estado e no Brasil, 2022 e 2018, com a conta completa na dica e
+    em tabela, e as outras candidaturas do 1º turno nomeadas (consulta_cand); mapa de bolhas dos locais (cor =
+    com quem ficou o ganho em 2022, tamanho = votos das outras no 1º turno), também como lente da aba Mapa;
+    lista dos 15 locais com mais votos das outras no 1º turno. No Resumo, o quadro virou chamada para a aba.
+  2026_10_09_titulo_e_padroes: >-
+    Pesquisador: título "Onde o 2º turno se decide em sua cidade" ("em sua cidade" grifado, marca-texto amarelo-claro,
+    não o azul do --cor-destaque, que é a cor de Flávio Bolsonaro); mapa abre em bolhas, abstenção, variação desde
+    2022; aba "1º → 2º turno" (título da seção: "Mudanças do 1º para o 2º turno nas últimas eleições").
+  2026_10_09_area_e_zoom: >-
+    Pedido do pesquisador (cidades grandes): filtro "Bairro ou zona" na barra fixa — bairro como está no cadastro do
+    TSE (sem juntar grafias; em São Paulo são 899 bairros, quase sempre 1 a 3 locais) ou zona eleitoral (dezenas de
+    locais vizinhos). Filtra mapa, dispersão (outros locais esmaecidos; medianas continuam as da cidade), lista do
+    1º → 2º turno, tabela, CSV e PNG; números da cidade não mudam; classes de cor do mapa continuam as da cidade.
+    O mapa enquadra a área escolhida e ganhou zoom (botões, Ctrl + rolagem, dois dedos; raio ÷ √zoom).
+  2026_10_09_area_integrada: >-
+    Pedido do pesquisador: o filtro de bairro/zona vale para todas as abas. Resumo: placar da área com a cidade ao
+    lado; evolução da área 2022 → 2026 somando só os locais com par (os mesmos nos dois anos, EL0009; por local não
+    há 2018); quadro local a local e chamada do 2º turno da área. Aba 1º → 2º turno: barra da área (locais com par)
+    acima de cidade, estado e Brasil, e mapa e lista da área.
+
+licenca:
+  codigo: MIT
+  dados_derivados: CC-BY-4.0

@@ -18,7 +18,8 @@
   // raiz: elemento onde a página desenha (seleção e rótulos procuram dentro dele)
   // autor: nome curto do rodapé dos gráficos · orgaos: chave da fonte → órgão (rodapé curto)
   // artigos: forma com artigo quando há um só órgão ("TSE" → "do TSE")
-  Lab.cfg = { raiz: document.body, autor: "", orgaos: {}, artigos: {}, ancoraMetodologia: "metodologia", ancoraRodape: "rodape" };
+  // autorUrl (GitHub do autor) e projeto ({nome, url} do repositório) chegam da montagem (labdados.produto_web)
+  Lab.cfg = { raiz: document.body, autor: "", autorUrl: null, projeto: null, orgaos: {}, artigos: {}, ancoraMetodologia: "metodologia", ancoraRodape: "rodape" };
   Lab.configurar = (c) => Object.assign(Lab.cfg, c);
 
   // ------------------------------------------------------------ formatos (pt-BR)
@@ -142,7 +143,9 @@
     const deQuem = orgaos.length === 1 && Lab.cfg.artigos[orgaos[0]] ? Lab.cfg.artigos[orgaos[0]] : `de ${orgaos.join(", ")}`;
     const f = el("div", { class: "rodape-grafico" },
       el("span", {}, `Fonte: bases oficiais ${deQuem}. `),
-      el("a", { href: `#${Lab.cfg.ancoraRodape}`, onclick: Lab.irRodape, text: "Saiba mais ↓" }), " · ", el("span", {}, `Análise e visualização: ${Lab.cfg.autor}`));
+      el("a", { href: `#${Lab.cfg.ancoraRodape}`, onclick: Lab.irRodape, text: "Saiba mais ↓" }), " · ",
+      el("span", {}, "Análise e visualização: ", Lab.cfg.autorUrl ? el("a", { href: Lab.cfg.autorUrl, target: "_blank", rel: "noopener", text: Lab.cfg.autor }) : Lab.cfg.autor),
+      Lab.cfg.projeto ? el("span", {}, " · Projeto: ", el("a", { href: Lab.cfg.projeto.url, target: "_blank", rel: "noopener", text: `${Lab.cfg.projeto.nome} ↗` })) : null);
     if (cobertura || nota) f.append(el("details", { class: "info info-notas" }, el("summary", {}, "ⓘ notas"),
       ...[cobertura, nota].filter(Boolean).map((t) => el("p", { text: t }))));
     return f;

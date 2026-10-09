@@ -379,7 +379,7 @@ def gerar_html(raiz_lab: Path, base: dict, dados_b64: str) -> Path:
                  qualidade=tabela_q, status_qualidade=status_q)}
     nucleo = (src / "nucleo.js").read_text(encoding="utf-8").replace("export ", "")
     html = montar_html(raiz_lab, (src / "index.template.html").read_text(encoding="utf-8"),
-                       app_js=nucleo + "\n" + (src / "app.js").read_text(encoding="utf-8"), base=base_html,
+                       app_js=nucleo + "\n" + (src / "app.js").read_text(encoding="utf-8"), base=base_html, produto_dir=raiz_lab / PRODUTO,
                        substituicoes={"__AUTOR__": perfil["nome_curto"],
                                       "__PORTFOLIO__": perfil.get("pagina_autor") or perfil.get("portfolio_url") or "../../../../docs/index.html"})
     destino = raiz_lab / PRODUTO / "index.html"

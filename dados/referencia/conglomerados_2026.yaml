@@ -1,0 +1,57 @@
+# Conglomerados presidenciais de 2026, federações e linhagem partidária — EL0008 (aprovado em 2026-10-07).
+# Lido pelo código do produto "O mapa da virada". Ordem dos conglomerados = ordem fixa de cor e legenda.
+
+# sigla antiga (como aparece nos arquivos do TSE) -> partido de 2026
+linhagem:
+  PR: PL
+  PSL: PL            # decisão do pesquisador (PSL e PL caminham juntos; PSL destacado)
+  DEM: UNIÃO
+  PRB: REPUBLICANOS
+  PPS: CIDADANIA
+  PSC: PODE
+  PHS: PODE
+  PTB: PRD
+  PATRIOTA: PRD
+  PATRI: PRD
+  PRP: PRD
+  PROS: SOLIDARIEDADE
+  PPL: PCDOB
+  PC do B: PCDOB
+  PTC: AGIR
+  PMN: MOBILIZA
+  PMB: DEMOCRATA
+
+# partido de 2026 -> federação de 2026 (partidos fora daqui são a própria agremiação)
+federacoes:
+  FE BRASIL: [PT, PCDOB, PV]
+  PSOL REDE: [PSOL, REDE]
+  PSDB CIDADANIA: [PSDB, CIDADANIA]
+  RENOVAÇÃO SOLIDÁRIA: [PRD, SOLIDARIEDADE]
+  UNIÃO PROGRESSISTA: [UNIÃO, PP]
+
+# conglomerado -> agremiações de 2026
+conglomerados:
+  lula:
+    nome: Lula
+    agremiacoes: [FE BRASIL, PSOL REDE, PSB, PDT]
+    destaque: PT
+  flavio:
+    nome: Flávio Bolsonaro
+    agremiacoes: [PL]
+    destaque: PL
+    destaque_historico: {2018: PSL, 2020: PSL}
+  cury:
+    nome: Augusto Cury
+    agremiacoes: [AVANTE, AGIR]
+  renan:
+    nome: Renan Santos
+    agremiacoes: [MISSÃO]
+  caiado:
+    nome: Ronaldo Caiado
+    agremiacoes: [PSD]
+  demais:
+    nome: Demais candidaturas
+    agremiacoes: [NOVO, PRTB, UP, PSTU, DC, PCB, PCO, DEMOCRATA]
+  sem_candidatura:
+    nome: Sem candidatura presidencial em 2026
+    agremiacoes: [MDB, UNIÃO PROGRESSISTA, REPUBLICANOS, PSDB CIDADANIA, PODE, RENOVAÇÃO SOLIDÁRIA, MOBILIZA]

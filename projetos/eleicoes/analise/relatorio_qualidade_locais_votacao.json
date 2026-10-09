@@ -1,0 +1,70 @@
+{
+  "gerado_em": "2026-10-09T00:23:16-03:00",
+  "decisoes": [
+    "EL0003",
+    "EL0008",
+    "EL0009",
+    "EL0002",
+    "L0001"
+  ],
+  "ligacao_secao_local": {
+    "2026": {
+      "secoes": 497897,
+      "ligadas": 497897,
+      "ligadas_principal": 497897,
+      "aptos": 157828968,
+      "aptos_ligados": 157828968
+    },
+    "2022_coordenadas": {
+      "secoes": 471011,
+      "com_cadastro": 471011
+    }
+  },
+  "nulo_tecnico_2026": {
+    "28": 5123
+  },
+  "conferencia_2026": {
+    "municipios": 5571,
+    "divergencias": 0,
+    "amostras": [],
+    "totais": {
+      "aptos": 157828968,
+      "abstencoes": 32894899,
+      "validos": 118969906,
+      "lula": 53722151,
+      "flavio": 55960603,
+      "cury": 3438835,
+      "renan": 2667307,
+      "outros": 3181010
+    }
+  },
+  "conferencia_2022": {
+    "municipios": 5570,
+    "divergencias": 0,
+    "amostras": [],
+    "totais": {
+      "aptos": 155758656,
+      "abstencoes": 32380232,
+      "validos": 117935194,
+      "lula": 60706517,
+      "flavio": 50949797,
+      "cury": 0,
+      "renan": 0,
+      "outros": 6278880
+    }
+  },
+  "conferencia_turnos_2022": {
+    "municipios": 5570,
+    "divergencias": 0,
+    "amostras": []
+  },
+  "pareamento": {
+    "distancia": 13599,
+    "nome": 69915,
+    "sem_chave": 7295,
+    "sem_par": 2257,
+    "especial": 1018
+  },
+  "municipios_com_arquivo": 5570,
+  "tamanho_total_mb": 25.3
+}

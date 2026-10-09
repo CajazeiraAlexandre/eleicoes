@@ -1,0 +1,72 @@
+{
+  "gerado_em": "2026-10-08T23:23:57-03:00",
+  "decisoes": [
+    "EL0009",
+    "EL0002",
+    "L0001"
+  ],
+  "ligacao_secao_local": {
+    "2026": {
+      "secoes": 497897,
+      "ligadas": 497897,
+      "ligadas_principal": 497897,
+      "aptos": 157828968,
+      "aptos_ligados": 157828968
+    },
+    "2022_coordenadas": {
+      "secoes": 471011,
+      "com_cadastro": 471011
+    }
+  },
+  "conferencia_2026_api": {
+    "municipios": 5571,
+    "divergencias": 0,
+    "amostras": [],
+    "aptos": 157828968,
+    "abstencoes": 32894899
+  },
+  "conferencia_2022_munzona": {
+    "municipios": 5570,
+    "divergencias": 0,
+    "amostras": [],
+    "aptos": 155758656,
+    "abstencoes": 32380232
+  },
+  "locais_2026": 94087,
+  "locais_2022": 91860,
+  "pareamento": {
+    "nome": {
+      "locais": 69915,
+      "aptos_2026": 121593098
+    },
+    "distancia": {
+      "locais": 13599,
+      "aptos_2026": 23197100
+    },
+    "sem_par": {
+      "locais": 2257,
+      "aptos_2026": 3311574
+    },
+    "sem_chave": {
+      "locais": 7298,
+      "aptos_2026": 8700724
+    },
+    "especial": {
+      "locais": 1018,
+      "aptos_2026": 1026472
+    }
+  },
+  "coordenadas": {
+    "ok": 92487,
+    "fora": 1034,
+    "sem": 566
+  },
+  "municipios_com_arquivo": 5570,
+  "fora_do_mapa_sem_ibge": [
+    {
+      "municipio_tse": "73709",
+      "aptos": 4326
+    }
+  ],
+  "tamanho_total_mb": 19.5
+}

@@ -106,6 +106,14 @@ h2.sub{font-size:20px;margin-top:var(--espaco-gg)}
 .mapa path.u.ligado{stroke:var(--cor-texto);stroke-opacity:1;stroke-width:2.4}
 circle.ponto.ligado{stroke:var(--cor-texto);stroke-width:2.6;fill-opacity:1}
 .legenda{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;color:var(--cor-texto-secundario);margin-top:var(--espaco-p);align-items:center}
+/* legenda interativa (Lab.linhasPontas › legenda): destaca a série no hover/foco; tocar fixa (L0003, graficos.linhas_pontas) */
+.legenda-interativa{gap:6px 8px}
+.legenda-interativa .item-legenda{font:inherit;font-size:14px;color:var(--cor-texto-secundario);background:none;border:1px solid transparent;border-radius:var(--raio);padding:4px 8px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;min-height:32px}
+.legenda-interativa .item-legenda:hover,.legenda-interativa .item-legenda:focus-visible{border-color:var(--cor-borda);color:var(--cor-texto)}
+.legenda-interativa .item-legenda[aria-pressed="true"]{border-color:var(--cor-texto);color:var(--cor-texto)}
+.legenda-interativa .item-legenda.apagada{opacity:.4}
+.amostra-linha{display:inline-block;width:20px;height:0;border-top:3px solid currentColor;border-radius:2px}
+.amostra-linha.tracejada{border-top-style:dashed}
 .legenda .chave{display:inline-flex;align-items:center;gap:8px}
 .legenda .amostra{width:18px;height:18px;border-radius:3px;display:inline-block}
 .legenda .rampa{display:inline-flex;gap:2px}
@@ -206,3 +214,15 @@ button.voltar{font:inherit;font-size:15px;border:1px solid var(--cor-borda);back
      border-radius:var(--raio);padding:10px 14px;cursor:pointer;min-height:44px;margin-top:var(--espaco-m)}
 a{color:var(--cor-destaque)}
 .carregando{padding:var(--espaco-gg) 0;color:var(--cor-texto-secundario)}
+
+/* legenda interativa (Lab.sankey): item destaca os fluxos da categoria */
+.legenda-interativa .chave{cursor:pointer;border-radius:3px;padding:1px 4px;margin:-1px -4px}
+.legenda-interativa .chave:hover,.legenda-interativa .chave:focus-visible{background:var(--cor-grade);outline:none}
+/* legendas do sankey: centralizadas; com duas variáveis, uma acima (primeiro lado) e outra abaixo (último lado) */
+.legenda-sankey{justify-content:center;text-align:center;margin:10px auto 12px}
+.legenda-sankey .lado-legenda{flex-basis:100%;font-weight:700;font-size:14px;margin-bottom:2px}
+svg.sankey{display:block;margin-left:auto;margin-right:auto}
+/* card da distribuição do destaque no sankey (mesmo visual do card do mapa) */
+.painel-sankey{max-width:620px;margin:10px auto}
+.painel-sankey .bloco-dist{flex-basis:100%;display:flex;flex-direction:column;gap:1px;font-variant-numeric:tabular-nums}
+.painel-sankey .bloco-dist strong{font-size:13px;margin-top:4px}

@@ -1,0 +1,688 @@
+{
+ "gerado_em": "2026-10-07T09:57:13-03:00",
+ "anos": {
+  "2018": {
+   "A_validos": {
+    "por_eleicao": {
+     "1º turno · dep_federal": {
+      "municipios": 5570,
+      "validos": 98257142,
+      "divergencias": 62
+     },
+     "1º turno · presidente": {
+      "municipios": 5570,
+      "validos": 106857368
+     },
+     "1º turno · senador": {
+      "municipios": 5570,
+      "validos": 170093885
+     },
+     "2º turno · presidente": {
+      "municipios": 5570,
+      "validos": 104653352
+     }
+    },
+    "amostras_divergencias": [
+     {
+      "chave": [
+       "1",
+       "dep_federal",
+       "2895"
+      ],
+      "soma_partidos": 6954,
+      "validos_oficiais": 6921
+     },
+     {
+      "chave": [
+       "1",
+       "dep_federal",
+       "98450"
+      ],
+      "soma_partidos": 4700,
+      "validos_oficiais": 4684
+     },
+     {
+      "chave": [
+       "1",
+       "dep_federal",
+       "2496"
+      ],
+      "soma_partidos": 7772,
+      "validos_oficiais": 7714
+     },
+     {
+      "chave": [
+       "1",
+       "dep_federal",
+       "2690"
+      ],
+      "soma_partidos": 47893,
+      "validos_oficiais": 47767
+     },
+     {
+      "chave": [
+       "1",
+       "dep_federal",
+       "2810"
+      ],
+      "soma_partidos": 28280,
+      "validos_oficiais": 28173
+     },
+     {
+      "chave": [
+       "1",
+       "dep_federal",
+       "2313"
+      ],
+      "soma_partidos": 6374,
+      "validos_oficiais": 6323
+     },
+     {
+      "chave": [
+       "1",
+       "dep_federal",
+       "2879"
+      ],
+      "soma_partidos": 8636,
+      "validos_oficiais": 8611
+     },
+     {
+      "chave": [
+       "1",
+       "dep_federal",
+       "2577"
+      ],
+      "soma_partidos": 18443,
+      "validos_oficiais": 18397
+     },
+     {
+      "chave": [
+       "1",
+       "dep_federal",
+       "2950"
+      ],
+      "soma_partidos": 8648,
+      "validos_oficiais": 8613
+     },
+     {
+      "chave": [
+       "1",
+       "dep_federal",
+       "2097"
+      ],
+      "soma_partidos": 6305,
+      "validos_oficiais": 6267
+     },
+     {
+      "chave": [
+       "1",
+       "dep_federal",
+       "2712"
+      ],
+      "soma_partidos": 6319,
+      "validos_oficiais": 6250
+     },
+     {
+      "chave": [
+       "1",
+       "dep_federal",
+       "2437"
+      ],
+      "soma_partidos": 5238,
+      "validos_oficiais": 5229
+     },
+     {
+      "chave": [
+       "1",
+       "dep_federal",
+       "2003"
+      ],
+      "soma_partidos": 6355,
+      "validos_oficiais": 6331
+     },
+     {
+      "chave": [
+       "1",
+       "dep_federal",
+       "2216"
+      ],
+      "soma_partidos": 11613,
+      "validos_oficiais": 11579
+     },
+     {
+      "chave": [
+       "1",
+       "dep_federal",
+       "2275"
+      ],
+      "soma_partidos": 9557,
+      "validos_oficiais": 9502
+     }
+    ]
+   },
+   "C_abstencao": {
+    "1º turno · presidente": {
+     "aptos": 146805955,
+     "abstencoes": 29644067,
+     "municipios": 5570,
+     "taxa_%": 20.19
+    },
+    "2º turno · presidente": {
+     "aptos": 146805947,
+     "abstencoes": 31073662,
+     "municipios": 5570,
+     "taxa_%": 21.17
+    }
+   }
+  },
+  "2020": {
+   "A_validos": {
+    "por_eleicao": {
+     "1º turno · prefeito": {
+      "municipios": 5568,
+      "validos": 100954983
+     },
+     "1º turno · vereador": {
+      "municipios": 5568,
+      "validos": 101251265,
+      "divergencias": 2
+     },
+     "2º turno · prefeito": {
+      "municipios": 58,
+      "validos": 23676148
+     }
+    },
+    "amostras_divergencias": [
+     {
+      "chave": [
+       "1",
+       "vereador",
+       "36390"
+      ],
+      "soma_partidos": 0,
+      "validos_oficiais": 5635
+     },
+     {
+      "chave": [
+       "1",
+       "vereador",
+       "65390"
+      ],
+      "soma_partidos": 9259,
+      "validos_oficiais": 8475
+     }
+    ]
+   },
+   "C_abstencao": {
+    "1º turno · prefeito": {
+     "aptos": 147918483,
+     "abstencoes": 34242550,
+     "municipios": 5568,
+     "taxa_%": 23.15
+    },
+    "2º turno · prefeito": {
+     "aptos": 38577128,
+     "abstencoes": 11393116,
+     "municipios": 58,
+     "taxa_%": 29.53
+    }
+   }
+  },
+  "2022": {
+   "A_validos": {
+    "por_eleicao": {
+     "1º turno · dep_federal": {
+      "municipios": 5570,
+      "validos": 109305870
+     },
+     "1º turno · presidente": {
+      "municipios": 5570,
+      "validos": 117935194
+     },
+     "1º turno · senador": {
+      "municipios": 5570,
+      "validos": 99594050
+     },
+     "2º turno · presidente": {
+      "municipios": 5570,
+      "validos": 118254184
+     }
+    },
+    "amostras_divergencias": []
+   },
+   "C_abstencao": {
+    "1º turno · presidente": {
+     "aptos": 155758656,
+     "abstencoes": 32380232,
+     "municipios": 5570,
+     "taxa_%": 20.79
+    },
+    "2º turno · presidente": {
+     "aptos": 155758433,
+     "abstencoes": 31815701,
+     "municipios": 5570,
+     "taxa_%": 20.43
+    }
+   }
+  },
+  "2024": {
+   "A_validos": {
+    "por_eleicao": {
+     "1º turno · prefeito": {
+      "municipios": 5569,
+      "validos": 112172388,
+      "divergencias": 9
+     },
+     "1º turno · vereador": {
+      "municipios": 5569,
+      "validos": 112573163,
+      "divergencias": 23
+     },
+     "2º turno · prefeito": {
+      "municipios": 51,
+      "validos": 22031290
+     }
+    },
+    "amostras_divergencias": [
+     {
+      "chave": [
+       "1",
+       "vereador",
+       "9539"
+      ],
+      "soma_partidos": 0,
+      "validos_oficiais": 18252
+     },
+     {
+      "chave": [
+       "1",
+       "vereador",
+       "92770"
+      ],
+      "soma_partidos": 0,
+      "validos_oficiais": 6496
+     },
+     {
+      "chave": [
+       "1",
+       "prefeito",
+       "96610"
+      ],
+      "soma_partidos": 0,
+      "validos_oficiais": 4888
+     },
+     {
+      "chave": [
+       "1",
+       "prefeito",
+       "31313"
+      ],
+      "soma_partidos": 0,
+      "validos_oficiais": 3258
+     },
+     {
+      "chave": [
+       "1",
+       "vereador",
+       "5894"
+      ],
+      "soma_partidos": 0,
+      "validos_oficiais": 16866
+     },
+     {
+      "chave": [
+       "1",
+       "prefeito",
+       "31950"
+      ],
+      "soma_partidos": 0,
+      "validos_oficiais": 68412
+     },
+     {
+      "chave": [
+       "1",
+       "prefeito",
+       "7951"
+      ],
+      "soma_partidos": 0,
+      "validos_oficiais": 5315
+     },
+     {
+      "chave": [
+       "1",
+       "vereador",
+       "8001"
+      ],
+      "soma_partidos": 0,
+      "validos_oficiais": 11227
+     },
+     {
+      "chave": [
+       "1",
+       "prefeito",
+       "93998"
+      ],
+      "soma_partidos": 0,
+      "validos_oficiais": 16383
+     },
+     {
+      "chave": [
+       "1",
+       "vereador",
+       "7420"
+      ],
+      "soma_partidos": 0,
+      "validos_oficiais": 6191
+     },
+     {
+      "chave": [
+       "1",
+       "prefeito",
+       "8222"
+      ],
+      "soma_partidos": 0,
+      "validos_oficiais": 5177
+     },
+     {
+      "chave": [
+       "1",
+       "vereador",
+       "31917"
+      ],
+      "soma_partidos": 0,
+      "validos_oficiais": 17009
+     },
+     {
+      "chave": [
+       "1",
+       "vereador",
+       "12670"
+      ],
+      "soma_partidos": 0,
+      "validos_oficiais": 4278
+     },
+     {
+      "chave": [
+       "1",
+       "prefeito",
+       "7137"
+      ],
+      "soma_partidos": 0,
+      "validos_oficiais": 16880
+     },
+     {
+      "chave": [
+       "1",
+       "vereador",
+       "4448"
+      ],
+      "soma_partidos": 0,
+      "validos_oficiais": 24555
+     }
+    ]
+   },
+   "C_abstencao": {
+    "1º turno · prefeito": {
+     "aptos": 155912680,
+     "abstencoes": 33797069,
+     "municipios": 5569,
+     "taxa_%": 21.68
+    },
+    "2º turno · prefeito": {
+     "aptos": 33996477,
+     "abstencoes": 9947061,
+     "municipios": 51,
+     "taxa_%": 29.26
+    }
+   }
+  },
+  "2026": {
+   "A_validos": {
+    "por_eleicao": {
+     "1º turno · presidente": {
+      "municipios": 5571,
+      "validos": 118969906
+     }
+    },
+    "amostras_divergencias": []
+   },
+   "C_abstencao": {
+    "1º turno · presidente": {
+     "aptos": 157828968,
+     "abstencoes": 32894899,
+     "municipios": 5571,
+     "taxa_%": 20.84
+    }
+   },
+   "api_coletada_em": "2026-10-07T09:13:38-03:00",
+   "estaduais_nominais": {
+    "senador": {
+     "municipios": 5571,
+     "votos_nominais_validos": 207038240
+    },
+    "dep_federal": {
+     "municipios": 5571,
+     "votos_nominais_validos": 110246229
+    }
+   },
+   "aviso": "Senador e Dep. Federal 2026 só com votos nominais: o TSE ainda não publicou os arquivos de partido (legenda) e de detalhe (válidos) de 2026."
+  }
+ },
+ "D_bancadas": {
+  "2018": {
+   "dep_federal": {
+    "total": 513,
+    "por_conglomerado": {
+     "sem_candidatura": 234,
+     "lula": 141,
+     "flavio": 85,
+     "caiado": 35,
+     "cury": 9,
+     "demais": 9
+    },
+    "por_partido": {
+     "PT": 56,
+     "PSL": 52,
+     "PP": 37,
+     "PSD": 35,
+     "MDB": 34,
+     "PR": 33,
+     "PSB": 32,
+     "PSDB": 30,
+     "PRB": 29,
+     "DEM": 29,
+     "PDT": 28,
+     "SOLIDARIEDADE": 13,
+     "PODE": 11,
+     "PTB": 10,
+     "PSOL": 10,
+     "PC do B": 9,
+     "PPS": 8,
+     "PROS": 8,
+     "NOVO": 8,
+     "AVANTE": 7,
+     "PSC": 7,
+     "PHS": 6,
+     "PATRIOTA": 5,
+     "PV": 4,
+     "PRP": 4,
+     "PMN": 3,
+     "PTC": 2,
+     "DC": 1,
+     "REDE": 1,
+     "PPL": 1
+    }
+   },
+   "senador": {
+    "total": 53,
+    "por_conglomerado": {
+     "sem_candidatura": 32,
+     "lula": 13,
+     "flavio": 4,
+     "caiado": 4
+    },
+    "por_partido": {
+     "MDB": 7,
+     "REDE": 5,
+     "PP": 5,
+     "PSDB": 4,
+     "DEM": 4,
+     "PT": 4,
+     "PSD": 4,
+     "PSL": 3,
+     "PTB": 2,
+     "PPS": 2,
+     "PHS": 2,
+     "PDT": 2,
+     "PSB": 2,
+     "PRB": 1,
+     "SOLIDARIEDADE": 1,
+     "PSC": 1,
+     "PODE": 1,
+     "PRP": 1,
+     "PROS": 1,
+     "PR": 1
+    }
+   }
+  },
+  "2022": {
+   "dep_federal": {
+    "total": 513,
+    "por_conglomerado": {
+     "sem_candidatura": 235,
+     "lula": 128,
+     "flavio": 98,
+     "caiado": 42,
+     "cury": 7,
+     "demais": 3
+    },
+    "por_partido": {
+     "PL": 98,
+     "PT": 69,
+     "UNIÃO": 57,
+     "PP": 47,
+     "PSD": 42,
+     "MDB": 41,
+     "REPUBLICANOS": 40,
+     "PDT": 16,
+     "PSB": 15,
+     "PODE": 14,
+     "PSOL": 13,
+     "PSDB": 13,
+     "AVANTE": 7,
+     "PC do B": 7,
+     "PV": 6,
+     "PSC": 6,
+     "CIDADANIA": 5,
+     "PATRIOTA": 4,
+     "SOLIDARIEDADE": 4,
+     "PROS": 3,
+     "NOVO": 3,
+     "REDE": 2,
+     "PTB": 1
+    }
+   },
+   "senador": {
+    "total": 27,
+    "por_conglomerado": {
+     "sem_candidatura": 12,
+     "flavio": 8,
+     "lula": 5,
+     "caiado": 2
+    },
+    "por_partido": {
+     "PL": 8,
+     "UNIÃO": 5,
+     "PT": 4,
+     "PP": 3,
+     "PSD": 2,
+     "REPUBLICANOS": 2,
+     "PSB": 1,
+     "MDB": 1,
+     "PSC": 1
+    }
+   }
+  },
+  "2026": {
+   "senador": {
+    "total": 54,
+    "por_conglomerado": {
+     "flavio": 19,
+     "sem_candidatura": 19,
+     "lula": 11,
+     "demais": 3,
+     "caiado": 2
+    },
+    "por_partido": {
+     "PL": 19,
+     "MDB": 7,
+     "PT": 6,
+     "NOVO": 3,
+     "PP": 3,
+     "PSB": 3,
+     "UNIÃO": 3,
+     "REPUBLICANOS": 2,
+     "PSD": 2,
+     "PODE": 2,
+     "PSDB": 2,
+     "REDE": 1,
+     "PDT": 1
+    }
+   },
+   "dep_federal": {
+    "total": 513,
+    "por_conglomerado": {
+     "sem_candidatura": 209,
+     "lula": 124,
+     "flavio": 121,
+     "caiado": 43,
+     "demais": 10,
+     "cury": 5,
+     "renan": 1
+    },
+    "por_partido": {
+     "PL": 121,
+     "PT": 70,
+     "UNIÃO": 46,
+     "PSD": 43,
+     "PP": 41,
+     "REPUBLICANOS": 41,
+     "MDB": 36,
+     "PODE": 27,
+     "PSB": 15,
+     "PSOL": 14,
+     "PCDOB": 11,
+     "PSDB": 11,
+     "NOVO": 10,
+     "PV": 7,
+     "PDT": 6,
+     "AVANTE": 5,
+     "PRD": 5,
+     "SOLIDARIEDADE": 2,
+     "REDE": 1,
+     "MISSÃO": 1
+    }
+   }
+  }
+ },
+ "B_siglas_sem_conglomerado": [],
+ "E_municipios": {
+  "municipios_tse_em_alguma_eleicao": 5571,
+  "ligados_ibge": 5570,
+  "sem_vinculo_ibge": [
+   {
+    "tse": "73709",
+    "uf": "?",
+    "nome": "fora da tabela L0001"
+   }
+  ],
+  "cobertura_indicadores": {
+   "populacao": 5570,
+   "populacao_urbana": 5570,
+   "alfabetizacao_15mais": 5570,
+   "renda_domiciliar_per_capita": 5570,
+   "pib": 5570,
+   "bolsa_familia_6dig": 5570
+  }
+ }
+}

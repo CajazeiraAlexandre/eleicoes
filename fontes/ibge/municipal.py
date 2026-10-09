@@ -1,5 +1,5 @@
 """Referências municipais do IBGE usadas por vários projetos: lista de municípios, população do Censo 2022,
-REGIC 2018, Semiárido 2022, IPCA mensal e classes de porte.
+REGIC 2018, Semiárido 2022, Amazônia Legal 2022, IPCA mensal e classes de porte.
 
     python fontes/ibge/municipal.py            # consulta as APIs e salva as cópias locais (política "sempre")
 
@@ -111,6 +111,16 @@ def semiarido_2022() -> set[str]:
     cods = set(pd.read_excel(arq, sheet_name="1477 mun")["CD_MUN"].astype(str))
     if len(cods) != 1477:
         raise ValueError(f"Semiárido: {len(cods)} municípios (esperado 1.477).")
+    return cods
+
+
+def amazonia_legal_2022() -> set[str]:
+    """Códigos (7 dígitos) dos 772 municípios da Amazônia Legal, edição 2022 do IBGE (Lei Complementar nº 124/2007):
+    AC, AP, AM, PA, RO, RR, TO e MT inteiros e 181 municípios do Maranhão (21 deles só em parte)."""
+    arq = sorted((raiz() / PASTA_BRUTO / "amazonia_legal_2022").glob("*.xlsx"))[-1]
+    cods = set(pd.read_excel(arq, dtype={"CD_MUN": str})["CD_MUN"].dropna())
+    if len(cods) != 772:
+        raise ValueError(f"Amazônia Legal 2022: {len(cods)} municípios (esperado 772).")
     return cods
 
 

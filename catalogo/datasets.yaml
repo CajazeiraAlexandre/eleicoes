@@ -311,3 +311,93 @@ pi.territorios_desenvolvimento:
     do Piauí), resolvidas por decisão do pesquisador em dados/referencia/territorios_desenvolvimento_pi_excecoes.csv.
     Substituir pelo Anexo Único da Lei 6.967/2017 quando acessível.'
   status: explorado
+tse.resultados_2026_1t_presidente_municipios:
+  grupo: eleicoes
+  fonte: tse
+  acesso: api
+  descricao: Resultados do 1º turno de 2026 para Presidente em todos os municípios
+    do Brasil (eleitorado, comparecimento, abstenção, válidos, brancos, nulos e votos
+    por candidatura)
+  url_fonte: https://resultados.tse.jus.br/oficial/app/index.html
+  endpoint: https://resultados.tse.jus.br/oficial/ele2026/6257/dados/<uf>/<uf><municipio>-c0001-e006257-u.jws
+  snapshot: sempre
+  granularidade:
+  - municipio
+  anos:
+  - 2026
+  caminho: dados/snapshots/tse.resultados_2026_1t_presidente_municipios/atual.json
+  pipeline:
+  - fontes/tse/coletar_resultados_2026.py --presidente-municipios
+  decisoes:
+  - EL0003
+  observacoes: 'Aprovado pelo pesquisador em 2026-10-07 (produto O mapa da virada):
+    o TSE ainda não publicou votacao_candidato_munzona (Presidente) nem detalhe_votacao_munzona
+    de 2026. Assinatura EdDSA verificada em cada arquivo na coleta; o snapshot guarda
+    só o conteúdo (~50 MB) e fica FORA do git. Exterior fora. Coleta de 2026-10-07:
+    5.571 municípios, 45,1 MB, todas as assinaturas verificadas; Σ municípios = total
+    oficial BR − exterior em eleitorado (157.828.968), válidos (118.969.906) e abstenção
+    (32.894.899). Conferir com os arquivos oficiais quando publicados.'
+  status: baixado
+ibge.censo2022_municipios:
+  grupo: populacao
+  fonte: ibge
+  acesso: api
+  descricao: 'Censo 2022 por município: população residente e % urbana (tabela SIDRA
+    10211), taxa de alfabetização de 15 anos ou mais (9543) e rendimento nominal médio
+    mensal domiciliar per capita (10295)'
+  url_fonte: https://sidra.ibge.gov.br/pesquisa/censo-demografico/demografico-2022/inicial
+  endpoint: https://servicodados.ibge.gov.br/api/v3/agregados/{10211,9543,10295}/periodos/2022/variaveis?localidades=N6[all]
+  snapshot: sempre
+  granularidade:
+  - municipio
+  anos:
+  - 2022
+  caminho: dados/snapshots/ibge.censo2022_municipios
+  pipeline:
+  - fontes/ibge/consultar_indicadores.py
+  decisoes: []
+  observacoes: Fonte nova aprovada em 2026-10-07 para o produto O mapa da virada (indicadores
+    territoriais).
+  status: baixado
+ibge.pib_municipios:
+  grupo: financas-publicas
+  fonte: ibge
+  acesso: api
+  descricao: PIB dos Municípios — PIB a preços correntes e PIB per capita (tabela
+    SIDRA 5938), último ano publicado
+  url_fonte: https://www.ibge.gov.br/estatisticas/economicas/contas-nacionais/9088-produto-interno-bruto-dos-municipios.html
+  endpoint: https://servicodados.ibge.gov.br/api/v3/agregados/5938/periodos/2022/variaveis/37?localidades=N6[all]
+  snapshot: sempre
+  granularidade:
+  - municipio
+  anos:
+  - 2022
+  caminho: dados/snapshots/ibge.pib_municipios
+  pipeline:
+  - fontes/ibge/consultar_indicadores.py
+  decisoes: []
+  observacoes: Fonte nova aprovada em 2026-10-07 (O mapa da virada). Usa 2022 (o último
+    publicado é 2023) para o PIB per capita ficar no mesmo ano da população do Censo
+    2022.
+  status: baixado
+mds.bolsa_familia_municipios:
+  grupo: politicas-sociais
+  fonte: mds
+  acesso: api
+  descricao: Bolsa Família por município e mês — famílias e pessoas beneficiárias
+    (VIS DATA / MI Social, MDS)
+  url_fonte: https://aplicacoes.mds.gov.br/sagi/vis/data3/
+  endpoint: https://aplicacoes.mds.gov.br/sagi/servicos/misocial
+  snapshot: sempre
+  granularidade:
+  - municipio
+  - mes
+  anos:
+  - 2026
+  caminho: dados/snapshots/mds.bolsa_familia_municipios
+  pipeline:
+  - fontes/mds/consultar_bolsa_familia.py
+  decisoes: []
+  observacoes: 'Fonte nova aprovada em 2026-10-07 (O mapa da virada). Mês de referência:
+    setembro de 2026, anterior à eleição.'
+  status: baixado

@@ -7,6 +7,7 @@ TSE e do IBGE, e o código para refazê-los do zero. Site: <https://cajazeiraale
 
 - **[Onde estão os votos? Distribuição territorial de candidaturas no Piauí](https://cajazeiraalexandre.github.io/eleicoes/onde-estao-os-votos/)** — `projetos/eleicoes/produtos/2026-10_distribuicao-votos-candidato-pi`
 - **[Forças políticas no Piauí: PT, PSD, MDB e os demais (2018–2026)](https://cajazeiraalexandre.github.io/eleicoes/forcas-politicas/)** — `projetos/eleicoes/produtos/2026-10_forcas-politicas-pi`
+- **[Onde o 2º turno se decide em sua cidade: locais de votação, Presidente 2026](https://cajazeiraalexandre.github.io/eleicoes/onde-o-2-turno-se-decide/)** — `projetos/eleicoes/produtos/2026-10_locais-de-votacao`
 
 Cada produto é uma página HTML única (abre com duplo clique, sem servidor) com o bloco
 "Fontes de Dados, Metodologia e Códigos" no fim. O README de cada pasta resume método, decisões,
@@ -54,7 +55,7 @@ os produtos usam (`dados/referencia/`, `dados/snapshots/`) e os recortes web de 
 
 ## Bases usadas
 
-`ibge.malha_municipios_2022`, `ibge.malha_ufs_2022`, `ibge.municipios`, `ibge.municipios_regiao_imediata`, `pi.territorios_desenvolvimento`, `tse.candidatos`, `tse.detalhe_votacao_munzona`, `tse.detalhe_votacao_secao`, `tse.eleitorado_local_votacao`, `tse.resultados_2026_1t`, `tse.votacao_candidato_munzona`, `tse.votacao_partido_munzona`, `tse.votacao_secao`
+`ibge.censo2022_municipios`, `ibge.malha_municipios_2022`, `ibge.malha_ufs_2022`, `ibge.municipios`, `ibge.municipios_regiao_imediata`, `ibge.pib_municipios`, `mds.bolsa_familia_municipios`, `pi.territorios_desenvolvimento`, `tse.candidatos`, `tse.detalhe_votacao_munzona`, `tse.detalhe_votacao_secao`, `tse.eleitorado_local_votacao`, `tse.resultados_2026_1t`, `tse.resultados_2026_1t_presidente_municipios`, `tse.votacao_candidato_munzona`, `tse.votacao_partido_munzona`, `tse.votacao_secao`
 
 ## Decisões metodológicas
 
@@ -64,13 +65,15 @@ os produtos usam (`dados/referencia/`, `dados/snapshots/`) e os recortes web de 
 - `projetos/eleicoes/decisoes/EL0005-indicadores-forca-coesao-lideranca.md`
 - `projetos/eleicoes/decisoes/EL0006-paleta-grupos-politicos.md`
 - `projetos/eleicoes/decisoes/EL0007-ligacao-de-candidaturas-entre-eleicoes.md`
+- `projetos/eleicoes/decisoes/EL0008-conglomerados-presidenciais-2026-e-linhagem-partidaria.md`
+- `projetos/eleicoes/decisoes/EL0009-pareamento-de-locais-de-votacao-entre-eleicoes.md`
 - `metodologia/decisoes/L0001-correspondencia-municipal-nacional-tse-ibge.md`
 - `metodologia/decisoes/L0002-produtos-autocontidos-calculo-hibrido.md`
 - `metodologia/decisoes/L0003-design-system-componentes-e-bloco-de-metodologia.md`
 
 ## Origem e uso de IA
 
-Recorte do laboratório de dados do autor (commit de origem `68db5d6`, 2026-10-07). O uso de IA generativa
+Recorte do laboratório de dados do autor (commit de origem `8efe49a`, 2026-10-09). O uso de IA generativa
 (Claude, Anthropic) está declarado no README de cada produto, conforme a Portaria CNPq nº 2.664/2026;
 as decisões metodológicas e a revisão são do pesquisador.
 

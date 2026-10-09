@@ -1,0 +1,106 @@
+# Textos do bloco "Fontes de Dados, Metodologia e Códigos" (padrão de todos os produtos — ADR L0003).
+
+apresentacao: >-
+  Esta página mostra, para cada local de votação de uma cidade, os eleitores aptos, os votos para Presidente
+  no 1º turno de 2026 (Lula, Flávio Bolsonaro, Augusto Cury, Renan Santos e os demais) e a abstenção, com a
+  variação em relação ao 1º turno de 2022 no mesmo local. Todos os números vêm dos arquivos oficiais do TSE
+  por seção eleitoral, somados por local; nada é estimado ou completado. Locais sem correspondente em 2022
+  aparecem com "—".
+
+modulos:
+  locais: projetos.eleicoes.analise.preparar_locais_mapa_virada
+  votos: projetos.eleicoes.analise.preparar_locais_votacao
+
+passos:
+  - titulo: De seção para local de votação
+    texto: >-
+      Cada seção eleitoral pertence a um local de votação (uma escola, por exemplo). Em 2026, o arquivo de
+      resultados do TSE não traz o local da seção; ele vem do cadastro de locais de votação. Seções agregadas
+      contam no local da seção principal, onde o eleitor vota. A soma dos locais confere, sem diferença, com
+      o total oficial de cada cidade (aptos, abstenções, votos válidos e votos de cada grupo), em 2026 e em 2022.
+    adrs: [EL0009]
+  - titulo: Votos válidos e grupos
+    texto: >-
+      Os percentuais são sobre os votos válidos (sem brancos e nulos). Votos de candidatura que o TSE não conta
+      como válidos ficam fora, como no total oficial — em 2026, os 5.123 votos de uma candidatura ausente dos
+      resultados oficiais, que o TSE trata como nulos. Para comparar com 2022, cada candidatura de 2026 é
+      comparada com o seu grupo (os partidos que a apoiam hoje) em 2022: Lula com o grupo de Lula (que em 2022
+      incluía também o PDT de Ciro Gomes) e Flávio Bolsonaro com o PL de Jair Bolsonaro. Augusto Cury e Renan
+      Santos não tiveram candidatura do seu grupo em 2022 e ficam sem variação. "Outros" reúne Ronaldo Caiado e
+      as demais candidaturas.
+    adrs: [EL0003, EL0008]
+    codigo: votos.bloco_de
+  - titulo: O mesmo local em 2022
+    texto: >-
+      O TSE não tem um código fixo para o local entre eleições. Um local de 2026 tem par em 2022 quando a zona e
+      o número do local são os mesmos e o nome é igual (sem acentos e pontuação) ou as coordenadas estão a até
+      100 metros. Locais de voto em trânsito, de presos provisórios e temporários não entram na comparação. A
+      linha "Total da cidade" compara a cidade inteira (todos os locais de cada eleição).
+    adrs: [EL0009]
+    codigo: locais.situacao_par
+
+  - titulo: Como a cidade votou, 2018–2026
+    texto: >-
+      O gráfico de linhas mostra, no 1º turno de cada eleição presidencial, a parte do eleitorado apto que votou em
+      cada grupo, votou em branco ou nulo, ou não compareceu (as linhas somam 100%). Os totais são os oficiais por
+      cidade. O quadro ao lado conta, entre os locais com par em 2022, em quantos cada grupo e a abstenção subiram
+      ou caíram, e a variação mediana. Não há gráfico de fluxo (sankey): saber quem mudou de voto exigiria
+      estimar transferências de eleitores a partir de totais, o que estes dados não permitem afirmar.
+    adrs: [EL0008, EL0009]
+  - titulo: Onde há mais votos em disputa
+    texto: >-
+      Para cada local, contam-se os eleitores que não escolheram nenhuma das duas candidaturas principais (Lula e
+      Flávio Bolsonaro): os que não compareceram, os que votaram em branco ou nulo e os que votaram nas demais
+      candidaturas (sem contar os votos da própria candidatura escolhida). A conta é a mesma para qualquer
+      candidatura. O gráfico cruza esse número com a variação da candidatura no local desde 2022; os votos que ela
+      perdeu desde 2022 aparecem à parte, porque podem ser das mesmas pessoas que hoje se abstêm ou votam em outra
+      candidatura. Não é previsão nem estimativa de quantos votos uma candidatura pode ganhar.
+    codigo: votos.votos_em_disputa
+  - titulo: Do 1º para o 2º turno
+    texto: >-
+      Entre o 1º e o 2º turno o eleitorado de um lugar é praticamente o mesmo. Por isso, os votos que cada uma das
+      duas candidaturas ganhou, somados à variação de brancos e nulos e de abstenção, igualam os votos que as
+      outras candidaturas tiveram no 1º turno. O quadro da cidade mostra essa conta em 2018 e 2022, e a cor da
+      dispersão mostra, em cada local, com quem ficou o ganho em 2022. Aqui a comparação é entre as candidaturas
+      (PT × PSL/PL), não entre os grupos de 2026, porque no 1º turno o grupo de Lula incluiria o PDT de Ciro Gomes,
+      que não estava no 2º turno. É o saldo do lugar: não diz quais eleitores mudaram de voto nem prevê 2026.
+      Os totais do estado e do Brasil somam os municípios (exterior fora); os nomes das outras candidaturas do
+      1º turno vêm do cadastro de candidaturas do TSE.
+    codigo: votos.saldo_entre_turnos
+
+perguntas:
+  - p: Por que alguns locais não têm variação?
+    r: >-
+      Porque não foi possível garantir que são o mesmo lugar em 2022: o número do local é novo na zona, ou o
+      número existia mas com outro nome e a mais de 100 metros. Nesses casos a variação não é calculada.
+  - p: Por que alguns locais não aparecem no mapa?
+    r: >-
+      O cadastro do TSE não traz coordenada para alguns locais, e outros têm coordenada fora da própria cidade.
+      Eles estão na tabela; a posição não é estimada.
+
+limitacoes:
+  - "Relação entre lugares não descreve o voto de pessoas: o local reúne eleitores que mudam entre eleições."
+  - "Pares pela localização podem juntar dois locais vizinhos diferentes; a dica de cada local mostra o nome de 2022 e a distância."
+
+codigos:
+  - arquivo: projetos/eleicoes/analise/preparar_locais_votacao.py
+    papel: Soma votos, aptos e abstenções por local, liga 2026 a 2022, confere com os totais oficiais e grava data/locais/<IBGE>.js.
+  - arquivo: projetos/eleicoes/analise/preparar_locais_mapa_virada.py
+    papel: Ligação seção → local, regra do mesmo local (EL0009) e contorno das cidades.
+
+sobre: >-
+  Produto do Laboratório de Dados Públicos, por Alexandre Ribeiro Cajazeira Ramos. Derivado de "O mapa da virada".
+
+uso_de_ia: >-
+  Claude (Claude Code, Anthropic) implementou a preparação dos dados, a conferência, a página e a exportação,
+  e redigiu estes textos, sob orientação do pesquisador, que definiu o recorte, as colunas, a comparação com
+  2022 e as regras metodológicas (EL0008, EL0009). Revisão humana dos resultados pendente.
+
+licenca: "Código: MIT · Dados derivados: CC BY 4.0"
+
+citacao: "RAMOS, Alexandre Ribeiro Cajazeira. Onde o 2º turno se decide em sua cidade: locais de votação, Presidente 2026. Laboratório de Dados Públicos, 2026."
+
+decisoes_resumo:
+  EL0003: "Votos válidos por seção reconstruídos com o destino oficial de cada candidatura."
+  EL0008: "Grupos de 2026 aplicados aos anos anteriores pelos partidos que os formam."
+  EL0009: "Mesmo local em 2022 e 2026: mesma zona e número, e nome normalizado igual ou até 100 m."

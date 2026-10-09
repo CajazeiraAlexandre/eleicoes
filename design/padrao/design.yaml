@@ -197,7 +197,7 @@ graficos:
     nome: Linhas por momentos (antes → depois)
     quando: "Mudança de cada categoria ao longo de 2 ou mais momentos comparáveis (o mesmo cargo em eleições sucessivas)."
     componente: Lab.linhasPontas (atalho para dois momentos, Lab.linhasDuasPontas)
-    regras: ["Valor na primeira ponta; valor e nome na última, sem sobreposição; momentos do meio só na dica.", "Linha só entre momentos vizinhos com dado; categoria sem dado num momento: '(sem 2022)' e nota.", "Séries que não se comparam (ex.: eleições gerais × municipais) ficam em vistas separadas, escolhidas no título."]
+    regras: ["Valor na primeira ponta; valor e nome na última, sem sobreposição; momentos do meio só na dica.", "Linha só entre momentos vizinhos com dado; categoria sem dado num momento: '(sem 2022)' e nota.", "Séries que não se comparam (ex.: eleições gerais × municipais) ficam em vistas separadas, escolhidas no título.", "Destaque (2026-10-09, pesquisador): passar o mouse ou tocar numa série — linha, ponto, rótulo — ou num item da legenda realça a série e esmaece as demais; tocar num item da legenda fixa o destaque (legenda: true).", "Séries que não são categorias principais (ex.: brancos e nulos, abstenção) podem ser tracejadas (tracejado: true) — segunda codificação além da cor; a legenda mostra o traço.", "Medida escolhida no título quando fizer sentido (ex.: % do eleitorado × votos)."]
   - id: mapa
     nome: Mapa coroplético com alternativa em círculos
     quando: "Distribuição territorial de uma medida ou de uma categoria (líder)."
@@ -220,9 +220,16 @@ graficos:
     regras: ["Quartis e bigodes de Tukey vêm prontos do Python.", "Faixa interquartil hachurada na cor da categoria; 'Med.' sobre a mediana.", "Tabela de quartis e frases de leitura abaixo."]
   - id: fluxos
     nome: Diagrama de fluxos (Sankey) entre etapas
-    quando: "Quem liderava cada unidade em cada momento; mudanças de categoria."
+    quando: "Quem liderava cada unidade em cada momento (mudanças de categoria); ou fluxos de valor entre territórios (de onde vem → para onde vai)."
     componente: Lab.sankey
-    regras: ["Rótulo '% da coluna (nº de unidades)'.", "Clique fixa o destaque e libera 'Ver lista'.", "Deixar claro que não mostra transferência de votos."]
+    regras: ["Rótulo '% da coluna (nº de unidades)'.", "Clique fixa o destaque e libera 'Ver lista'.", "Deixar claro que não mostra transferência de votos.",
+      "Orientação: VERTICAL é o padrão com dois lados (origem em cima, destino embaixo; melhor no celular — validado em 2026-10-08); trajetórias com 3 ou mais etapas ficam na horizontal. Sem botão para trocar a orientação.",
+      "Legenda interativa: passar o mouse (ou foco) num item destaca os fluxos da categoria; clicar fixa; Esc desfaz.",
+      "Distribuição do destaque (como no mapa): passar o mouse numa barra ou num item da legenda mostra, numa dica, 'Para onde vai' (cada destino, valor e parte do que saiu da categoria) e, quando ela também é destino, 'De onde vem' (parte do que chegou nela); clicar fixa o destaque e mostra a distribuição num card logo abaixo do desenho, com 'Limpar destaque'. Sem rótulos sobre as faixas. Número formatado por produto (formatoValor).",
+      "Legendas centralizadas. Com variáveis diferentes nos dois lados, a legenda do primeiro lado (origem) fica ACIMA do diagrama e a do último (destino) ABAIXO; com a mesma variável, uma legenda só, acima.",
+      "Variável escolhida por lado: o seletor fica no início da legenda daquele lado ('Incentivador por [região ▾]' em cima, 'Proponente por […▾]' embaixo — opção cabecalhoLados). O título descreve a escolha em texto, sem seletores (exceção à regra dos seletores no título: com dois lados, seletores no título confundem). Sem títulos de etapa dentro do desenho quando há esses cabeçalhos.",
+      "Fluxos de VALOR (ex.: incentivador → proponente): opções contagem(id) e semLista; acompanha um gráfico de barras 100% com a composição do destino de cada origem (uma barra por origem e uma de todos).",
+      "Cores: variável nominal (região) em cores categóricas; variáveis ordenadas (tipo de território, hierarquia, porte) em tons de grafite, do mais alto ao mais baixo — e em laranja no destino quando as duas variáveis são ordenadas e diferentes. 'Não identificado' sempre em cinza claro, por último."]
   - id: quadros
     nome: Quadros com número grande
     quando: "Poucos números-chave por categoria; também como seletor de categoria."

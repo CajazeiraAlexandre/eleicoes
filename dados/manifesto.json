@@ -1,4 +1,39 @@
 {
+  "ibge.censo2022_municipios": {
+    "arquivos": {
+      "dados/snapshots/ibge.censo2022_municipios/2026-10-07.json": {
+        "baixado_em": "2026-10-07T09:07:21-03:00",
+        "bytes": 426960,
+        "gerado_na_fonte": null,
+        "sha256": "b35a79a21cca87a3327a9e6f0d0def161e283101399c99ee2880b7f21757c77a",
+        "tipo": "snapshot",
+        "url": "https://servicodados.ibge.gov.br/api/v3/agregados/{10211,9543,10295}/periodos/2022/variaveis?localidades=N6[all]"
+      }
+    },
+    "consultas": [
+      {
+        "em": "2026-10-07T09:06:56-03:00",
+        "endpoint": "https://servicodados.ibge.gov.br/api/v3/agregados/10211/periodos/2022/variaveis/93?localidades=N6[all]&classificacao=1[6795]|2661[32776]",
+        "n_registros": 5570
+      },
+      {
+        "em": "2026-10-07T09:06:57-03:00",
+        "endpoint": "https://servicodados.ibge.gov.br/api/v3/agregados/10211/periodos/2022/variaveis/93?localidades=N6[all]&classificacao=1[1]|2661[32776]",
+        "n_registros": 5570
+      },
+      {
+        "em": "2026-10-07T09:07:10-03:00",
+        "endpoint": "https://servicodados.ibge.gov.br/api/v3/agregados/9543/periodos/2022/variaveis/2513?localidades=N6[all]&classificacao=2[6794]|86[95251]|287[100362]",
+        "n_registros": 5570
+      },
+      {
+        "em": "2026-10-07T09:07:21-03:00",
+        "endpoint": "https://servicodados.ibge.gov.br/api/v3/agregados/10295/periodos/2022/variaveis/13431?localidades=N6[all]&classificacao=2[6794]|86[95251]|58[95253]",
+        "n_registros": 5570
+      }
+    ],
+    "ultima_atualizacao": "2026-10-07T09:07:21-03:00"
+  },
   "ibge.malha_municipios_2022": {
     "arquivos": {
       "dados/bruto/ibge/malha_municipios_2022/BR_Municipios_2022.zip": {
@@ -64,6 +99,46 @@
       }
     ],
     "ultima_atualizacao": "2026-10-03T21:31:39-03:00"
+  },
+  "ibge.pib_municipios": {
+    "arquivos": {
+      "dados/snapshots/ibge.pib_municipios/2026-10-07.json": {
+        "baixado_em": "2026-10-07T09:07:22-03:00",
+        "bytes": 117471,
+        "gerado_na_fonte": null,
+        "sha256": "63a8f7c17cc7019935d7edb57e26ef59ad92ffaf484de9b7f0455584eef6f0c4",
+        "tipo": "snapshot",
+        "url": "https://servicodados.ibge.gov.br/api/v3/agregados/5938/periodos/2022/variaveis/37?localidades=N6[all]"
+      }
+    },
+    "consultas": [
+      {
+        "em": "2026-10-07T09:07:22-03:00",
+        "endpoint": "https://servicodados.ibge.gov.br/api/v3/agregados/5938/periodos/2022/variaveis/37?localidades=N6[all]",
+        "n_registros": 5570
+      }
+    ],
+    "ultima_atualizacao": "2026-10-07T09:07:22-03:00"
+  },
+  "mds.bolsa_familia_municipios": {
+    "arquivos": {
+      "dados/snapshots/mds.bolsa_familia_municipios/2026-10-07.json": {
+        "baixado_em": "2026-10-07T09:07:49-03:00",
+        "bytes": 1360069,
+        "gerado_na_fonte": null,
+        "sha256": "c2130c9e6056de1dcc826daace02a8ef4983bc17047b0835b55bb38619e3ea96",
+        "tipo": "snapshot",
+        "url": "https://aplicacoes.mds.gov.br/sagi/servicos/misocial"
+      }
+    },
+    "consultas": [
+      {
+        "em": "2026-10-07T09:07:49-03:00",
+        "endpoint": "https://aplicacoes.mds.gov.br/sagi/servicos/misocial?q=%2A&fq=anomes_s%3A202609&fq=tipo_s%3Ames_mu&wt=json&rows=10000&fl=codigo_ibge%2Csigla_uf%2Cmunicipio%2Canomes_s%2Cqtd_familias_beneficiarias_bolsa_familia_i%2Cqtd_pessoas_beneficiarias_bolsa_familia_i%2Cvalor_repassado_bolsa_familia_f",
+        "n_registros": 5571
+      }
+    ],
+    "ultima_atualizacao": "2026-10-07T09:07:49-03:00"
   },
   "pi.territorios_desenvolvimento": {
     "arquivos": {
@@ -263,6 +338,26 @@
       }
     ],
     "ultima_atualizacao": "2026-10-05T14:50:26-03:00"
+  },
+  "tse.resultados_2026_1t_presidente_municipios": {
+    "arquivos": {
+      "dados/snapshots/tse.resultados_2026_1t_presidente_municipios/atual.json": {
+        "baixado_em": "2026-10-07T09:13:39-03:00",
+        "bytes": 45050312,
+        "gerado_na_fonte": null,
+        "sha256": "90c89d2c09e147921574e299bda6d8f04ef09333f3ebf85b6311ec720741a61f",
+        "tipo": "snapshot",
+        "url": "https://resultados.tse.jus.br/oficial/ele2026/"
+      }
+    },
+    "consultas": [
+      {
+        "em": "2026-10-07T09:13:38-03:00",
+        "endpoint": "https://resultados.tse.jus.br/oficial/ele2026/",
+        "n_registros": 5571
+      }
+    ],
+    "ultima_atualizacao": "2026-10-07T09:13:39-03:00"
   },
   "tse.votacao_candidato_munzona": {
     "arquivos": {

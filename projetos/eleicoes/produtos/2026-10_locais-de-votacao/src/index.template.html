@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="pt-BR" data-ds="padrao">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Onde o 2º turno se decide em sua cidade</title>
+<meta name="description" content="Locais de votação, cidade a cidade: o 1º turno de 2026 para Presidente em cada local, o que mudou desde 2022 e onde estão os votos em disputa para o 2º turno.">
+<!-- O index.html é GERADO por `python -m projetos.eleicoes.analise.preparar_locais_votacao`. Edite src/, não o index.html.
+     Os dados de cada município ficam em data/locais/<IBGE>.js e são carregados só quando o município é escolhido (L0002). -->
+<style>
+/*__TOKENS_CSS__*/
+</style>
+<style>
+/*__LAB_CSS__*/
+</style>
+<style>
+  /* cores dos grupos (EL0006/EL0008); Cury e Renan trocados em relação ao Mapa da virada (pesquisador, 2026-10-09) */
+  :root{--cg-lula:#e34948;--cg-flavio:#2a78d6;--cg-cury:#4a3aa7;--cg-renan:#eda100;--cg-outros:#7a7873;--cor-abstencao:#8a5a2e;--zebra:#f2f1ec}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--cg-lula:#e66767;--cg-flavio:#3987e5;--cg-cury:#9085e9;--cg-renan:#c98500;--cg-outros:#a3a19b;--cor-abstencao:#d39a62;--zebra:#222220}}
+  :root[data-theme="dark"]{--cg-lula:#e66767;--cg-flavio:#3987e5;--cg-cury:#9085e9;--cg-renan:#c98500;--cg-outros:#a3a19b;--cor-abstencao:#d39a62;--zebra:#222220}
+
+  .controles{position:sticky;top:0;z-index:6;background:var(--cor-fundo);border-bottom:1px solid var(--cor-borda);padding:8px 0;display:flex;flex-wrap:wrap;gap:10px var(--espaco-m);align-items:flex-end;margin:var(--espaco-m) 0}
+  .controles input[type=search]{font:inherit;font-size:16px;color:var(--cor-texto);background:var(--cor-superficie);border:1px solid var(--cor-borda);
+       border-radius:var(--raio);padding:9px 12px;min-height:44px;width:min(26em,100%)}
+  .controles .campo{flex:0 1 auto}
+  .campo[hidden]{display:none}
+  #f-area{width:min(18em,100%)!important}
+  .aviso-area{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;font-size:14px;margin:var(--espaco-p) 0;padding:8px 12px;border-radius:var(--raio);background:var(--grifo);color:var(--cor-texto)}
+  .aviso-area button{font:inherit;font-size:13px;border:1px solid var(--cor-texto);background:transparent;color:var(--cor-texto);border-radius:999px;padding:4px 10px;cursor:pointer}
+  .zoom-mapa{position:absolute;top:8px;right:8px;display:flex;flex-direction:column;gap:4px}
+  .zoom-mapa button{font:inherit;font-size:16px;font-weight:700;width:36px;height:36px;border:1px solid var(--cor-borda);background:var(--cor-superficie);color:var(--cor-texto);border-radius:var(--raio);cursor:pointer}
+  .zoom-mapa button.tudo{font-size:11px;font-weight:600;height:auto;padding:4px 2px;line-height:1.1}
+  .mapa-locais circle,.mapa-locais path{vector-effect:non-scaling-stroke}
+  .abas{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;flex:1 1 auto;align-self:flex-end}
+  .abas::-webkit-scrollbar{display:none}
+  .abas[hidden]{display:none}
+  .abas button{font:inherit;font-size:14px;font-weight:600;white-space:nowrap;border:1px solid var(--cor-borda);background:var(--cor-superficie);color:var(--cor-texto-secundario);
+       border-radius:999px;padding:8px 14px;min-height:40px;cursor:pointer}
+  .abas button[aria-selected="true"]{background:var(--cor-texto);border-color:var(--cor-texto);color:var(--cor-fundo)}
+  #app{scroll-margin-top:120px}
+  .sobre-capa{display:none;font-size:14px;color:var(--cor-texto-secundario)}
+  .sobre-capa summary{cursor:pointer}
+  @media (max-width:768px){
+    /* com uma cidade escolhida, o abre recolhe (o conteúdo da aba sobe para a primeira tela) */
+    body.com-cidade .capa .lead{display:none}
+    body.com-cidade .capa .sobre-capa{display:block}
+    body.com-cidade .capa .sobre-capa[open] ~ .lead{display:block}
+  }
+  @media (max-width:768px){
+    .controles{gap:6px;margin:var(--espaco-p) 0}.controles .campo{flex:1 1 calc(50% - 6px);font-size:12px}
+    .controles input[type=search]{min-height:38px;padding:6px 10px;font-size:15px;width:100%}
+    .abas{flex:1 1 100%}.abas button{padding:6px 12px;min-height:36px;font-size:13px}
+  }
+  .acoes{display:flex;flex-wrap:wrap;gap:8px}
+  .acoes button{font:inherit;font-size:14px;font-weight:600;border:1px solid var(--cor-texto);background:var(--cor-superficie);color:var(--cor-texto);
+       border-radius:var(--raio);padding:8px 14px;min-height:40px;cursor:pointer}
+  .acoes button:hover{background:var(--cor-texto);color:var(--cor-fundo)}
+  .acoes button[disabled]{opacity:.5;cursor:wait}
+  /* grifo do título: marca-texto amarelo-claro (não é cor de dado nem de candidatura; o --cor-destaque do DS é o azul
+     de Flávio Bolsonaro e sugeriria um lado) */
+  :root{--grifo:#fbe7a1}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--grifo:#6b5a1e}}
+  :root[data-theme="dark"]{--grifo:#6b5a1e}
+  .capa h1 .grifo{background:linear-gradient(transparent 55%, var(--grifo) 55%, var(--grifo) 92%, transparent 92%);color:inherit;padding:0 .08em}
+  .capa .chapeu{margin:-4px 0 8px;font-size:15px;font-weight:600;color:var(--cor-texto-secundario)}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  .vazio{padding:var(--espaco-g) 0;color:var(--cor-texto-secundario)}
+
+  .grade-analise{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:var(--espaco-m);align-items:start}
+  @media (max-width:900px){.grade-analise{grid-template-columns:minmax(0,1fr)}}
+  .grade-analise + .cartao{margin-top:var(--espaco-m)}
+  .chamada{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px}.chamada p{margin:0;flex:1 1 20em}
+  .chamada .ir-aba{font:inherit;font-size:14px;font-weight:600;border:1px solid var(--cor-texto);background:var(--cor-texto);color:var(--cor-fundo);border-radius:999px;padding:8px 14px;min-height:40px;cursor:pointer}
+  h4.ano-turnos{margin:14px 0 6px;font-size:15px}
+  .mapa-locais circle{cursor:pointer}
+  .mapa-locais circle.sem-valor{fill:none;stroke:var(--cor-texto-secundario);stroke-dasharray:2 2}
+
+  /* ---- a "folha": tudo o que entra no print e no PNG (título, tabela e fonte) ---- */
+  .folha{background:var(--cor-superficie);border:1px solid var(--cor-borda);border-radius:var(--raio);padding:20px 20px 14px;margin:var(--espaco-m) 0}
+  .folha h3{margin:0 0 2px;font-size:20px;line-height:1.25}
+  .folha .sub{margin:0 0 12px;font-size:13px;color:var(--cor-texto-secundario)}
+  .folha .rolar{overflow-x:auto}
+  .folha.exportando .rolar{overflow:visible}
+  .folha.exportando{width:max-content}
+  table.locais{border-collapse:collapse;width:100%;font-size:13px;font-variant-numeric:tabular-nums;color:var(--cor-texto)}
+  table.locais th,table.locais td{padding:6px 8px;vertical-align:top}
+  table.locais thead th{position:sticky;top:0;background:var(--cor-superficie);z-index:1;font-size:12px;font-weight:700;text-align:right;
+       border-bottom:1px solid var(--cor-borda);white-space:nowrap}
+  table.locais thead th[rowspan]{vertical-align:bottom}
+  table.locais thead tr.grupos th{white-space:normal;line-height:1.2}
+  table.locais thead tr.grupos th:not([rowspan]){text-align:center;font-size:13px;border-bottom:0;padding-bottom:2px}
+  table.locais thead tr.grupos th span.faixa{display:block;height:4px;border-radius:2px;margin-top:4px}
+  table.locais thead th.esq,table.locais td.esq{text-align:left}
+  table.locais thead th[data-ordem]{cursor:pointer}
+  table.locais thead th[data-ordem]:hover{text-decoration:underline}
+  table.locais thead th[aria-sort="descending"]::after{content:" ▼";font-size:9px}
+  table.locais thead th[aria-sort="ascending"]::after{content:" ▲";font-size:9px}
+  table.locais td{text-align:right;border-bottom:1px solid var(--cor-grade);white-space:nowrap}
+  table.locais tbody tr:nth-child(even) td{background:var(--zebra)}
+  table.locais td.local{white-space:normal;min-width:16em;max-width:24em}
+  table.locais td.local b{display:block;font-size:13px;line-height:1.3}
+  table.locais td.local small{display:block;font-size:11px;line-height:1.35;color:var(--cor-texto-secundario);margin-top:1px}
+  table.locais td .pct{font-weight:700}
+  table.locais td .n{display:block;font-size:11px;color:var(--cor-texto-secundario)}
+  table.locais td.dif{font-size:12px;color:var(--cor-texto-secundario);border-right:1px solid var(--cor-borda)}
+  table.locais td.dif.sobe{color:var(--cor-texto)}
+  table.locais td.sep{border-left:1px solid var(--cor-borda)}
+  table.locais tr.total td{font-weight:700;background:var(--cor-grade)!important;border-bottom:2px solid var(--cor-texto)}
+  table.locais tr.total td .n{font-weight:400}
+  table.locais tr.mais td{text-align:left;font-style:italic;font-size:12px;color:var(--cor-texto-secundario);background:var(--cor-superficie)!important;padding:10px 8px}
+  .folha .fonte{margin:10px 0 0;font-size:11px;line-height:1.45;color:var(--cor-texto-secundario)}
+  @media (max-width:768px){.folha{padding:14px 12px 10px}.folha h3{font-size:17px}}
+
+  /* impressão: só a folha */
+  @media print{
+    header.capa,.controles,#mapa-bloco,#rodape,.acoes,.dica{display:none!important}
+    body{background:#fff}.folha{border:0;padding:0}.folha .rolar{overflow:visible}
+    table.locais thead th{position:static}
+  }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<!-- PNG da tabela (exportação pedida pelo pesquisador) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+<main>
+  <header class="capa">
+    <h1>Onde o 2º turno se decide <mark class="grifo">em sua cidade</mark></h1>
+    <p class="chapeu">Locais de votação, cidade a cidade · Presidente 2026</p>
+    <p class="assinatura">Por <a href="__PORTFOLIO__" target="_blank" rel="noopener">__AUTOR__</a><span class="sep-assinatura" aria-hidden="true">|</span><a href="#rodape">Fontes, métodos e códigos ↓</a></p>
+    <details class="sobre-capa"><summary>Sobre esta página</summary></details>
+    <p class="lead">Escolha uma cidade e veja, em cada local de votação, como foi o 1º turno de 2026 para Presidente: votos de Lula, Flávio Bolsonaro e das demais candidaturas, brancos, nulos e abstenção — e quanto isso mudou desde 2022 no mesmo lugar.</p>
+    <p class="lead">Para o 2º turno, a página mostra onde estão os eleitores que não escolheram Lula nem Flávio Bolsonaro e para onde votos assim foram na última vez, entre os turnos de 2022.</p>
+  </header>
+  <!-- barra fixa: cidade + abas (cada aba mostra uma parte; o endereço guarda a aba, para ir direto ao mapa ou à tabela) -->
+  <div class="controles" id="barra">
+    <label class="campo">Cidade<input type="search" id="f-municipio" list="lista-municipios" placeholder="Digite o nome da cidade…" autocomplete="off"><datalist id="lista-municipios"></datalist></label>
+    <label class="campo" id="campo-area" hidden>Bairro ou zona<input type="search" id="f-area" list="lista-areas" placeholder="Toda a cidade" autocomplete="off"><datalist id="lista-areas"></datalist></label>
+    <div class="abas" id="abas" role="tablist" aria-label="Partes da página" hidden></div>
+  </div>
+  <div id="app"><p class="carregando">Carregando…</p></div>
+  <footer id="rodape"></footer>
+</main>
+<div class="dica" id="dica" role="status" aria-live="polite"></div>
+<script id="dados" type="text/plain">__DADOS_BASE64__</script>
+<script>
+/*__LAB_JS__*/
+</script>
+<script>
+/*__APP_JS__*/
+</script>
+</body>
+</html>

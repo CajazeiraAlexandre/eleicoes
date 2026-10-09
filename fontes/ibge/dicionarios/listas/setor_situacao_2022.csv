@@ -1,0 +1,9 @@
+codigo,situacao,descricao
+1,Urbana,Área urbana de alta densidade de edificações de cidade ou vila
+2,Urbana,Área urbana de baixa densidade de edificações de cidade ou vila
+3,Urbana,Núcleo urbano
+5,Rural,Aglomerado rural - Povoado
+6,Rural,Aglomerado rural - Núcleo rural
+7,Rural,Aglomerado rural - Lugarejo
+8,Rural,Área rural (exclusive aglomerados)
+9,Rural,Massas de água

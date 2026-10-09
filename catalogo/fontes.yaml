@@ -34,3 +34,12 @@ wikipedia:
     SEPLAN-PI) estavam inacessíveis; substituir pela Lei 6.967/2017 (Anexo Único)
     quando acessível
   pipeline: fontes/wikipedia
+mds:
+  sigla: MDS
+  nome: Ministério do Desenvolvimento e Assistência Social, Família e Combate à Fome
+    — VIS DATA / MI Social (SAGICAD)
+  url: https://aplicacoes.mds.gov.br/sagi/vis/data3/
+  api: https://aplicacoes.mds.gov.br/sagi/servicos/misocial
+  licenca: dados abertos governamentais (a confirmar na página da fonte)
+  formato: JSON (Solr)
+  pipeline: fontes/mds
