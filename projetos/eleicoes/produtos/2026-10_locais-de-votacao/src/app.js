@@ -34,7 +34,7 @@
   const fmtDif = (v) => (v === null ? "—" : Math.abs(v) < 0.05 ? "0,0" : Lab.comSinal(v, fmtPP).replace(" p.p.", ""));
 
   // ---------------------------------------------------------- estado (no endereço: o link reproduz a vista)
-  const est = { mun: "", area: "", aba: "resumo", persp: "lula", tam: "fixo", evm: "pct", lente: "abst", modo: "var", forma: "bolhas", ordem: "aptos", dir: "desc" };
+  const est = { mun: "", area: "", fundo: "nada", aba: "resumo", persp: "lula", tam: "fixo", evm: "pct", lente: "abst", modo: "var", forma: "bolhas", ordem: "aptos", dir: "desc" };
   try { const p = new URLSearchParams(location.hash.slice(1)); for (const k of Object.keys(est)) if (p.has(k)) est[k] = p.get(k); } catch (erro) { /* padrão */ }
   const MUN = new Map(base.municipios.map(([c, n, uf]) => [c, { nome: n, uf, rotulo: `${n} (${uf})` }]));
   if (!MUN.has(est.mun)) est.mun = "";
@@ -133,6 +133,36 @@
   const CORTES = { abst: [-6, -3, -1, 1, 3, 6], voto: [-10, -5, -2, 2, 5, 10] };
 
   // ---------------------------------------------------------- mapa de pontos / bolhas
+  /** Cartão do local tocado/clicado, logo abaixo do gráfico (no celular a dica flutuante é ilegível; padrão do DS:
+   *  "card perto do toque"). O toque procura o local mais próximo (até ~22 px na tela), porque bolhas pequenas são
+   *  alvos difíceis. */
+  function cartaoLocal(alvo) {
+    const painel = el("div", { class: "painel-sel cartao-local", "aria-live": "polite", hidden: "" });
+    alvo.append(painel);
+    let marcado = null;
+    const fechar = () => { painel.hidden = true; marcado?.classList.remove("sel"); marcado = null; };
+    return {
+      painel,
+      fechar,
+      mostrar(titulo, linhas, elemento) {
+        Lab.esconderDica();
+        marcado?.classList.remove("sel");
+        marcado = elemento; elemento?.classList.add("sel");
+        painel.replaceChildren(el("b", { text: titulo }), ...linhas.filter(Boolean).map((t) => el("span", { text: t })),
+          el("div", { class: "acoes-sel" }, el("button", { type: "button", class: "voltar", text: "Fechar", onclick: fechar })));
+        painel.hidden = false;
+        if (painel.getBoundingClientRect().bottom > innerHeight) painel.scrollIntoView({ block: "nearest", behavior: Lab.semMovimento() ? "auto" : "smooth" });
+      },
+    };
+  }
+  /** Ponto mais próximo do toque/clique, em unidades do desenho (raioTela: tolerância em px na tela). */
+  function maisProximo(ev, camada, svgEl, itens, x, y, larguraDesenho, k = 1, raioTela = 22) {
+    const [mx, my] = d3.pointer(ev, camada);
+    const tol = (raioTela * larguraDesenho) / (svgEl.clientWidth || larguraDesenho) / k;
+    let melhor = null, dm = Infinity;
+    for (const it of itens) { const dd = Math.hypot(x(it) - mx, y(it) - my); if (dd < dm) { dm = dd; melhor = it; } }
+    return melhor && dm <= tol + (melhor.r || 0) ? melhor : null;
+  }
   function blocoMapa(d, L, fixa = null, Lref = L) {      // Lref: locais da cidade (classes de cor não mudam com o filtro de área)
     const lente = fixa || est.lente, turno = lente === "turno", variacao = !turno && est.modo === "var" && !semPar2022(lente);
     const valor = (o) => (turno ? o.fatia2t : variacao ? o[`${lente}_dif`] : o[lente]);
@@ -150,7 +180,8 @@
     sec.append(fixa ? el("h3", { id: "t-mapa", text: `Onde, ${est.area ? `em ${rotuloArea(est.area)}` : "na cidade"}, o ganho do 2º turno de 2022 foi para cada lado` })
       : el("h2", { id: "t-mapa" }, "Mapa: ", seletorTitulo("Lente", LENTES_MAPA, lente, (v) => atualizar({ lente: v }))),
       el("p", { class: "lendo" }, ...(turno ? [] : [seletorTitulo("Medida", [["2026", "em 2026"], ...(semPar2022(lente) ? [] : [["var", "variação desde 2022"]])], variacao ? "var" : "2026", (v) => atualizar({ modo: v })), " · "]),
-        seletorTitulo("Forma", [["bolhas", "bolhas"], ["pontos", "pontos"]], est.forma, (v) => atualizar({ forma: v }))),
+        seletorTitulo("Forma", [["bolhas", "bolhas"], ["pontos", "pontos"]], est.forma, (v) => atualizar({ forma: v })),
+        " · fundo: ", seletorTitulo("Fundo", [["nada", "sem fundo"], ["ruas", "ruas"]], est.fundo === "ruas" ? "ruas" : "nada", (v) => atualizar({ fundo: v }))),
       el("p", { class: "lendo", text: turno ? "Cor: com quem ficou o ganho de votos do local entre o 1º e o 2º turno de 2022 (Lula × Jair Bolsonaro) · tamanho: votos das outras candidaturas no 1º turno"
         : `${nomeDe(lente)} · ${variacao ? `2026 menos 2022 no mesmo local, em pontos percentuais (${unidade})` : `Presidente · 1º turno de 2026 · ${unidade}`}` }),
       instrucao(turno ? "Vermelho: Lula ficou com a maior parte do que as duas candidaturas ganharam no local entre os turnos; azul: Jair Bolsonaro. Cinza médio: dividido (45 a 55%). Círculo tracejado: sem ganho somado ou local sem par em 2022 (os locais são os de 2026, ligados aos de 2022 pelo EL0009)."
@@ -196,13 +227,32 @@
     const svg0 = d3.select(moldura).append("svg").attr("viewBox", `0 0 ${W} ${H}`).attr("class", "mapa mapa-locais").attr("role", "img")
       .attr("aria-label", `Mapa dos ${noMapa.length} locais de votação: ${nomeDe(lente)}, ${variacao ? "variação desde 2022" : "2026"}. A tabela abaixo traz os mesmos dados.`)
       .style("width", "100%").style("max-width", "560px").style("height", "auto").style("overflow", "hidden");
+    // fundo de ruas (opcional, desligado por padrão): tiles do OpenStreetMap na mesma projeção (Web Mercator),
+    // recalculados a cada zoom com d3-tile, em cinza e desbotados. A política de uso do OSM exige a origem do pedido
+    // (Referer): funciona na página publicada, não aberta por duplo clique (file://). Sem internet, o fundo some.
+    const ruasPossivel = location.protocol !== "file:";
+    const comRuas = est.fundo === "ruas" && ruasPossivel && typeof d3.tile === "function";
+    const camadaRuas = comRuas ? svg0.append("g").attr("class", "ruas") : null;
+    let falhasRuas = 0;
+    const urlTile = (x, y, z) => `https://tile.openstreetmap.org/${z}/${x}/${y}.png`;
+    const desenharRuas = (t) => {
+      if (!comRuas) return;
+      const [tx0, ty0] = proj.translate();
+      const tiles = d3.tile().size([W, H]).scale(proj.scale() * 2 * Math.PI * t.k).translate([t.x + t.k * tx0, t.y + t.k * ty0])();
+      camadaRuas.selectAll("image").data(tiles, (q) => q.join(",")).join((en) => en.append("image")
+        .attr("href", ([x, y, z]) => urlTile(x, y, z)).attr("preserveAspectRatio", "none")
+        .on("error", function () { this.remove(); if (++falhasRuas === 1) avisoRuas.hidden = false; }))
+        .attr("x", ([x]) => (x + tiles.translate[0]) * tiles.scale).attr("y", ([, y]) => (y + tiles.translate[1]) * tiles.scale)
+        .attr("width", tiles.scale + 0.5).attr("height", tiles.scale + 0.5);
+    };
     const svg = svg0.append("g");      // camada com zoom
-    if (d.contorno) svg.append("path").attr("d", d3.geoPath(proj)(d.contorno)).attr("fill", superficie()).attr("stroke", Lab.token("cor-eixo")).attr("stroke-width", 0.8);
+    if (d.contorno) svg.append("path").attr("d", d3.geoPath(proj)(d.contorno)).attr("fill", comRuas ? "none" : superficie())
+      .attr("stroke", comRuas ? Lab.token("cor-texto-secundario") : Lab.token("cor-eixo")).attr("stroke-width", comRuas ? 1.4 : 0.8);
     const ordem = bolhas ? [...nos].sort((a, b) => b.r - a.r) : [...nos].sort((a, b) => (valor(a.o) ?? -Infinity) - (valor(b.o) ?? -Infinity));
     const circ = svg.append("g").selectAll("circle").data(ordem).join("circle")
       .classed("sem-valor", (n) => valor(n.o) === null).classed("fora-escala", (n) => bolhas && n.fora)
       .attr("fill", (n) => esc.cor(valor(n.o)) ?? "none").attr("stroke", (n) => (valor(n.o) === null ? null : superficie())).attr("stroke-width", 0.7)
-      .on("pointermove", (ev, n) => Lab.mostrarDica(ev, n.o.nome, dica(n.o, lente, variacao, fmt, valor)))
+      .on("pointermove", (ev, n) => { if (ev.pointerType !== "touch") Lab.mostrarDica(ev, n.o.nome, dica(n.o, lente, variacao, fmt, valor)); })
       .on("pointerleave", Lab.esconderDica);
     const posicao = (sel, b) => sel.attr("cx", (n) => (b ? n.x : n.x0)).attr("cy", (n) => (b ? n.y : n.y0)).attr("r", (n) => (b ? Math.max(n.r, 1.2) : raioPonto));
     if (animar) posicao(circ, !bolhas).call((sel) => posicao(sel.transition().duration(900).ease(d3.easeCubicInOut), bolhas));
@@ -221,14 +271,29 @@
     const rBase = new Map(nos.map((n) => [n, bolhas ? Math.max(n.r, 1.2) : raioPonto]));
     const zoom = d3.zoom().scaleExtent([1, 16]).translateExtent([[0, 0], [W, H]])
       .filter((ev) => (ev.type === "wheel" ? ev.ctrlKey || ev.metaKey : ev.type.startsWith("touch") ? ev.touches.length > 1 : !ev.button))
-      .on("zoom", (ev) => { svg.attr("transform", ev.transform); circ.attr("r", (n) => rBase.get(n) / Math.sqrt(ev.transform.k)); });
+      .on("zoom", (ev) => { svg.attr("transform", ev.transform); circ.attr("r", (n) => rBase.get(n) / Math.sqrt(ev.transform.k)); desenharRuas(ev.transform); });
     svg0.call(zoom).on("dblclick.zoom", null);
+    desenharRuas(d3.zoomIdentity);
+    if (comRuas) circ.attr("stroke-width", 1.1).attr("stroke", (n) => (valor(n.o) === null ? null : Lab.token("cor-texto")));
+    const avisoRuas = el("p", { class: "nota", hidden: "", text: "Fundo de ruas indisponível (sem internet ou servidor fora do ar): o mapa segue sem fundo." });
+    if (comRuas) moldura.append(el("p", { class: "atribuicao-ruas" }, "© ", el("a", { href: "https://www.openstreetmap.org/copyright", target: "_blank", rel: "noopener", text: "OpenStreetMap" }),
+      " contributors"), avisoRuas);
+    if (est.fundo === "ruas" && !ruasPossivel) moldura.append(el("p", { class: "nota", text: "O fundo de ruas (OpenStreetMap) só aparece na página publicada na internet: aberta direto do computador, o serviço recusa os pedidos." }));
+    // toque/clique: cartão do local mais próximo abaixo do mapa
+    const cartaoM = { ref: null };
+    svg0.on("click", (ev) => {
+      const k = d3.zoomTransform(svg0.node()).k;
+      const n = maisProximo(ev, svg.node(), svg0.node(), nos, (q) => (bolhas ? q.x : q.x0), (q) => (bolhas ? q.y : q.y0), W, k);
+      if (!n) { cartaoM.ref?.fechar(); return; }
+      cartaoM.ref.mostrar(n.o.nome, dica(n.o, lente, variacao, fmt, valor), circ.filter((q) => q === n).node());
+    });
     moldura.append(el("div", { class: "zoom-mapa", role: "group", "aria-label": "Zoom do mapa" },
       el("button", { type: "button", "aria-label": "Aproximar", text: "+", onclick: () => svg0.transition().duration(300).call(zoom.scaleBy, 1.8) }),
       el("button", { type: "button", "aria-label": "Afastar", text: "−", onclick: () => svg0.transition().duration(300).call(zoom.scaleBy, 1 / 1.8) }),
       el("button", { type: "button", class: "tudo", "aria-label": "Ver o mapa inteiro", text: "ver tudo", onclick: () => svg0.transition().duration(300).call(zoom.transform, d3.zoomIdentity) })));
+    cartaoM.ref = cartaoLocal(cartao);
     const fora = L.length - noMapa.length;
-    cartao.append(moldura, el("div", { class: "legendas-mapa" }, legenda,
+    cartao.append(moldura, cartaoM.ref.painel, el("div", { class: "legendas-mapa" }, legenda,
       bolhas ? Lab.legendaTamanho(escalaR, turno ? "votos das outras no 1º turno" : lente === "abst" ? "abstenções" : "votos") : "",
       variacao || turno ? el("p", { class: "nota", text: turno ? "Círculo tracejado: sem ganho somado ou sem par em 2022." : "Círculo tracejado: local sem par em 2022." }) : ""),
       Lab.rodape({ fontes: ["tse"], cobertura: `${noMapa.length} de ${L.length} locais no mapa.`,
@@ -430,7 +495,13 @@
       .attr("cx", (p) => sx(p.x)).attr("cy", (p) => sy(p.disputa)).attr("r", raio)
       .attr("fill", (p) => corPonto(p) ?? "none").attr("stroke", (p) => (corPonto(p) ? superficie() : Lab.token("cor-texto-secundario"))).attr("stroke-width", 1)
 
-      .on("pointermove", (ev, p) => Lab.mostrarDica(ev, p.o.nome, dicaP(p))).on("pointerleave", Lab.esconderDica);
+      .on("pointermove", (ev, p) => { if (ev.pointerType !== "touch") Lab.mostrarDica(ev, p.o.nome, dicaP(p)); }).on("pointerleave", Lab.esconderDica);
+    const cartaoD = cartaoLocal(cartao);
+    svg.on("click", (ev) => {
+      const p = maisProximo(ev, svg.node(), svg.node(), P.filter(naA), (q) => sx(q.x), (q) => sy(q.disputa), W);
+      if (!p) { cartaoD.fechar(); return; }
+      cartaoD.mostrar(p.o.nome, dicaP(p), svg.selectAll("circle").filter((q) => q === p).node());
+    });
     // nomes dos cinco com mais votos em disputa entre os destacados (rótulos curtos, com halo)
     const rot = D.slice(0, 5).map((p) => ({ p, x: sx(p.x) + 8, y: sy(p.disputa) + 4 })).sort((a, b) => a.y - b.y);
     for (let k = 1; k < rot.length; k++) if (rot[k].y - rot[k - 1].y < 13) rot[k].y = rot[k - 1].y + 13;
@@ -500,7 +571,9 @@
       Lab.rodape({ fontes: ["tse"], nota: "Totais oficiais por município, somados por estado e Brasil (exterior fora). Ganho = votos no 2º turno menos votos no 1º turno da mesma candidatura." }));
     sec.append(cartao);
     // mapa dos locais (2022) e lista
-    sec.append(blocoMapa(d, LA, "turno", L));
+    // o mapa desta leitura está na aba Mapa (lente "2º turno de 2022"), para não repetir
+    sec.append(el("div", { class: "cartao chamada" }, el("p", { text: `Onde, ${est.area ? `em ${rotuloArea(est.area)}` : "na cidade"}, o ganho do 2º turno de 2022 foi para cada lado: veja no mapa (cor = com quem ficou o ganho em cada local).` }),
+      el("button", { type: "button", class: "ir-aba", text: "Ver no mapa →", onclick: () => { est.lente = "turno"; irAba("mapa"); } })));
     const T = LA.filter((o) => o.turno && o.tipo === "C");
     const maioria = T.filter((o) => (o.fatia2t ?? -1) > 50).length;
     const top = [...T].sort((a, b) => b.turno.outros_1t - a.turno.outros_1t).slice(0, 15);

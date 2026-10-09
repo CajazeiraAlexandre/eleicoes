@@ -67,6 +67,12 @@ passos:
       Os totais do estado e do Brasil somam os municípios (exterior fora); os nomes das outras candidaturas do
       1º turno vêm do cadastro de candidaturas do TSE.
     codigo: votos.saldo_entre_turnos
+  - titulo: Fundo de ruas do mapa
+    texto: >-
+      O fundo de ruas é opcional e vem desligado. Quando ligado, as imagens do mapa são pedidas aos servidores do
+      OpenStreetMap (© OpenStreetMap contributors), que recebem o endereço de internet de quem vê a página e a área
+      mostrada. Funciona na página publicada; aberta direto do computador ou sem internet, o mapa segue sem fundo.
+      Os dados dos locais não mudam.
 
 perguntas:
   - p: Por que alguns locais não têm variação?
@@ -98,7 +104,7 @@ uso_de_ia: >-
 
 licenca: "Código: MIT · Dados derivados: CC BY 4.0"
 
-citacao: "RAMOS, Alexandre Ribeiro Cajazeira. Onde o 2º turno se decide em sua cidade: locais de votação, Presidente 2026. Laboratório de Dados Públicos, 2026."
+citacao: "RAMOS, Alexandre Ribeiro Cajazeira. Onde o 2º turno pode ser decidido em sua cidade: locais de votação, Presidente 2026. Laboratório de Dados Públicos, 2026."
 
 decisoes_resumo:
   EL0003: "Votos válidos por seção reconstruídos com o destino oficial de cada candidatura."

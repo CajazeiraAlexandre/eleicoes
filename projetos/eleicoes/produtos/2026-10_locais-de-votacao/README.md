@@ -1,6 +1,6 @@
-# Onde o 2º turno se decide em sua cidade: locais de votação, Presidente 2026
+# Onde o 2º turno pode ser decidido em sua cidade: locais de votação, Presidente 2026
 
-**Tipo:** painel · **Projeto:** eleicoes · **Status:** publicado (1.0, 2026-10-09) · **Deriva de:** `2026-10_mapa-da-virada`
+**Tipo:** painel · **Projeto:** eleicoes · **Status:** publicado (1.1, 2026-10-09) · **Deriva de:** `2026-10_mapa-da-virada`
 
 ## Pergunta
 Em cada local de votação de uma cidade: eleitores aptos, votos para Presidente no 1º turno de 2026 (Lula, Flávio

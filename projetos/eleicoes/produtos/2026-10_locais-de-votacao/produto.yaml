@@ -1,8 +1,8 @@
 id: 2026-10_locais-de-votacao
-titulo: "Onde o 2º turno se decide em sua cidade: locais de votação, Presidente 2026"
+titulo: "Onde o 2º turno pode ser decidido em sua cidade: locais de votação, Presidente 2026"
 tipo: painel            # exploratorio | narrativa | visualizacao | painel | nota-tecnica (docs/TIPOS_DE_PRODUTO.md)
 status: publicado         # rascunho | revisao | publicado | arquivado — publicação aprovada pelo pesquisador (2026-10-09), repositório público eleicoes
-versao: "1.0"             # 1.0 publicada em 2026-10-09
+versao: "1.1"             # 1.0 publicada em 2026-10-09; 1.1: cartão de toque, fundo de ruas (OSM), aba 1º → 2º turno sem mapa, título
 deriva_de: 2026-10_mapa-da-virada   # seção "Locais de votação" do Mapa da virada, em página própria para print e exportação
 
 # ---- briefing (respostas às perguntas iniciais; ver CLAUDE.md, seção 6.0) ----
@@ -97,7 +97,7 @@ decisoes_locais:
     com quem ficou o ganho em 2022, tamanho = votos das outras no 1º turno), também como lente da aba Mapa;
     lista dos 15 locais com mais votos das outras no 1º turno. No Resumo, o quadro virou chamada para a aba.
   2026_10_09_titulo_e_padroes: >-
-    Pesquisador: título "Onde o 2º turno se decide em sua cidade" ("em sua cidade" grifado, marca-texto amarelo-claro,
+    Pesquisador: título "Onde o 2º turno pode ser decidido em sua cidade" ("em sua cidade" grifado, marca-texto amarelo-claro,
     não o azul do --cor-destaque, que é a cor de Flávio Bolsonaro); mapa abre em bolhas, abstenção, variação desde
     2022; aba "1º → 2º turno" (título da seção: "Mudanças do 1º para o 2º turno nas últimas eleições").
   2026_10_09_area_e_zoom: >-
@@ -111,6 +111,16 @@ decisoes_locais:
     lado; evolução da área 2022 → 2026 somando só os locais com par (os mesmos nos dois anos, EL0009; por local não
     há 2018); quadro local a local e chamada do 2º turno da área. Aba 1º → 2º turno: barra da área (locais com par)
     acima de cidade, estado e Brasil, e mapa e lista da área.
+  2026_10_09_toque_e_aba_turnos: >-
+    Pesquisador: no celular a dica flutuante é ilegível — tocar/clicar num local (mapa e dispersão) abre um cartão
+    fixo abaixo do gráfico, com o local marcado; o toque pega o local mais próximo (~22 px). A aba 1º → 2º turno
+    perdeu o mapa (repetia a lente "2º turno de 2022" da aba Mapa) e ganhou o botão "Ver no mapa →".
+  2026_10_09_fundo_ruas: >-
+    Pesquisador aprovou fundo de ruas opcional (desligado por padrão; seletor "fundo: sem fundo / ruas"): tiles do
+    OpenStreetMap via d3-tile na mesma projeção, em cinza e desbotados, com atribuição. CARTO descartado (passou a
+    exigir chave de API — testado em 2026-10-09). A política do OSM exige a origem do pedido: funciona na página
+    publicada; aberta por duplo clique (file://), a opção avisa e o mapa segue sem fundo. Privacidade descrita na
+    metodologia. Título passa a "Onde o 2º turno pode ser decidido em sua cidade" (pesquisador).
 
 licenca:
   codigo: MIT

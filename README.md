@@ -7,7 +7,7 @@ TSE e do IBGE, e o código para refazê-los do zero. Site: <https://cajazeiraale
 
 - **[Onde estão os votos? Distribuição territorial de candidaturas no Piauí](https://cajazeiraalexandre.github.io/eleicoes/onde-estao-os-votos/)** — `projetos/eleicoes/produtos/2026-10_distribuicao-votos-candidato-pi`
 - **[Forças políticas no Piauí: PT, PSD, MDB e os demais (2018–2026)](https://cajazeiraalexandre.github.io/eleicoes/forcas-politicas/)** — `projetos/eleicoes/produtos/2026-10_forcas-politicas-pi`
-- **[Onde o 2º turno se decide em sua cidade: locais de votação, Presidente 2026](https://cajazeiraalexandre.github.io/eleicoes/onde-o-2-turno-se-decide/)** — `projetos/eleicoes/produtos/2026-10_locais-de-votacao`
+- **[Onde o 2º turno pode ser decidido em sua cidade: locais de votação, Presidente 2026](https://cajazeiraalexandre.github.io/eleicoes/onde-o-2-turno-se-decide/)** — `projetos/eleicoes/produtos/2026-10_locais-de-votacao`
 
 Cada produto é uma página HTML única (abre com duplo clique, sem servidor) com o bloco
 "Fontes de Dados, Metodologia e Códigos" no fim. O README de cada pasta resume método, decisões,
@@ -73,7 +73,7 @@ os produtos usam (`dados/referencia/`, `dados/snapshots/`) e os recortes web de 
 
 ## Origem e uso de IA
 
-Recorte do laboratório de dados do autor (commit de origem `8efe49a`, 2026-10-09). O uso de IA generativa
+Recorte do laboratório de dados do autor (commit de origem `7868460`, 2026-10-09). O uso de IA generativa
 (Claude, Anthropic) está declarado no README de cada produto, conforme a Portaria CNPq nº 2.664/2026;
 as decisões metodológicas e a revisão são do pesquisador.
 
