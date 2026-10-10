@@ -61,6 +61,7 @@
     rodape.replaceChildren(Lab.blocoMetodologia(m, { baixar, linkAutor }),
       el("p", { class: "assinatura-final" }, `Análise e visualização: ${Lab.cfg.autor}`,
         linkAutor ? " · " : null, linkAutor ? el("a", { href: linkAutor.href, target: "_blank", rel: "noopener", text: linkAutor.rotuloCurto || linkAutor.texto }) : null));
-    for (const a of document.querySelectorAll(".assinatura a")) a.addEventListener("click", Lab.irRodape);
+    // só o link interno ("Fontes, métodos e códigos ↓") leva à metodologia; o nome do autor abre o portfólio em nova aba
+    for (const a of document.querySelectorAll('.assinatura a[href^="#"]')) a.addEventListener("click", Lab.irRodape);
   };
 })();

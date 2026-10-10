@@ -73,7 +73,7 @@ os produtos usam (`dados/referencia/`, `dados/snapshots/`) e os recortes web de 
 
 ## Origem e uso de IA
 
-Recorte do laboratório de dados do autor (commit de origem `7868460`, 2026-10-09). O uso de IA generativa
+Recorte do laboratório de dados do autor (commit de origem `aa3c73b`, 2026-10-10). O uso de IA generativa
 (Claude, Anthropic) está declarado no README de cada produto, conforme a Portaria CNPq nº 2.664/2026;
 as decisões metodológicas e a revisão são do pesquisador.
 

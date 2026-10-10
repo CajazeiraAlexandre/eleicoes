@@ -84,7 +84,7 @@ def geocodificar(enderecos: pd.DataFrame, estado: str, municipio: str, logradour
     campos = {"estado": estado, "municipio": municipio, "logradouro": logradouro, "numero": numero, "cep": cep,
               "localidade": localidade}
     if motor == "r":
-        return _geocodificar_r(enderecos, {k: v for k, v in campos.items() if v})
+        return _geocodificar_r(enderecos, {k: v for k, v in campos.items() if v}, n_cores)
     if motor != "python":
         raise ValueError(f"motor desconhecido: {motor}")
     gb = _geocodebr()
@@ -95,7 +95,7 @@ def geocodificar(enderecos: pd.DataFrame, estado: str, municipio: str, logradour
     return res.to_pandas() if hasattr(res, "to_pandas") else pd.DataFrame(res)
 
 
-def _geocodificar_r(enderecos: pd.DataFrame, campos: dict) -> pd.DataFrame:
+def _geocodificar_r(enderecos: pd.DataFrame, campos: dict, n_cores: int | None = None) -> pd.DataFrame:
     """Chama ferramentas/r/geocodebr.R com a tabela em Parquet; os arquivos ficam em dados/tmp (fora do git) e são
     apagados ao fim, porque podem ter dados pessoais (L0004)."""
     import subprocess
@@ -105,7 +105,8 @@ def _geocodificar_r(enderecos: pd.DataFrame, campos: dict) -> pd.DataFrame:
     with tempfile.TemporaryDirectory(dir=tmp_raiz) as tmp:
         entrada, saida = Path(tmp) / "entrada.parquet", Path(tmp) / "saida.parquet"
         enderecos.astype({c: "string" for c in campos.values()}).to_parquet(entrada, index=False)
-        cmd = ["Rscript", "ferramentas/r/geocodebr.R", str(entrada), str(saida), *[f"{k}={v}" for k, v in campos.items()]]
+        cmd = ["Rscript", "ferramentas/r/geocodebr.R", str(entrada), str(saida), *[f"{k}={v}" for k, v in campos.items()],
+               *([f"n_cores={n_cores}"] if n_cores else [])]
         r = subprocess.run(cmd, cwd=raiz(), capture_output=True, text=True)
         if r.returncode != 0:
             raise RuntimeError(f"geocodebr (R) falhou:\n{r.stderr[-3000:]}")
