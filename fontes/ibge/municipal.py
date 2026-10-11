@@ -1,5 +1,6 @@
 """Referências municipais do IBGE usadas por vários projetos: lista de municípios, população do Censo 2022,
-REGIC 2018, Semiárido 2022, Amazônia Legal 2022, IPCA mensal e classes de porte.
+REGIC 2018, Semiárido 2022, Amazônia Legal 2022, terras indígenas e territórios quilombolas (Censo 2022), população
+indígena e quilombola, IPCA mensal e classes de porte.
 
     python fontes/ibge/municipal.py            # consulta as APIs e salva as cópias locais (política "sempre")
 
@@ -124,6 +125,60 @@ def amazonia_legal_2022() -> set[str]:
     return cods
 
 
+TERRITORIOS = {   # polígonos do Censo 2022 (2ª apuração): dataset → (zip, shapefile interno, coluna do código, coluna do nome)
+    "ti": ("terras_indigenas_2022/BR_TIs_2a_apuracao_20231222.zip",
+           "BR_TIs_2a_apuracao_18102023/BR_TI_Publicacao_CD2022_181023.shp", "COD_TI", "NOM_TI"),
+    "tq": ("territorios_quilombolas_2022/BR_TQ_2a_apuracao_20231222.zip",
+           "BR_TQ_2apuracao_181023/CD2022_Territorios_Quilombolas_oficialmente_delimitados_181023.shp", "COD_TQ", "NOM_TQ"),
+}
+CRS_AREA = "ESRI:102033"   # South America Albers Equal Area Conic (áreas em km²)
+
+
+def territorios_tradicionais(area_min_km2: float = 1.0, fracao_min: float = 0.01) -> pd.DataFrame:
+    """Municípios com terra indígena (TI) e com território quilombola (TQ) oficialmente delimitados no Censo 2022 (IBGE).
+    Um município "tem" o território se a sobreposição é de ao menos `area_min_km2` km² OU de ao menos `fracao_min` da área
+    do território (para não contar faixas de borda criadas pela diferença de traçado entre as bases — CN0011).
+    Retorna cod_ibge, n_ti, area_ti_km2, n_tq, area_tq_km2, tem_ti, tem_tq (um registro por município, todos os 5.570)."""
+    import geopandas as gpd
+    arq_m = raiz() / PASTA_BRUTO / "malha_municipios_2022" / "BR_Municipios_2022.zip"
+    mun = gpd.read_file(f"zip://{arq_m}")[["CD_MUN", "geometry"]].to_crs(CRS_AREA)
+    saida = pd.DataFrame({"cod_ibge": mun["CD_MUN"].astype(str)})
+    for chave, (zipf, interno, cod, _) in TERRITORIOS.items():
+        t = gpd.read_file(f"/vsizip/{raiz() / PASTA_BRUTO / zipf}/{interno}")[[cod, "geometry"]].to_crs(CRS_AREA)
+        t["geometry"] = t.geometry.make_valid()
+        t["area_t"] = t.area / 1e6
+        x = gpd.overlay(t, mun, how="intersection", keep_geom_type=True)
+        x["area"] = x.area / 1e6
+        x = x[(x["area"] >= area_min_km2) | (x["area"] >= fracao_min * x["area_t"])]
+        g = x.groupby("CD_MUN").agg(n=(cod, "nunique"), area=("area", "sum"))
+        saida[f"n_{chave}"] = saida["cod_ibge"].map(g["n"]).fillna(0).astype(int)
+        saida[f"area_{chave}_km2"] = saida["cod_ibge"].map(g["area"]).fillna(0.0)
+        saida[f"tem_{chave}"] = saida[f"n_{chave}"] > 0
+    return saida
+
+
+def _buscar_populacao_tradicional(endpoint: str, params: dict) -> list[dict]:
+    """Pessoas indígenas (SIDRA 9718, var. 350) e quilombolas (SIDRA 10089, var. 4709) por município, Censo 2022."""
+    import httpx
+    saida = []
+    for tabela, var, nome in ((9718, 350, "indigenas"), (10089, 4709, "quilombolas")):
+        r = httpx.get(f"{endpoint}/{tabela}/periodos/2022/variaveis/{var}", params={"localidades": "N6[all]"}, timeout=120)
+        r.raise_for_status()
+        for s in r.json()[0]["resultados"][0]["series"]:
+            saida.append({"tabela": tabela, "grupo": nome, "cod_ibge": s["localidade"]["id"], "valor": s["serie"]["2022"]})
+    return saida
+
+
+def populacao_indigena_quilombola(modo: str = "auto") -> tuple[pd.DataFrame, str]:
+    """Pessoas indígenas e quilombolas por município (Censo 2022): cod_ibge, pessoas_indigenas, pessoas_quilombolas.
+    Retorna (tabela, origem)."""
+    dados, origem = api.obter("ibge.populacao_indigena_quilombola_2022", modo=modo, buscar=_buscar_populacao_tradicional)
+    df = pd.DataFrame(dados)
+    df["valor"] = pd.to_numeric(df["valor"].where(~df["valor"].isin(_AUSENTE_SIDRA)), errors="coerce")
+    df = df.pivot_table(index="cod_ibge", columns="grupo", values="valor", aggfunc="sum").reset_index()
+    return df.rename(columns={"indigenas": "pessoas_indigenas", "quilombolas": "pessoas_quilombolas"}), origem
+
+
 def porte(populacao: pd.Series, classes: str = "sniic") -> pd.Series:
     """Classe de porte: "sniic" (4 classes do Boletim SNIIC nº 02 — CN0004) ou "v2" (5 classes, separa > 500 mil)."""
     if classes == "sniic":
@@ -142,6 +197,9 @@ def ipca_mensal(salvar: bool = True) -> dict:
         if salvar and (ultima is None or _ultimo_mes(dados) != _ultimo_mes(api.obter("ibge.ipca_mensal", modo="snapshot")[0])):
             caminho = api.salvar_snapshot("ibge.ipca_mensal", dados, confirmado=True)   # política "sempre" (2026-10-07)
             origem = f"snapshot:{caminho.relative_to(raiz())}"
+        elif ultima is not None and _ultimo_mes(dados) == _ultimo_mes(api.obter("ibge.ipca_mensal", modo="snapshot")[0]):
+            # sem mês novo: usa a cópia local (mesmo conteúdo, versionada) para a origem ficar reproduzível
+            dados, origem = api.obter("ibge.ipca_mensal", modo="snapshot")
     except Exception:
         dados, origem = api.obter("ibge.ipca_mensal", modo="snapshot")
     serie = pd.Series({r["D3C"]: float(r["V"]) for r in dados[1:] if r["V"] not in _AUSENTE_SIDRA}).sort_index()

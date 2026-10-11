@@ -16,7 +16,8 @@ from labdados.manifesto import registrar_arquivo
 
 _SETORES = ("https://geoftp.ibge.gov.br/organizacao_do_territorio/malhas_territoriais/"
             "malhas_de_setores_censitarios__divisoes_intramunicipais/censo_2022/")
-_FCU = "https://ftp.ibge.gov.br/Censos/Censo_Demografico_2022/Favelas_e_comunidades_urbanas_Resultados_do_universo/"
+_CENSO = "https://ftp.ibge.gov.br/Censos/Censo_Demografico_2022/"
+_FCU = _CENSO + "Favelas_e_comunidades_urbanas_Resultados_do_universo/"
 
 ARQUIVOS = {
     "ibge.malha_ufs_2022": (
@@ -39,6 +40,15 @@ ARQUIVOS = {
     "ibge.setores_censitarios_2022": [
         (_SETORES + "setores/gpkg/BR/BR_setores_CD2022.gpkg", "BR_setores_CD2022.gpkg"),
         (_SETORES + "Dicionario_de_dados_malha_agregados.xlsx", "Dicionario_de_dados_malha_agregados.xlsx"),
+    ],
+    # Terras indígenas e territórios quilombolas oficialmente delimitados usados no Censo 2022 (2ª apuração, dez/2023)
+    "ibge.terras_indigenas_2022": [
+        (_CENSO + "Indigenas_Primeiros_resultados_do_universo/Arquivos_geoespaciais_vetoriais_2a_apuracao_20231222/BR_TIs_2a_apuracao_20231222.zip", "BR_TIs_2a_apuracao_20231222.zip"),
+        (_CENSO + "Indigenas_Primeiros_resultados_do_universo/Apendices_da_publicacao_2a_apuracao_20231222/apendice_03_TIs_incluidas_20231222.xlsx", "apendice_03_TIs_incluidas_20231222.xlsx"),
+    ],
+    "ibge.territorios_quilombolas_2022": [
+        (_CENSO + "Quilombolas_Primeiros_resultados_do_universo/Arquivos_geoespaciais_vetoriais_2a_apuracao_20231222/BR_TQ_2a_apuracao_20231222.zip", "BR_TQ_2a_apuracao_20231222.zip"),
+        (_CENSO + "Quilombolas_Primeiros_resultados_do_universo/Apendices_da_publicacao_2a_apuracao_20231222/Apendice_publicacao_1_TQ_20231222.xlsx", "Apendice_publicacao_1_TQ_20231222.xlsx"),
     ],
     # Favelas e Comunidades Urbanas 2022: setores que compõem cada FCU, polígonos e FCUs não setorizadas
     "ibge.favelas_comunidades_urbanas_2022": [

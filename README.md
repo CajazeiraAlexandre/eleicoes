@@ -13,6 +13,14 @@ Cada produto é uma página HTML única (abre com duplo clique, sem servidor) co
 "Fontes de Dados, Metodologia e Códigos" no fim. O README de cada pasta resume método, decisões,
 limitações e o uso de IA.
 
+## O que este repositório contém
+
+Só o necessário para a transparência e para refazer os números a partir das fontes oficiais: as páginas
+publicadas e seus dados, o código (núcleo, pipelines das fontes, análises), os relatórios de conferência, os
+testes, as decisões metodológicas (ADRs) citadas e o recorte do catálogo de bases. Ferramentas de autoria, a
+especificação do design system, briefings e anotações internas do laboratório ficam de fora. Cada página é um
+retrato datado das bases: não se atualiza sozinha, e a data dos dados está no rodapé.
+
 ## Como refazer
 
 ```bash
@@ -73,7 +81,7 @@ os produtos usam (`dados/referencia/`, `dados/snapshots/`) e os recortes web de 
 
 ## Origem e uso de IA
 
-Recorte do laboratório de dados do autor (commit de origem `aa3c73b`, 2026-10-10). O uso de IA generativa
+Recorte do laboratório de dados do autor (commit de origem `30fbf93`, 2026-10-11). O uso de IA generativa
 (Claude, Anthropic) está declarado no README de cada produto, conforme a Portaria CNPq nº 2.664/2026;
 as decisões metodológicas e a revisão são do pesquisador.
 
