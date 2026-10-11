@@ -1,0 +1,104 @@
+# Especificação da Visualização piloto (L0007, v0.2 — docs/arquitetura/especificacao.md).
+# Validar: python -m labdados.viz validar projetos/eleicoes/produtos/2026-10_votos-em-disputa
+# Gerar:   python -m labdados.viz gerar   projetos/eleicoes/produtos/2026-10_votos-em-disputa
+# {e.…} = texto ou valor do Python, por município (analise/preparar_votos_em_disputa.py › textos); nenhum número à mão.
+# {c.…} = lugar do controle na frase (no chapéu ou no título).
+id: 2026-10_votos-em-disputa
+tipo: visualizacao
+edicao: null                     # o gerador usa a data da base (retrato datado, L0010)
+status: rascunho
+origem: eleicoes/2026-10_locais-de-votacao@1.1#disputa
+
+tarefa: {categoria: relacao, alvo: fora_da_curva, pergunta: "Em que locais há mais votos em disputa onde Lula perdeu espaço?"}
+
+texto:
+  chapeu: "1º turno de 2026 · {c.municipio}"
+  titulo: "Onde Lula perdeu espaço e há mais votos em disputa"          # proposta, a validar
+  subtitulo: "{e.subtitulo}"
+  amostra: {grafico: "{e.amostra_grafico}", mapa: "{e.amostra_mapa}"}
+  fonte: "TSE (1º turno de 2026 e de 2022, por local de votação)"
+  como_ler: >-
+    Cada ponto é um local de votação. ⟦Votos em disputa⟧ = abstenções + brancos e nulos + votos nas candidaturas fora
+    da disputa principal (Lula × Flávio Bolsonaro). ⟦Em destaque⟧, à esquerda da linha vertical (Lula perdeu
+    participação desde 2022) e acima da horizontal (mediana dos votos em disputa da cidade). A cor diz com quem ficou o
+    ganho de votos do local entre o 1º e o 2º turno de 2022.
+  notas:
+    - Relação entre lugares não descreve o voto de pessoas.
+    - Votos em disputa não são previsão nem estimativa de quantos votos uma candidatura pode ganhar.
+    - Locais especiais (trânsito, presos, temporários) e locais sem par em 2022 ficam fora (EL0009).
+    - "Cor: fatia de Lula no ganho somado de Lula e Jair Bolsonaro entre o 1º e o 2º turno de 2022, no mesmo local."
+
+dados:
+  fonte: {analise: projetos/eleicoes/analise/preparar_votos_em_disputa.py, tabela: data/locais}
+  indice: data/municipios.json                               # índice das cidades + dicionário das colunas
+  fatiar_por: municipio                                      # um arquivo por cidade, carregado ao escolher
+  colunas:                                                   # rótulos para o leitor; tipo e unidade vêm do dicionário dos dados
+    id: {tipo: rotulo}
+    local: {tipo: rotulo, rotulo: Local}
+    endereco: {tipo: texto}
+    bairro: {tipo: texto}
+    lat: {tipo: geo}
+    lon: {tipo: geo}
+    aptos: {tipo: medida, rotulo: Eleitores aptos, curto: aptos}
+    variacao: {tipo: medida, rotulo: Variação de Lula desde 2022, curto: Var. Lula}
+    disputa: {tipo: medida, rotulo: Votos em disputa, curto: Em disputa, curto_valor: votos em disputa, rotulo_tamanho: votos em disputa do local}
+    abstencoes: {tipo: medida, curto: abstenções}
+    brancos_nulos: {tipo: medida, curto: brancos e nulos}
+    outras: {tipo: medida, curto: outras candidaturas}
+    perdas: {tipo: medida, rotulo: "Votos de Lula perdidos desde 2022 (contados à parte)"}
+    fatia: {tipo: medida, rotulo: "Do ganho no 2º turno de 2022, ficou com Lula", curto: Ganho Lula 2022}
+    destaque: {tipo: booleano, rotulo: Em destaque, curto: Destaque}
+  conferencias:
+    - "disputa = abstenções + brancos e nulos + outras, em todo local (relatorio_qualidade_votos_em_disputa.json)"
+    - "contas idênticas às do produto de origem (votos_em_disputa, saldo_entre_turnos; testes)"
+  decisoes: [L0001, L0002, EL0002, EL0003, EL0008, EL0009]
+
+estilo:                                                      # mesmas cores de candidatura dos produtos de 2026
+  tokens: {cg-lula: ["#e34948", "#e66767"], cg-flavio: ["#2a78d6", "#3987e5"]}
+
+escalas:
+  cor:
+    tipo: cortes
+    campo: fatia
+    cortes: [35, 45, 55, 65]
+    leitura: fatia_de_dois                                   # rótulos das classes calculados no gerador
+    pontas: [{rotulo: Bolsonaro, cor: cg-flavio}, {rotulo: Lula, cor: cg-lula}]
+    titulo: Com quem ficou o ganho de votos do local entre o 1º e o 2º turno de 2022
+    titulo_curto: Com quem ficou o ganho do local no 2º turno de 2022
+  tamanho: {tipo: area, campo: disputa}
+
+grafico:
+  componente: dispersao
+  ligacoes: {x: variacao, y: disputa, cor: fatia, rotulo: local}
+  opcoes: {titulo_x: "← perdeu · Lula desde 2022 (p.p.) · ganhou →", titulo_y: "votos em disputa ↑"}
+  destaque: {coluna: destaque, fora: cinza, rotulo: fora do destaque}
+  rotulos: {ids: "{e.rotulos}", coluna: local}               # os cinco maiores em destaque, escolhidos no Python
+  anotacoes:
+    - {tipo: linha, eixo: x, valor: 0, texto: "{e.ref_x}"}
+    - {tipo: linha, eixo: y, valor: "{e.med_y}", texto: "{e.ref_y}"}
+    - {id: maior, tipo: balao, alvo: "{e.anotacao.alvo}", texto: "{e.anotacao.texto}", estilo: toque, prioridade: 1}
+  detalhe:
+    titulo: local
+    contexto: [endereco, bairro]
+    linhas: [variacao, {campo: disputa, de: aptos}, {grupo: [abstencoes, brancos_nulos, outras]}, perdas, fatia]
+  companheiro:
+    componente: mapa_pontos
+    ligacoes: {lat: lat, lon: lon, cor: fatia, tamanho: disputa, rotulo: local}
+    rotulo_aba: Ver no mapa
+    opcoes: {forma: bolhas, fundo: osm}
+
+legenda:
+  recolhida: true
+  tamanho: true
+  extras: [{tipo: tracejada, texto: "{e.legenda_linhas}", vistas: [principal]}]
+
+controles:
+  - {id: municipio, tipo: busca, campo: municipio, obrigatorio: true, inicial: "2211001", padrao_link: true, local: titulo, rotulo: Cidade}
+  - {id: tamanho, tipo: alternar, opcao: forma, valores: {pontos: Fixo, bolhas: Votos}, inicial: bolhas, local: grafico, rotulo: Tamanho}
+  - {id: fundo, tipo: alternar, opcao: fundo, valores: {osm: "ruas (OpenStreetMap)", nenhum: sem fundo}, inicial: osm, local: explorar, rotulo: Fundo do mapa}
+
+formatos: {aceitos: [retrato, quadrado, paisagem]}
+saidas:
+  dados: [csv]
+  imagens: {og: {estado: {municipio: "2211001"}, formato: paisagem}}   # prévia do link no WhatsApp (og:image)
+  embed: {largura: 400, altura: 640}

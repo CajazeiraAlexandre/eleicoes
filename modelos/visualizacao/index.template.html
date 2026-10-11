@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITULO__</title>
+<meta name="description" content="__DESCRICAO__">
+<meta property="og:type" content="website">
+<meta property="og:title" content="__TITULO__">
+<meta property="og:description" content="__DESCRICAO__">
+<meta property="og:url" content="__OG_URL__">
+<meta property="og:image" content="__OG_IMAGEM__">
+<meta name="twitter:card" content="summary_large_image">
+<!-- Visualização declarativa (L0007). Este index.html é GERADO por `python -m labdados.viz gerar <pasta do produto>`
+     a partir do viz.yaml (especificação), dos dados em data/ e dos componentes do DS (lab-viz.js). Não edite à mão. -->
+<style>
+/*__TOKENS_CSS__*/
+</style>
+<style>
+/*__LAB_CSS__*/
+</style>
+<style>
+/*__PRODUTO_CSS__*/
+</style>
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<!-- fundo de ruas do OpenStreetMap nos mapas de cidade (L0013); só carrega em página servida por http(s) -->
+<script src="https://cdn.jsdelivr.net/npm/d3-tile@1.0.0/dist/d3-tile.min.js"></script>
+</head>
+<body>
+<main>
+  <div id="viz"><p class="viz-vazio">Carregando…</p></div>
+  <footer id="rodape"></footer>
+</main>
+<div class="dica" id="dica" role="status" aria-live="polite"></div>
+<script id="plano" type="text/plain">__PLANO_BASE64__</script>
+<script>
+/*__LAB_JS__*/
+</script>
+<script>
+Lab.viz.pagina().catch((erro) => {
+  document.getElementById("viz").textContent = `Não foi possível montar a página: ${erro.message || erro}. Use um navegador atualizado.`;
+  console.error(erro);
+});
+</script>
+</body>
+</html>

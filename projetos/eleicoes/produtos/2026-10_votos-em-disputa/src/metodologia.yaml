@@ -1,0 +1,101 @@
+# Textos do bloco "Fontes de Dados, Metodologia e Códigos" (padrão de todos os produtos — ADR L0003).
+# As partes automáticas (fontes, decisões, trechos de código, versão) vêm de labdados.metodologia.montar,
+# chamado por labdados.viz.compilar. Os passos repetem, adaptados, os do produto de origem (2026-10_locais-de-votacao).
+
+apresentacao: >-
+  Esta peça mostra, para cada local de votação da cidade escolhida, quantos votos ficaram fora da disputa entre
+  Lula e Flávio Bolsonaro no 1º turno de 2026 (abstenções, brancos e nulos e votos nas demais candidaturas) e
+  quanto Lula ganhou ou perdeu de participação no mesmo local desde 2022. Todos os números vêm dos arquivos
+  oficiais do TSE por seção eleitoral, somados por local no produto "Onde o 2º turno pode ser decidido em sua
+  cidade", que confere cada cidade com o total oficial; nada é estimado ou completado.
+
+modulos:
+  disputa: projetos.eleicoes.analise.preparar_votos_em_disputa
+  votos: projetos.eleicoes.analise.preparar_locais_votacao
+
+passos:
+  - titulo: De onde vêm os números
+    texto: >-
+      A peça lê o recorte publicado do produto "Onde o 2º turno pode ser decidido em sua cidade" (versão 1.1):
+      por local de votação, os aptos, as abstenções, os votos válidos de cada candidatura em 2026 e do grupo
+      correspondente em 2022, e os dois turnos de 2022. Lá, a soma dos locais confere, sem diferença, com o total
+      oficial de cada cidade. Aqui só se escolhem os locais comparáveis e se fazem as contas abaixo.
+  - titulo: Quais locais entram
+    texto: >-
+      Entram os locais convencionais que têm par em 2022: mesma zona e número do local, e nome igual (sem acentos e
+      pontuação) ou coordenadas a até 100 metros. Locais de voto em trânsito, de presos provisórios e temporários,
+      e os locais novos, ficam fora.
+    adrs: [EL0009]
+    codigo: disputa.linhas_municipio
+  - titulo: Votos em disputa
+    texto: >-
+      Para cada local, contam-se os eleitores que não escolheram nenhuma das duas candidaturas principais (Lula e
+      Flávio Bolsonaro): os que não compareceram, os que votaram em branco ou nulo e os que votaram nas demais
+      candidaturas. Os votos que Lula perdeu desde 2022 aparecem à parte, no cartão de cada local, porque podem ser
+      das mesmas pessoas que hoje se abstêm ou votam em outra candidatura. Não é previsão nem estimativa de quantos
+      votos uma candidatura pode ganhar.
+    codigo: votos.votos_em_disputa
+  - titulo: Variação de Lula e destaque
+    texto: >-
+      A variação é a diferença, em pontos percentuais, entre a parte dos votos válidos de Lula em 2026 e a do grupo
+      de Lula em 2022 no mesmo local (o grupo de 2022 inclui os partidos que apoiam Lula hoje). Ficam em destaque os
+      locais onde Lula perdeu participação e os votos em disputa são iguais ou maiores que a mediana dos locais da
+      cidade.
+    adrs: [EL0003, EL0008]
+    codigo: disputa.municipio
+  - titulo: A cor de cada local
+    texto: >-
+      Entre o 1º e o 2º turno de 2022 o eleitorado de um lugar é praticamente o mesmo. A cor mostra, do ganho
+      somado de Lula e de Jair Bolsonaro entre os turnos, a parte que ficou com Lula no local. É o saldo do lugar:
+      não diz quais eleitores mudaram de voto nem prevê 2026.
+    codigo: votos.saldo_entre_turnos
+  - titulo: Fundo de ruas do mapa
+    texto: >-
+      No mapa, as imagens de ruas são pedidas aos servidores do OpenStreetMap (© colaboradores do OpenStreetMap),
+      que recebem o endereço de internet de quem vê a página e a área mostrada. O fundo pode ser desligado em
+      Explorar. Aberta direto do computador ou sem internet, a página segue sem fundo; os dados dos locais não mudam.
+
+perguntas:
+  - p: Por que alguns locais da cidade não aparecem?
+    r: >-
+      Porque não foi possível garantir que são o mesmo lugar em 2022, ou porque são locais especiais (voto em
+      trânsito, presos provisórios, temporários). Em 34 cidades nenhum local tem par em 2022, e a peça diz isso.
+  - p: Por que alguns locais não estão no mapa?
+    r: >-
+      O cadastro do TSE não traz coordenada para alguns locais. Eles estão no gráfico e na tabela; a posição não é
+      estimada.
+  - p: Por que só Lula?
+    r: >-
+      É a pergunta desta peça. O produto de origem mostra as demais candidaturas.
+
+limitacoes:
+  - "Relação entre lugares não descreve o voto de pessoas: o local reúne eleitores que mudam entre eleições."
+  - "Pares pela localização podem juntar dois locais vizinhos diferentes (regra da EL0009)."
+  - "A mediana é da cidade: o destaque de uma cidade não se compara diretamente ao de outra."
+
+codigos:
+  - arquivo: projetos/eleicoes/analise/preparar_votos_em_disputa.py
+    papel: Escolhe os locais comparáveis, faz as contas da peça, escreve os textos com números e grava data/locais/<IBGE>.js.
+  - arquivo: projetos/eleicoes/analise/preparar_locais_votacao.py
+    papel: Funções votos_em_disputa e saldo_entre_turnos (testadas), do produto de origem.
+  - arquivo: nucleo/labdados/viz.py
+    papel: Valida a especificação (viz.yaml) e gera a página com os componentes do design system (lab-viz.js).
+
+sobre: >-
+  Produto do Laboratório de Dados Públicos, por Alexandre Ribeiro Cajazeira Ramos. Piloto do tipo Visualização,
+  promovido de "Onde o 2º turno pode ser decidido em sua cidade".
+
+uso_de_ia: >-
+  Claude (Claude Code, Anthropic) implementou a preparação dos dados, a especificação, o gerador e o renderizador
+  da página, e redigiu estes textos, sob orientação do pesquisador, que definiu a pergunta, o recorte (só Lula,
+  todas as cidades), a forma da peça na bancada de formatos e as regras metodológicas herdadas (EL0008, EL0009).
+  Revisão humana dos resultados pendente.
+
+licenca: "Código: MIT · Dados derivados: CC BY 4.0"
+
+citacao: "RAMOS, Alexandre Ribeiro Cajazeira. Onde Lula perdeu espaço e há mais votos em disputa. Laboratório de Dados Públicos, 2026."
+
+decisoes_resumo:
+  EL0003: "Votos válidos por seção reconstruídos com o destino oficial de cada candidatura."
+  EL0008: "Grupos de 2026 aplicados aos anos anteriores pelos partidos que os formam."
+  EL0009: "Mesmo local em 2022 e 2026: mesma zona e número, e nome normalizado igual ou até 100 m."

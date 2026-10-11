@@ -78,10 +78,16 @@ os produtos usam (`dados/referencia/`, `dados/snapshots/`) e os recortes web de 
 - `metodologia/decisoes/L0001-correspondencia-municipal-nacional-tse-ibge.md`
 - `metodologia/decisoes/L0002-produtos-autocontidos-calculo-hibrido.md`
 - `metodologia/decisoes/L0003-design-system-componentes-e-bloco-de-metodologia.md`
+- `metodologia/decisoes/L0007-visualizacao-declarativa-especificacao-palco-e-contratos.md`
+- `metodologia/decisoes/L0008-visualizacao-tarefas-formatos-estatico-detalhe-anotacoes-sequencia.md`
+- `metodologia/decisoes/L0010-publicacao-retrato-datado-pacote-enxuto.md`
+- `metodologia/decisoes/L0011-especificacao-v02-vistas-ligados-facetas-controles.md`
+- `metodologia/decisoes/L0012-moldura-no-celular-barra-fixa-imagem-svg-limites-de-texto.md`
+- `metodologia/decisoes/L0013-revisao-no-celular-fechamento-da-fase-0.md`
 
 ## Origem e uso de IA
 
-Recorte do laboratório de dados do autor (commit de origem `30fbf93`, 2026-10-11). O uso de IA generativa
+Recorte do laboratório de dados do autor (commit de origem `7fd0b0ba`, 2026-10-11). O uso de IA generativa
 (Claude, Anthropic) está declarado no README de cada produto, conforme a Portaria CNPq nº 2.664/2026;
 as decisões metodológicas e a revisão são do pesquisador.
 

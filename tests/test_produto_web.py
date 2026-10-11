@@ -55,3 +55,25 @@ def test_modelo_de_produto_gera_pagina_autocontida(tmp_path):
 def test_metodologia_le_adr_do_laboratorio():
     a = metodologia.adr(RAIZ, "L0002")
     assert a and a["id"] == "L0002" and a["arquivo"].startswith("metodologia/decisoes/")
+
+
+def test_exigir_maplibre_so_com_fundo_vetorial():
+    """L0006: fundo vetorial do Lab.mapa exige o MapLibre (JS e CSS) no modelo; raster e sem fundo não exigem."""
+    from labdados.produto_web import exigir_maplibre
+
+    exigir_maplibre("<html></html>", 'Lab.mapa(a, { fundo: "esri-cinza" })')
+    exigir_maplibre("<html></html>", "Lab.mapa(a, {})")
+    with pytest.raises(ValueError, match="MapLibre"):
+        exigir_maplibre("<html></html>", 'Lab.mapa(a, { fundo: "vetorial" })')
+    with pytest.raises(ValueError):   # comentado não conta
+        exigir_maplibre('<!-- <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script> -->', "fundo: 'vetorial'")
+    modelo = ('<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">'
+              '<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>')
+    exigir_maplibre(modelo, 'fundo: "vetorial"')
+
+
+def test_lab_mapa_documenta_opcoes_da_l0006():
+    js = (RAIZ / "web" / "componentes" / "lab-mapa.js").read_text(encoding="utf-8")
+    for opcao in ("camera", "zoom", "referencia", "rotulos", "fundo", "escalaBolhas", "editar"):
+        assert opcao in js
+    assert "tile.openstreetmap.org" not in js   # servidor padrão do OSM bloqueia páginas por arquivo (L0006)

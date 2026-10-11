@@ -12,6 +12,7 @@ dependencies = [
   "pandera>=0.20",
   "cryptography>=42",
   "numpy>=1.26",
+  "jsonschema>=4.20",       # validação da especificação das Visualizações (L0007)
 ]
 
 [project.optional-dependencies]

@@ -62,6 +62,18 @@ def exigir_flubber(modelo: str, app_js: str) -> None:
                          "(transição Mapa ⇄ Círculos; design.yaml › padroes.mapa_transicao).")
 
 
+def exigir_maplibre(modelo: str, app_js: str) -> None:
+    """Produto com fundo vetorial no Lab.mapa (fundo: "vetorial" — ADR L0006) precisa carregar o MapLibre GL 4
+    (JS e CSS) no modelo; sem ele, o componente desliga o fundo e avisa no console."""
+    if not re.search(r"fundo\s*:\s*[\"']vetorial[\"']", app_js):
+        return
+    sem_comentarios = re.sub(r"<!--.*?-->", "", modelo, flags=re.S)
+    if not (re.search(r"<script[^>]+src=[^>]*maplibre-gl", sem_comentarios) and re.search(r"<link[^>]+href=[^>]*maplibre-gl[^>]*\.css", sem_comentarios)):
+        raise ValueError("O produto usa o fundo vetorial do Lab.mapa, mas o modelo HTML não carrega o MapLibre. Inclua "
+                         '<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"> e '
+                         '<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script> (ADR L0006).')
+
+
 def autoria(raiz: Path, produto_dir: Path | None) -> dict:
     """GitHub do autor (autor/perfil.yaml › links.github) e repositório do produto para o rodapé de cada gráfico:
     `repositorio` do produto.yaml ({nome, url}); senão o da frente do produto (projeto.yaml › frentes.<frente>.remoto);
@@ -92,6 +104,7 @@ def montar_html(raiz: Path, modelo: str, *, app_js: str, base: dict, design_syst
     """Preenche o modelo HTML; erro se faltar alguma marca (nada é inserido às cegas). Com `produto_dir`, injeta a
     autoria do rodapé (GitHub do autor e repositório do projeto) antes do app.js."""
     exigir_flubber(modelo, app_js)
+    exigir_maplibre(modelo, app_js)
     app_js = f"Lab.configurar({json.dumps(autoria(raiz, produto_dir), ensure_ascii=False)});\n" + app_js
     marcas = {
         "/*__TOKENS_CSS__*/": (raiz / "design" / design_system / "tokens.css").read_text(encoding="utf-8"),

@@ -31,7 +31,7 @@
     for (const v of ref) {
       const r = escalaR(v), cx = x + Math.max(r, 26);
       svg.append("circle").attr("cx", cx).attr("cy", H - 4 - r).attr("r", r).attr("fill", "none").attr("stroke", Lab.token("cor-texto-secundario"));
-      svg.append("text").attr("x", cx).attr("y", H - 6 - 2 * r).attr("text-anchor", "middle").text(Lab.fmtInt.format(v));
+      svg.append("text").attr("x", cx).attr("y", H - 6 - 2 * r).attr("text-anchor", "middle").attr("font-size", 11).attr("fill", Lab.token("cor-texto-secundario")).text(Lab.fmtInt.format(v));
       x += Math.max(2 * r, 52) + 10;
     }
     svg.attr("width", x + 4);   // largura conforme os círculos (não corta o maior)
