@@ -32,6 +32,7 @@ export PYTHONPATH=nucleo:.
 python fontes/tse/baixar.py --help
 python fontes/ibge/baixar.py --help
 python fontes/tse/coletar_resultados_2026.py --help     # API de resultados de 2026 (cópia local de 122 MB)
+python fontes/tse/coletar_resultados_2026.py --presidente-municipios --permitir-grande   # Presidente por município (43 MB)
 
 # 2. "Onde estão os votos?"
 python projetos/eleicoes/analise/validar_distribuicao_pi.py     # conferência de qualidade (tolerância zero)
@@ -40,6 +41,10 @@ python projetos/eleicoes/analise/preparar_distribuicao_pi.py    # base + página
 # 3. "Forças políticas no Piauí"
 python projetos/eleicoes/analise/forcas_pi.py                   # grupos, indicadores e conferência
 python projetos/eleicoes/analise/html_forcas_pi.py              # página
+
+# 4. "Onde o 2º turno se decide em sua cidade"
+python projetos/eleicoes/analise/preparar_mapa_virada.py        # base municipal 2018–2026 (intermediária, ~2 min)
+python -m projetos.eleicoes.analise.preparar_locais_votacao     # locais, conferência com o TSE e página (~3 min)
 
 python -m pytest tests
 ```
@@ -87,7 +92,7 @@ os produtos usam (`dados/referencia/`, `dados/snapshots/`) e os recortes web de 
 
 ## Origem e uso de IA
 
-Recorte do laboratório de dados do autor (commit de origem `7fd0b0ba`, 2026-10-11). O uso de IA generativa
+Recorte do laboratório de dados do autor (commit de origem `a46f9e5a`, 2026-10-11). O uso de IA generativa
 (Claude, Anthropic) está declarado no README de cada produto, conforme a Portaria CNPq nº 2.664/2026;
 as decisões metodológicas e a revisão são do pesquisador.
 

@@ -2,8 +2,11 @@
 dados/bruto/**
 dados/padronizado/**
 !**/.gitkeep
-# cópia da API de resultados de 2026 (122 MB): refeita por fontes/tse/coletar_resultados_2026.py
+# cópias da API de resultados de 2026 (122 MB e 43 MB): refeitas por fontes/tse/coletar_resultados_2026.py
 dados/snapshots/tse.resultados_2026_1t/
+dados/snapshots/tse.resultados_2026_1t_presidente_municipios/
+# base intermediária de "Onde o 2º turno se decide" (refeita por preparar_mapa_virada.py; produto não publicado)
+projetos/eleicoes/produtos/2026-10_mapa-da-virada/
 __pycache__/
 *.pyc
 .venv/
