@@ -2,7 +2,9 @@
 id: 2026-10_votos-em-disputa
 titulo: Onde Lula perdeu espaço e há mais votos em disputa
 tipo: visualizacao
-status: rascunho
+status: publicado
+versao: '1.0'
+versao_data: 2026-10-11
 edicao: null
 deriva_de: 2026-10_locais-de-votacao
 origem: eleicoes/2026-10_locais-de-votacao@1.1#disputa
@@ -21,7 +23,6 @@ design_system: null
 publicacao:
   endereco: votos-em-disputa
   url: https://cajazeiraalexandre.github.io/eleicoes/votos-em-disputa/
-  teste: sem divulgação, com selo 'versão de teste' (pesquisador, 2026-10-11)
   fundo_mapa: ruas do OpenStreetMap (Q-051, L0013)
 fonte_dados: 'Recorte publicado de 2026-10_locais-de-votacao (versão 1.1): data/locais/<IBGE>.js (totais 2026 e
   2022 por local, turnos de 2022, coordenadas, contorno), conferido com tolerância zero contra o TSE no produto
@@ -45,6 +46,7 @@ decisoes:
 - L0011
 - L0012
 - L0013
+- L0014
 - EL0002
 - EL0003
 - EL0008

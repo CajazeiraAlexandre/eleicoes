@@ -11,8 +11,8 @@
   const Lab = window.Lab;
   const el = Lab.el;
 
-  Lab.blocoMetodologia = (m, { baixar = null, linkAutor = null } = {}) => {
-    const secao = (titulo, ...filhos) => el("section", { class: "met-secao" }, el("h3", { text: titulo }), ...filhos);
+  /** Seções do bloco (o mesmo conteúdo no fim da página ou em camadas na folha ✎ Notas e fontes — L0014). */
+  const secoesMetodologia = (m, { baixar = null, linkAutor = null, endereco = null } = {}, secao) => {
     const fontes = el("div", { class: "rolagem" }, Lab.tabela(["Base", "Órgão", "Arquivos (gerado na fonte · baixado em · hash)", "Link"],
       m.fontes.map((f) => [
         [el("code", { text: f.id }), el("div", { class: "nota", text: f.descricao })],
@@ -30,11 +30,8 @@
       el("div", { class: "nota" }, "No repositório: ", el("code", { text: a.arquivo })))));
     const codigos = el("div", { class: "rolagem" }, Lab.tabela(["Arquivo", "O que faz"], m.codigos.map((c) => [[el("code", { text: c.arquivo })], c.papel])));
     const v = m.versao;
-    const citar = `${m.citacao || ""} Disponível em: ${location.href.split("#")[0]}. Acesso em: ${new Date().toLocaleDateString("pt-BR")}.`.trim();
-    return el("details", { class: "metodologia", id: Lab.cfg.ancoraMetodologia },
-      el("summary", {}, el("span", { class: "met-titulo", text: "Fontes de Dados, Metodologia e Códigos" }),
-        el("span", { class: "met-sub", text: "bases oficiais, passo a passo, códigos e decisões" })),
-      el("div", { class: "met-corpo" },
+    const citar = `${m.citacao || ""} Disponível em: ${endereco || location.href.split("#")[0]}. Acesso em: ${new Date().toLocaleDateString("pt-BR")}.`.trim();
+    return [
         secao("Sobre este produto", el("p", { text: m.apresentacao })),
         secao("Fontes de dados", fontes,
           el("p", { class: "nota", text: "Datas de geração informadas pela própria fonte; o hash identifica a versão exata de cada arquivo usado." }),
@@ -52,7 +49,32 @@
           el("p", {}, el("b", { text: "Licença: " }), m.licenca),
           el("p", {}, el("b", { text: "Versão: " }), `${v.numero ? `${v.numero}${v.data_versao ? ` (${new Date(v.data_versao + "T12:00").toLocaleDateString("pt-BR")})` : ""} · ` : ""}${v.status_produto}, dados gerados em ${new Date(v.gerado_em).toLocaleString("pt-BR")}`,
             v.commit ? ` · código no commit ${v.commit}${v.alteracoes_nao_commitadas ? " (com alterações ainda não registradas)" : ""}` : ""),
-          el("p", {}, el("b", { text: "Como citar: " }), citar))));
+          el("p", {}, el("b", { text: "Como citar: " }), citar))].filter(Boolean);
+  };
+
+  Lab.blocoMetodologia = (m, opts = {}) => {
+    const secao = (titulo, ...filhos) => el("section", { class: "met-secao" }, el("h3", { text: titulo }), ...filhos);
+    return el("details", { class: "metodologia", id: Lab.cfg.ancoraMetodologia },
+      el("summary", {}, el("span", { class: "met-titulo", text: "Fontes de Dados, Metodologia e Códigos" }),
+        el("span", { class: "met-sub", text: "bases oficiais, passo a passo, códigos e decisões" })),
+      el("div", { class: "met-corpo" }, ...secoesMetodologia(m, opts, secao)));
+  };
+
+  /** O bloco em camadas, para a folha ✎ Notas e fontes de Visualizações e stories (L0014): cada seção recolhida; os
+   *  links para as decisões abrem a seção e rolam até o ADR dentro da folha (sem mexer no endereço da página). */
+  Lab.metodologiaEmCamadas = (m, opts = {}) => {
+    const secao = (titulo, ...filhos) => el("details", { class: "met-camada" }, el("summary", { text: titulo }), el("div", { class: "met-corpo-camada" }, ...filhos));
+    const caixa = el("div", { class: "met-camadas" }, ...secoesMetodologia(m, opts, secao));
+    caixa.addEventListener("click", (ev) => {
+      const a = ev.target.closest('a[href^="#adr-"]');
+      if (!a) return;
+      ev.preventDefault();
+      const alvo = caixa.querySelector(a.getAttribute("href"));
+      if (!alvo) return;
+      alvo.closest("details.met-camada").open = true;
+      alvo.scrollIntoView({ block: "nearest", behavior: Lab.semMovimento() ? "auto" : "smooth" });
+    });
+    return caixa;
   };
 
   /** Rodapé da página: bloco de metodologia + assinatura com link para a página do autor. */

@@ -43,7 +43,8 @@ def test_destaque_mediana_e_textos():
     t = tab["textos"]
     assert t["subtitulo"].startswith("1 de 2 locais onde Lula perdeu participação desde 2022")
     assert "(250 por local)" in t["subtitulo"]
-    assert t["amostra_grafico"] == "N = 2 locais de votação · em cor, os 1 em destaque"
+    assert t["amostra_grafico"] == "N = 2 locais de votação · em cor, o 1 em destaque"
+    assert t["mapa_vazio"] == ""
     assert t["anotacao"] == {"alvo": "1-10", "texto": "Maior volume em disputa entre os destacados: 400 votos"}
     assert t["rotulos"] == ["1-10"]
     assert t["legenda_linhas"] == "linhas tracejadas: mediana dos votos em disputa (250 por local) e variação zero"

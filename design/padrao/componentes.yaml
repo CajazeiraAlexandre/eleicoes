@@ -69,11 +69,12 @@ dispersao:
     cor: {tipo: [medida, categoria]}
     tamanho: {tipo: [medida]}
     rotulo: {tipo: [rotulo]}
+  opcoes: {forma: [pontos, bolhas]}   # tamanho fixo ou área proporcional (L0014)
   elementos_implicitos: [{tipo: tracejada, rotulo: "linhas de referência (mediana, zero ou x = y), com rótulo direto"}]
 
 mapa_pontos:
-  implementa: Lab.viz.adaptadores.mapa_pontos   # lab-viz.js; experimental (L0011, Q-032), a partir do protótipo da bancada
-  status: experimental
+  implementa: Lab.viz.adaptadores.mapa_pontos   # lab-viz.js; estável desde o piloto votos-em-disputa (L0014)
+  status: estavel
   tarefas: [espaco]
   papeis:
     lat: {tipo: [geo], obrigatorio: true}

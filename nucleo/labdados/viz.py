@@ -166,6 +166,11 @@ def classes_fatia_de_dois(cortes: list[float], pontas: list[str]) -> tuple[list[
     return longas, curtas
 
 
+def _data_br(iso: str | None) -> str:
+    """'2026-10-09' → '09/10/2026'."""
+    return "/".join(reversed(iso[:10].split("-"))) if iso else ""
+
+
 def _yaml(arq: Path) -> dict:
     return (yaml.safe_load(arq.read_text(encoding="utf-8")) or {}) if arq.exists() else {}
 
@@ -211,7 +216,9 @@ def compilar(spec: dict, raiz: Path, produto_dir: Path) -> dict:
         "teste": bool((produto.get("publicacao") or {}).get("teste")) and produto.get("status") != "publicado",
         "chapeu": t.get("chapeu"), "titulo": t["titulo"], "subtitulo": t.get("subtitulo"), "amostra": t.get("amostra"),
         "como_ler": t.get("como_ler"), "notas": t.get("notas", []),
-        "fonte": " · ".join(x for x in [t.get("fonte"), f"base de {edicao}" if edicao else None] if x),
+        "fonte": " · ".join(x for x in [t.get("fonte"), f"base de {_data_br(edicao)}" if edicao else None] if x),
+        # fonte e data sempre visíveis na barra da peça (L0010, L0014)
+        "fonte_curta": " · ".join(x for x in [t.get("fonte_curta") or t.get("fonte"), f"base de {_data_br(edicao)}" if edicao else None] if x) or None,
         "decisoes": d.get("decisoes", []), "autor": perfil.get("nome_curto") or perfil.get("nome", ""),
         "portfolio": perfil.get("pagina_autor") or perfil.get("portfolio_url") or "",
         "endereco": endereco,

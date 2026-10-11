@@ -1,7 +1,7 @@
 # L0003 — Padrões de interface, componentes comuns e bloco de metodologia no design system do laboratório
 
 - **Escopo:** laboratório
-- **Status:** aprovada
+- **Status:** aprovada — **item 4 revisado pela [L0014](L0014-metodologia-na-folha-e-revisao-do-piloto.md)** em 2026-10-11: em Visualizações e stories, a metodologia fica em camadas na folha ✎ Notas e fontes, e a página termina na peça
 - **Data:** 2026-10-06
 - **Aprovado por:** Alexandre (pesquisador)
 - **Uso de IA:** Claude (Claude Code, Anthropic) propôs as opções, extraiu os componentes do produto "Forças políticas no Piauí", montou a galeria e redigiu este ADR; o pesquisador definiu os padrões ao longo das revisões do produto e escolheu escopo, profundidade, dados da galeria e alcance do bloco de metodologia.

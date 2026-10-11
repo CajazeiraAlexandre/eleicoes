@@ -86,8 +86,9 @@
       const c = P.escalas?.cor;
       if (!c) return { cores: [], cor: () => tok("cor-texto-secundario"), classe: () => "0" };
       const sup = tok("cor-superficie"), [a, b] = c.pontas.map(pontaCor), n = c.cortes.length + 1, meio = (n - 1) / 2;
+      const neutro = d3.lab(sup).l < 50 ? 0.8 : 0.55;   // tema escuro: o neutro afasta-se do cinza de fora do destaque (Q-064)
       // divergente pelas pontas: intensidade cresce para fora; a classe do meio é neutra (L0013, escala em quadrados)
-      const cores = d3.range(n).map((k) => (k === meio ? d3.interpolateLab(sup, tok("cor-texto-secundario"))(0.55)
+      const cores = d3.range(n).map((k) => (k === meio ? d3.interpolateLab(sup, tok("cor-texto-secundario"))(neutro)
         : d3.interpolateLab(sup, k < meio ? a : b)(Math.abs(k - meio) >= meio ? 0.95 : 0.5)));
       const classe = (v) => (v === null || v === undefined ? null : d3.bisectRight(c.cortes, v));
       return { cores, cor: (v) => { const k = classe(v); return k === null ? null : cores[k]; }, classe };
@@ -107,14 +108,15 @@
       if (sub) f.append(el("p", { class: "viz-sub" }, ...textoLimitado(sub, LIMITE_TEXTO[fmt], interativa)));
       const comp = P.grafico.companheiro;
       const lado = Boolean(comp) && fmt === "paisagem";
-      if (comp && interativa && !lado) f.append(el("div", { class: "viz-abas so-interativo", role: "tablist" },
+      if (comp && interativa && !lado && linhas.length) f.append(el("div", { class: "viz-abas so-interativo", role: "tablist" },
         ...[["principal", P.grafico.rotulo_aba || "Gráfico"], ["mapa", comp.rotulo_aba || "Mapa"]].map(([k, r]) => el("button", { type: "button", role: "tab", "aria-pressed": est.aba === k, onclick: () => trocarAba(f, k) }, r))));
       const corpo = el("div", { class: "viz-corpo" }), palco = el("div", { class: "viz-palco" });
       corpo.append(palco);
       let palcoCompa = null;
       if (comp && interativa && lado) { palcoCompa = el("div", { class: "viz-palco compa" }); corpo.append(palcoCompa); }
       f.append(corpo, el("p", { class: "viz-n" }), el("ol", { class: "viz-anot-lista", hidden: "" }));
-      if (legendaRec && interativa) f.append(el("details", { class: "viz-legenda-rec so-interativo" }, el("summary", {}, "◧ Legenda"), el("div", { class: "viz-legenda" })));
+      if (!linhas.length) f.append(el("div", { class: "viz-legenda", hidden: "" }));   // sem dados, sem legenda
+      else if (legendaRec && interativa) f.append(el("details", { class: "viz-legenda-rec so-interativo" }, el("summary", {}, "◧ Legenda"), el("div", { class: "viz-legenda" })));
       else f.append(el("div", { class: "viz-legenda" }));
       f.append(interativa ? barraBase(f, fmt, hostQ) : rodapeMinimo());
       f._palco = palco; f._palcoCompa = palcoCompa; f._lado = lado;
@@ -186,18 +188,20 @@
         folha.hidden = false;
         folha.querySelector(".cab button").focus();
       };
-      const explorar = (P.controles || []).filter((c) => (c.local || "explorar") === "explorar");
+      const explorar = (P.controles || []).filter((c) => (c.local || "explorar") === "explorar" || c.explorar);
+      const valorControle = (c) => est[c.id] ?? opcaoAtual(c.opcao, (est.aba === "mapa" ? P.grafico.companheiro : P.grafico)?.opcoes?.[c.opcao]);
       const botoes = el("div", { class: "botoes" },
         el("button", { type: "button", onclick: () => abrir("Como ler", ...(P.como_ler ? [el("p", {}, ...negrito(P.como_ler))] : []), tabelaAlternativa()) }, "ⓘ Como ler"),
+        // ✎ Notas e fontes = a metodologia inteira, em camadas: notas, fonte e data em cima; o bloco recolhido embaixo (L0014)
         el("button", { type: "button", onclick: () => abrir("Notas e fontes", ...(P.notas || []).map((t) => el("p", {}, ...negrito(resolver(t, e)))),
           el("p", {}, el("b", { text: "Fonte: " }), P.fonte),
-          P.decisoes?.length ? el("p", { class: "fraco", text: `Decisões metodológicas: ${P.decisoes.join(", ")}` }) : null,
-          hostQ === "pagina" && document.getElementById("rodape") ? el("p", {}, el("a", { href: "#rodape", onclick: (ev) => { ev.preventDefault(); fechar(); document.getElementById("rodape").scrollIntoView({ behavior: Lab.semMovimento() ? "auto" : "smooth" }); } }, "Fontes de dados, metodologia e códigos ↓"))
-            : el("p", {}, el("a", { href: enderecoAtual(), target: "_blank", rel: "noopener" }, "Fontes de dados, metodologia e códigos ↗"))) }, "✎ Notas e fontes"),
-        explorar.length ? el("button", { type: "button", onclick: () => abrir("Explorar", ...explorar.map((c) => Lab.seletor(c.rotulo || c.id, Object.entries(c.valores || {}), est[c.id], (v) => { est[c.id] = v; render(); }))) }, "⇄ Explorar") : null);
-      const compartilhar = el("button", { type: "button", class: "comp", onclick: () => abrirCompartilhar(abrir, fechar, fmt) }, "↗ Compartilhar");
+          P.metodologia ? Lab.metodologiaEmCamadas(P.metodologia, { endereco: P.endereco, linkAutor: { href: P.portfolio, texto: "Página do autor ↗" } })
+            : P.decisoes?.length ? el("p", { class: "fraco", text: `Decisões metodológicas: ${P.decisoes.join(", ")}` }) : null) }, "✎ Notas e fontes"),
+        explorar.length ? el("button", { type: "button", onclick: () => abrir("Explorar", ...explorar.map((c) => Lab.seletor(c.rotulo || c.id, Object.entries(c.valores || {}), valorControle(c), (v) => { est[c.id] = v; render(); }))) }, "⇄ Explorar") : null);
+      const compartilhar = el("button", { type: "button", class: "comp", onclick: () => abrirCompartilhar(abrir, fechar, fmt) }, "↗ Baixar ou Compartilhar");
       const linha2 = el("div", { class: "linha2" },
-        el("span", {}, "por ", el("a", { href: P.portfolio, target: "_blank", rel: "noopener", text: P.autor })),
+        el("span", { class: "assina" }, el("span", {}, "por ", el("a", { href: P.portfolio, target: "_blank", rel: "noopener", text: P.autor })),
+          P.fonte_curta ? el("span", { class: "fonte-curta", text: P.fonte_curta }) : null),   // fonte e data sempre visíveis (L0010, L0014)
         hostQ === "embed" ? el("span", {}, el("a", { href: enderecoAtual(), target: "_blank", rel: "noopener" }, "tela cheia ↗"), " · ", compartilhar) : compartilhar);
       f.append(folha);
       return el("nav", { class: "viz-base", "aria-label": "Recursos da visualização" }, botoes, linha2);
@@ -211,7 +215,7 @@
       bLink.onclick = () => copiar(url, bLink, "Link copiado");
       const emb = P.saidas?.embed || { largura: 400, altura: 640 };
       const codigo = `<iframe src="${enderecoAtual(true)}" width="${emb.largura}" height="${emb.altura}" loading="lazy" title="${titulo.replaceAll('"', "&quot;")}" style="border:0;max-width:100%"></iframe>`;
-      abrir("Compartilhar", el("div", { class: "opcoes-comp" },
+      abrir("Baixar ou Compartilhar", el("div", { class: "opcoes-comp" },
         bLink,
         el("a", { href: `https://wa.me/?text=${encodeURIComponent(`${texto} ${url}`)}`, target: "_blank", rel: "noopener" }, el("span", { class: "ic", text: "💬" }), "WhatsApp"),
         el("a", { href: `mailto:?subject=${encodeURIComponent(titulo)}&body=${encodeURIComponent(`${texto}\n${url}`)}` }, el("span", { class: "ic", text: "✉" }), "E-mail"),
@@ -391,7 +395,7 @@
 
     // ---------------------------------------------------------------- palco: componente principal ou companheiro
     /** Valor atual de uma opção de componente: o controle que a declara (`opcao`) ou o padrão do plano. */
-    const opcaoAtual = (op, padrao) => { const c = (P.controles || []).find((x) => x.opcao === op); return c ? est[c.id] : padrao; };
+    const opcaoAtual = (op, padrao) => { const c = (P.controles || []).find((x) => x.opcao === op); return c && est[c.id] != null ? est[c.id] : padrao; };
     /** Contexto comum aos adaptadores: dados, ligações, cores, destaque e interação. */
     function contexto(frame, alvo, espec) {
       const interativa = frame.dataset.rep === "interativa", naImagem = frame.dataset.host === "imagem";
@@ -543,21 +547,22 @@
       const contextoSel = lSel ? (P.grafico.destaque && !lSel[P.grafico.destaque.coluna] ? "fora" : String(escC.classe(lSel[c?.campo]) ?? "sem")) : null;
       const marcada = est.legFixa ?? contextoSel;
       const itensLeg = P.grafico.destaque ? [[tok("cor-grade"), P.grafico.destaque.rotulo || "fora do destaque", "fora"]] : [];
-      const ext = extras(vista).map((x) => [x.tipo, quebrar(x.texto, 10, iw - 22)]);
+      // paisagem do mapa: legenda numa coluna à direita, para o mapa ganhar altura (Q-065)
+      const lado = fmt === "paisagem" && vista === "mapa", lw = lado ? 200 : iw, lx = lado ? W - pad - lw : pad;
+      const textoN = resolver(typeof P.amostra === "string" ? P.amostra : P.amostra?.[vista === "mapa" ? "mapa" : "grafico"], e) || "";
+      const linhasN = lado ? quebrar(textoN, 10.5, lw, 600) : [textoN];
+      const ext = extras(vista).map((x) => [x.tipo, quebrar(x.texto, 10, lw - 22)]);
       // legenda de tamanho no zoom do momento (mapa com tamanho por valor)
-      const compM = P.grafico.companheiro, forma = opcaoAtual("forma", compM?.opcoes?.forma);
-      let tamImg = null;
-      if (vista === "mapa" && forma === "bolhas" && compM.ligacoes.tamanho) {
-        const vals = linhas.filter((l) => l[compM.ligacoes.lat] !== null).map((l) => l[compM.ligacoes.tamanho]);
-        const teto = Lab.escalaArea(vals, 1).teto, rMax = (iw < 420 ? 8 : 11) / Math.sqrt(est.cam?.k || 1);
-        const sc = d3.scaleSqrt().domain([0, teto]).range([0, rMax]), ref = d3.ticks(0, teto, 3).filter((v) => v > 0).slice(-3);
-        tamImg = { sc, ref, h: 2 * sc(d3.max(ref)) + 30, rotulo: col(compM.ligacoes.tamanho).rotulo_tamanho || col(compM.ligacoes.tamanho).rotulo };
-      }
-      const hEscala = (c ? 52 : 0) + 16;   // linha do N acima da escala
-      const hLeg = hEscala + (itensLeg.length ? 15 : 0) + d3.sum(ext, ([, ls]) => ls.length * 13 + 2) + (tamImg ? tamImg.h : 0);
+      const compM = P.grafico.companheiro;
+      let tamImg = null;   // preenchida depois de desenhar o palco (a escala é a do componente, no zoom do momento)
+      const linhasTitEsc = c ? quebrar(c.titulo_curto || c.titulo, 10, lw) : [];
+      const hEscala = (c ? 52 + (linhasTitEsc.length - 1) * 12 : 0) + 16 + (linhasN.length - 1) * 13;   // N e título da escala, quebrados
+      const espV = vista === "mapa" ? compM : P.grafico, formaV = opcaoAtual("forma", espV?.opcoes?.forma);
+      const hTam = formaV === "bolhas" && espV?.ligacoes?.tamanho ? 2 * 11 * Math.sqrt(est.cam?.k || 1) + 30 : 0;   // reserva; a medida exata vem do componente
+      const hLeg = hEscala + (itensLeg.length ? 15 : 0) + d3.sum(ext, ([, ls]) => ls.length * 13 + 2) + hTam;
       if (linhasAnot.length && estiloImg === "margem") y = escrever(linhasAnot, pad, y + 2, 11, { peso: 600 }) + 2;
-      const graficoMin = vista === "mapa" ? iw * 0.95 : Math.max(230, iw * 0.62);
-      H = Math.round(Math.min(W * TETO_IMG[fmt], Math.max(H0, y + 4 + graficoMin + 12 + hLeg + 10 + hRod + pad)));
+      const graficoMin = lado ? Math.max(hLeg + 12, (iw - lw - 12) * 0.7) : vista === "mapa" ? iw * 0.95 : Math.max(230, iw * 0.62);
+      H = Math.round(Math.min(W * TETO_IMG[fmt], Math.max(H0, y + 4 + graficoMin + 12 + (lado ? 0 : hLeg) + 10 + hRod + pad)));
       const yRod = H - pad + 2 - rod.length * 13 - hAss;
       escrever(rod, pad, yRod, 10, { cor: "cor-texto-secundario" });
       {
@@ -568,8 +573,8 @@
         if (nAss === 3) tEnd.attr("x", pad).attr("y", yA + 28);
       }
       svg.append("line").attr("x1", pad).attr("x2", W - pad).attr("y1", yRod - 4).attr("y2", yRod - 4).attr("stroke", tok("cor-grade"));
-      const yLeg = yRod - 10 - hLeg;
-      const gx = pad, gy = y + 4, gw = iw, gh = Math.max(60, yLeg - 6 - gy);
+      const gy = y + 4, yLeg = lado ? gy : yRod - 10 - hLeg;
+      const gx = pad, gw = lado ? iw - lw - 12 : iw, gh = Math.max(60, (lado ? yRod - 10 : yLeg - 6) - gy);
       // gráfico: desenhado fora da tela no tamanho exato e copiado como SVG
       const fora = el("div", { style: "position:fixed;left:-10000px;top:0" });
       const ff = el("div"); Object.assign(ff.dataset, { fmt, rep: "estatica", host: "imagem" });
@@ -577,6 +582,7 @@
       ff._palco = pal; ff._palcoCompa = null; ff._lado = false;
       ff.append(pal); fora.append(ff); document.body.append(fora);
       const principal = desenharPalco(ff);
+      if (principal?.tamanho) { const { sc, rotulo } = principal.tamanho, ref = d3.ticks(0, sc.domain()[1], 3).filter((v) => v > 0).slice(-3); tamImg = { sc, ref, h: 2 * sc(d3.max(ref)) + 30, rotulo }; }
       const sv = pal.querySelector("svg");
       let obst = [], ancora = null, selImg = null;
       if (sv) {
@@ -621,31 +627,32 @@
         svg.append("line").attr("x1", ancora.cx).attr("x2", ancora.cx).attr("y1", gy - 2).attr("y2", ancora.cy - 8).attr("stroke", tok("cor-texto")).attr("stroke-width", 0.8);
       }
       // N, escala em quadrados (o item marcado ganha contorno), fora do destaque, extras, tamanho
-      escrever([resolver(typeof P.amostra === "string" ? P.amostra : P.amostra?.[vista === "mapa" ? "mapa" : "grafico"], e) || ""], pad, yLeg - 1, 10.5, { peso: 600 });
-      let yA = yLeg + 16;
+      escrever(linhasN, lx, yLeg - 1, 10.5, { peso: 600 });
+      let yA = yLeg + 16 + (linhasN.length - 1) * 13;
       if (c) {
-        const nC = escC.cores.length, qw = Math.min(56, (Math.min(iw, 320) - 8) / nC);
-        svg.append("text").attr("x", pad).attr("y", yA + 9).attr("font-size", 10).attr("fill", tok("cor-texto-secundario")).text(c.titulo_curto || c.titulo);
-        svg.append("text").attr("x", pad).attr("y", yA + 22).attr("font-size", 10).attr("font-weight", 600).attr("fill", tok("cor-texto")).text(`← ${c.pontas[0].rotulo}`);
-        svg.append("text").attr("x", pad + (qw + 2) * nC - 2).attr("y", yA + 22).attr("text-anchor", "end").attr("font-size", 10).attr("font-weight", 600).attr("fill", tok("cor-texto")).text(`${c.pontas.at(-1).rotulo} →`);
+        const nC = escC.cores.length, qw = Math.min(56, (Math.min(lw, 320) - 8) / nC);
+        linhasTitEsc.forEach((t, k) => svg.append("text").attr("x", lx).attr("y", yA + 9 + k * 12).attr("font-size", 10).attr("fill", tok("cor-texto-secundario")).text(t));
+        yA += (linhasTitEsc.length - 1) * 12;
+        svg.append("text").attr("x", lx).attr("y", yA + 22).attr("font-size", 10).attr("font-weight", 600).attr("fill", tok("cor-texto")).text(`← ${c.pontas[0].rotulo}`);
+        svg.append("text").attr("x", lx + (qw + 2) * nC - 2).attr("y", yA + 22).attr("text-anchor", "end").attr("font-size", 10).attr("font-weight", 600).attr("fill", tok("cor-texto")).text(`${c.pontas.at(-1).rotulo} →`);
         escC.cores.forEach((cor, k) => {
           const marc = marcada === String(k), apagado = marcada != null && !marc;
-          svg.append("rect").attr("x", pad + k * (qw + 2)).attr("y", yA + 27).attr("width", qw).attr("height", 10).attr("fill", cor).attr("opacity", apagado ? 0.35 : 1)
+          svg.append("rect").attr("x", lx + k * (qw + 2)).attr("y", yA + 27).attr("width", qw).attr("height", 10).attr("fill", cor).attr("opacity", apagado ? 0.35 : 1)
             .attr("stroke", marc ? tok("cor-texto") : "none").attr("stroke-width", marc ? 2 : 0);
-          svg.append("text").attr("x", pad + k * (qw + 2) + qw / 2).attr("y", yA + 48).attr("text-anchor", "middle").attr("font-size", 9.5).attr("font-weight", marc ? 700 : 400)
+          svg.append("text").attr("x", lx + k * (qw + 2) + qw / 2).attr("y", yA + 48).attr("text-anchor", "middle").attr("font-size", 9.5).attr("font-weight", marc ? 700 : 400)
             .attr("fill", tok(marc ? "cor-texto" : "cor-texto-secundario")).text(c.curtas[k]);
         });
         yA += 52;
       }
       for (const [cor, t, chave] of itensLeg) {
         const marc = marcada === chave, apagado = marcada != null && !marc;
-        svg.append("rect").attr("x", pad).attr("y", yA + 2).attr("width", 10).attr("height", 10).attr("rx", 5).attr("fill", cor).attr("opacity", apagado ? 0.35 : 1).attr("stroke", marc ? tok("cor-texto") : "none").attr("stroke-width", marc ? 2 : 0);
-        svg.append("text").attr("x", pad + 14).attr("y", yA + 11).attr("font-size", 10.5).attr("font-weight", marc ? 700 : 400).attr("fill", tok(marc ? "cor-texto" : "cor-texto-secundario")).text(t);
+        svg.append("rect").attr("x", lx).attr("y", yA + 2).attr("width", 10).attr("height", 10).attr("rx", 5).attr("fill", cor).attr("opacity", apagado ? 0.35 : 1).attr("stroke", marc ? tok("cor-texto") : "none").attr("stroke-width", marc ? 2 : 0);
+        svg.append("text").attr("x", lx + 14).attr("y", yA + 11).attr("font-size", 10.5).attr("font-weight", marc ? 700 : 400).attr("fill", tok(marc ? "cor-texto" : "cor-texto-secundario")).text(t);
         yA += 15;
       }
       if (tamImg) {
-        escrever([`Área ∝ ${tamImg.rotulo}`], pad, yA + 2, 10, { cor: "cor-texto-secundario" });
-        let x = pad;
+        escrever([`Área ∝ ${tamImg.rotulo}`], lx, yA + 2, 10, { cor: "cor-texto-secundario" });
+        let x = lx;
         const base = yA + tamImg.h - 4;
         for (const v of tamImg.ref) {
           const r = tamImg.sc(v), cx = x + Math.max(r, 22);
@@ -657,9 +664,9 @@
       }
       for (const [tipo, ls] of ext) {
         const yy = yA + 4; yA += ls.length * 13 + 2;
-        if (tipo === "pontilhada") svg.append("line").attr("x1", pad + 8).attr("x2", pad + 8).attr("y1", yy - 2).attr("y2", yy + 8).attr("stroke", tok("cor-texto")).attr("stroke-dasharray", "2 2");
-        else svg.append("line").attr("x1", pad).attr("x2", pad + 16).attr("y1", yy + 3).attr("y2", yy + 3).attr("stroke", tok("cor-texto")).attr("stroke-dasharray", "4 3");
-        escrever(ls, pad + 22, yy - 2, 10, { cor: "cor-texto-secundario" });
+        if (tipo === "pontilhada") svg.append("line").attr("x1", lx + 8).attr("x2", lx + 8).attr("y1", yy - 2).attr("y2", yy + 8).attr("stroke", tok("cor-texto")).attr("stroke-dasharray", "2 2");
+        else svg.append("line").attr("x1", lx).attr("x2", lx + 16).attr("y1", yy + 3).attr("y2", yy + 3).attr("stroke", tok("cor-texto")).attr("stroke-dasharray", "4 3");
+        escrever(ls, lx + 22, yy - 2, 10, { cor: "cor-texto-secundario" });
       }
       svg.attr("height", H).attr("viewBox", `0 0 ${W} ${H}`); fundo.attr("height", H);
       const img = new Image();
@@ -758,10 +765,15 @@
       .style("fill", tok("cor-texto-secundario")).style("paint-order", "stroke").style("stroke", tok("cor-superficie")).style("stroke-width", 3).text(t);
     for (const a of refX) { svg.append("line").attr("x1", sx(a.valor)).attr("x2", sx(a.valor)).attr("y1", m.t).attr("y2", H - m.b).attr("stroke", tok("cor-texto-secundario")).attr("stroke-dasharray", "4 3"); if (a.texto) rotRef(sx(a.valor) - 4, H - m.b - 6, "end", a.texto); }
     for (const a of refY) { svg.append("line").attr("x1", m.l).attr("x2", W - m.r).attr("y1", sy(a.valor)).attr("y2", sy(a.valor)).attr("stroke", tok("cor-texto-secundario")).attr("stroke-dasharray", "4 3"); if (a.texto) rotRef(W - m.r, sy(a.valor) + 12, "end", a.texto); }
-    const r = W < 420 ? 3.2 : 4;
+    // tamanho: fixo, ou área proporcional (mesmo controle do companheiro; um só estado — L0011, L0014)
+    const bolhas = C.opcao("forma") === "bolhas" && lig.tamanho, rMaxB = W < 420 ? 7 : 9;
+    const sR = bolhas ? d3.scaleSqrt().domain([0, Lab.escalaArea(todas.map((l) => l[lig.tamanho]), 1).teto]).range([0, rMaxB]).clamp(true) : null;
+    const r = (l) => (bolhas ? Math.max(1.6, sR(l[lig.tamanho] || 0)) : W < 420 ? 3.2 : 4);
+    if (bolhas && !C.naImagem) frame.querySelector(".viz-legenda")?.append(el("div", { class: "leg-tamanho" }, Lab.legendaTamanho(sR, C.col(lig.tamanho).rotulo_tamanho || C.col(lig.tamanho).rotulo || lig.tamanho)));
     const pts = svg.append("g").selectAll("circle").data(linhas.filter((l) => l[lig.x] !== null && l[lig.y] !== null)).join("circle")
       .attr("data-id", (l) => l.id).attr("data-chave", C.chave).attr("cx", (l) => sx(l[lig.x])).attr("cy", (l) => sy(l[lig.y])).attr("r", r)
-      .attr("fill", (l) => C.cor(l) ?? "none").attr("stroke", (l) => (C.cor(l) ? tok("cor-superficie") : tok("cor-texto-secundario"))).attr("stroke-width", 0.8);
+      .attr("fill", (l) => C.cor(l) ?? "none").attr("stroke", (l) => (C.cor(l) ? tok("cor-superficie") : tok("cor-texto-secundario"))).attr("stroke-width", 0.8)
+      .attr("fill-opacity", bolhas ? 0.85 : null);
     if (C.interativa) C.ligar(pts);
     // rótulos diretos: ids e ordem vêm do Python ({e.rotulos}); o formato limita quantos cabem
     const R = C.P.grafico.rotulos;
@@ -775,6 +787,7 @@
       if (q.x + t.node().getComputedTextLength() > W - 4) t.attr("x", q.x - 12).attr("text-anchor", "end");
     }
     return {
+      tamanho: bolhas ? { sc: sR, rotulo: C.col(lig.tamanho).rotulo_tamanho || C.col(lig.tamanho).rotulo } : null,
       posicao: (id) => { const l = porId.get(id); return l ? [sx(l[lig.x]), sy(l[lig.y])] : null; },
       obstaculos: () => [...alvo.querySelectorAll("svg text, svg circle")].filter((n) => n.tagName === "text" || C.emDestaque(porId.get(n.dataset.id) || {})).map((n) => caixaRelativa(n, frame._palco)),
     };
@@ -786,8 +799,14 @@
     const { alvo, lig, linhas, todas, est, frame } = C;
     const W = alvo.clientWidth, H = C.naImagem ? alvo.clientHeight : Math.max(150, alvo.clientHeight);
     const com = linhas.filter((l) => l[lig.lat] !== null && l[lig.lon] !== null);
+    if (!com.length) { alvo.append(el("div", { class: "viz-vazio", text: C.resolver(C.espec.vazio) || "Nenhum ponto tem coordenada." })); return null; }
     const qq = (f, p) => d3.quantile(com.map(f).sort(d3.ascending), p);
-    const caixaUrb = { type: "Feature", geometry: { type: "MultiPoint", coordinates: [[qq((l) => l[lig.lon], 0.03), qq((l) => l[lig.lat], 0.03)], [qq((l) => l[lig.lon], 0.97), qq((l) => l[lig.lat], 0.97)]] } };
+    // área urbana (3% a 97% das coordenadas), com um mínimo de ~1,5 km para cidades com um ou dois pontos
+    let [x0, x1, y0, y1] = [qq((l) => l[lig.lon], 0.03), qq((l) => l[lig.lon], 0.97), qq((l) => l[lig.lat], 0.03), qq((l) => l[lig.lat], 0.97)];
+    const MIN = 0.014, cx0 = (x0 + x1) / 2, cy0 = (y0 + y1) / 2;
+    if (x1 - x0 < MIN) [x0, x1] = [cx0 - MIN / 2, cx0 + MIN / 2];
+    if (y1 - y0 < MIN) [y0, y1] = [cy0 - MIN / 2, cy0 + MIN / 2];
+    const caixaUrb = { type: "Feature", geometry: { type: "MultiPoint", coordinates: [[x0, y0], [x1, y1]] } };
     const proj = d3.geoMercator().fitExtent([[10, 10], [W - 10, H - 10]], caixaUrb);
     const svg0 = d3.select(alvo).append("svg").attr("width", W).attr("height", H).attr("role", "img").attr("aria-label", `Mapa de ${com.length} pontos de ${C.e.nome || ""}, nas mesmas cores do gráfico. A tabela com os dados está em Como ler.`);
     const fundo = C.opcao("fundo") ?? "nenhum";
@@ -814,7 +833,8 @@
     // legenda de tamanho: obrigatória quando o tamanho codifica um valor (L0013, Q-062); acompanha o zoom
     const rotTam = C.col(lig.tamanho).rotulo_tamanho || C.col(lig.tamanho).rotulo || lig.tamanho;
     const zonaTam = bolhas && !C.naImagem ? el("div", { class: "leg-tamanho" }) : null;
-    const legTam = (k = 1) => Lab.legendaTamanho(d3.scaleSqrt().domain([0, ea.teto]).range([0, rMax / Math.sqrt(k)]), rotTam);
+    const escTam = (k = 1) => d3.scaleSqrt().domain([0, ea.teto]).range([0, rMax * Math.sqrt(k)]);   // raio na tela: r ÷ √k × k
+    const legTam = (k = 1) => Lab.legendaTamanho(escTam(k), rotTam);
     if (zonaTam) { frame.querySelector(".viz-legenda")?.append(zonaTam); zonaTam.replaceChildren(legTam(est.cam?.k || 1)); }
     const camT = (cam) => { const [px, py] = proj(cam.centro); return d3.zoomIdentity.translate(W / 2, H / 2).scale(cam.k).translate(-px, -py); };
     const pts = cena.append("g").selectAll("circle").data(com).join("circle")
@@ -852,12 +872,13 @@
       const cTam = (C.P.controles || []).find((c) => c.opcao === "forma" && (c.local || "explorar") === "grafico");
       if (cTam && lig.tamanho) alvo.append(el("div", { class: "fundo-mini so-interativo", role: "group", "aria-label": cTam.rotulo || "Tamanho" },
         el("span", { class: "rot-mini", text: `${cTam.rotulo || "Tamanho"}:` }),
-        ...Object.entries(cTam.valores).map(([v, r]) => el("button", { type: "button", "aria-pressed": forma === v, onclick: () => { est[cTam.id] = v; C.render(); } }, r))));
+        ...Object.entries(cTam.valores).map(([v, r]) => el("button", { type: "button", "aria-pressed": forma === v, onclick: () => { est[cTam.id] = v; C.render(); } }, r))));   // vale também para o gráfico
       if (!est.cam) desenharRuas(d3.zoomIdentity);
     } else aplicarT(est.cam ? camT(est.cam) : d3.zoomIdentity);   // a imagem sai com o enquadramento do momento
     if (C.naImagem && comOSM) svg0.append("text").attr("x", W - 4).attr("y", H - 4).attr("text-anchor", "end").attr("font-size", 9).attr("fill", tok("cor-texto-secundario"))
       .attr("paint-order", "stroke").attr("stroke", tok("cor-superficie")).attr("stroke-width", 3).text("© colaboradores do OpenStreetMap");
-    return { posicao: (id) => { const n = porId.get(id); return n ? [n.x, n.y] : null; } };
+    return { posicao: (id) => { const n = porId.get(id); return n ? [n.x, n.y] : null; },
+      tamanho: bolhas ? { sc: escTam(est.cam?.k || 1), rotulo: rotTam } : null };
   };
 
   // ==================================================================== fundo OSM (L0013: mapas de cidade publicados)
@@ -881,6 +902,8 @@
    *  ?embed=1 vira o hospedeiro embed; senão, página avulsa com o bloco de metodologia. */
   async function pagina() {
     const P = await Lab.decodificar(document.getElementById("plano").textContent.trim());
+    const tema = new URLSearchParams(location.search).get("tema");   // padrão: o tema do leitor; ?tema=claro|escuro fixa (Q-020)
+    if (tema === "claro" || tema === "escuro") document.documentElement.dataset.theme = tema === "claro" ? "light" : "dark";
     const embed = new URLSearchParams(location.search).has("embed");   // o código de embutir leva ?embed=1
     document.body.classList.add(embed ? "viz-embed" : "viz-pagina");
     Lab.configurar({ autor: P.autor });
@@ -909,8 +932,7 @@
       document.body.replaceChildren(el("pre", { id: "og-png", text: c.toDataURL("image/png") }));
       return;
     }
-    if (!embed && P.metodologia) Lab.rodapePagina(P.metodologia, { linkAutor: { href: P.portfolio, texto: "Página do autor ↗" } });
-    if (embed) document.getElementById("rodape")?.remove();
+    // a metodologia completa fica em ✎ Notas e fontes (L0014): a página termina na peça
     await peca.pronto;
     window.LAB_VIZ = peca;   // para testes automáticos (imagem e estado)
   }

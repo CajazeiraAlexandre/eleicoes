@@ -1,6 +1,6 @@
 # Dados — Onde Lula perdeu espaço e há mais votos em disputa
 
-Gerado por `labdados.viz` a partir de `viz.yaml`. Edição (data da base): 2026-10-09. Fonte: TSE (1º turno de 2026 e de 2022, por local de votação) · base de 2026-10-09.
+Gerado por `labdados.viz` a partir de `viz.yaml`. Edição (data da base): 2026-10-09. Fonte: TSE (1º turno de 2026 e de 2022, por local de votação) · base de 09/10/2026.
 
 Produzidos por `projetos/eleicoes/analise/preparar_votos_em_disputa.py`; conferências:
 - disputa = abstenções + brancos e nulos + outras, em todo local (relatorio_qualidade_votos_em_disputa.json)

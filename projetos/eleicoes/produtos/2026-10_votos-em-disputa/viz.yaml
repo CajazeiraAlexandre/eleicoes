@@ -6,7 +6,7 @@
 id: 2026-10_votos-em-disputa
 tipo: visualizacao
 edicao: null                     # o gerador usa a data da base (retrato datado, L0010)
-status: rascunho
+status: publicado
 origem: eleicoes/2026-10_locais-de-votacao@1.1#disputa
 
 tarefa: {categoria: relacao, alvo: fora_da_curva, pergunta: "Em que locais há mais votos em disputa onde Lula perdeu espaço?"}
@@ -17,6 +17,7 @@ texto:
   subtitulo: "{e.subtitulo}"
   amostra: {grafico: "{e.amostra_grafico}", mapa: "{e.amostra_mapa}"}
   fonte: "TSE (1º turno de 2026 e de 2022, por local de votação)"
+  fonte_curta: TSE
   como_ler: >-
     Cada ponto é um local de votação. ⟦Votos em disputa⟧ = abstenções + brancos e nulos + votos nas candidaturas fora
     da disputa principal (Lula × Flávio Bolsonaro). ⟦Em destaque⟧, à esquerda da linha vertical (Lula perdeu
@@ -69,8 +70,8 @@ escalas:
 
 grafico:
   componente: dispersao
-  ligacoes: {x: variacao, y: disputa, cor: fatia, rotulo: local}
-  opcoes: {titulo_x: "← perdeu · Lula desde 2022 (p.p.) · ganhou →", titulo_y: "votos em disputa ↑"}
+  ligacoes: {x: variacao, y: disputa, cor: fatia, tamanho: disputa, rotulo: local}
+  opcoes: {forma: pontos, titulo_x: "← perdeu · Lula desde 2022 (p.p.) · ganhou →", titulo_y: "votos em disputa ↑"}
   destaque: {coluna: destaque, fora: cinza, rotulo: fora do destaque}
   rotulos: {ids: "{e.rotulos}", coluna: local}               # os cinco maiores em destaque, escolhidos no Python
   anotacoes:
@@ -86,6 +87,7 @@ grafico:
     ligacoes: {lat: lat, lon: lon, cor: fatia, tamanho: disputa, rotulo: local}
     rotulo_aba: Ver no mapa
     opcoes: {forma: bolhas, fundo: osm}
+    vazio: "{e.mapa_vazio}"
 
 legenda:
   recolhida: true
@@ -94,7 +96,9 @@ legenda:
 
 controles:
   - {id: municipio, tipo: busca, campo: municipio, obrigatorio: true, inicial: "2211001", padrao_link: true, local: titulo, rotulo: Cidade}
-  - {id: tamanho, tipo: alternar, opcao: forma, valores: {pontos: Fixo, bolhas: Votos}, inicial: bolhas, local: grafico, rotulo: Tamanho}
+  # tamanho no gráfico e no mapa, um só estado; até o leitor escolher, cada vista usa o seu padrão (gráfico: fixo;
+  # mapa: votos). Atalho no mapa e em ⇄ Explorar (pesquisador, revisão do piloto, 2026-10-11)
+  - {id: tamanho, tipo: alternar, opcao: forma, valores: {pontos: Fixo, bolhas: Votos}, inicial: null, local: grafico, explorar: true, rotulo: Tamanho}
   - {id: fundo, tipo: alternar, opcao: fundo, valores: {osm: "ruas (OpenStreetMap)", nenhum: sem fundo}, inicial: osm, local: explorar, rotulo: Fundo do mapa}
 
 formatos: {aceitos: [retrato, quadrado, paisagem]}

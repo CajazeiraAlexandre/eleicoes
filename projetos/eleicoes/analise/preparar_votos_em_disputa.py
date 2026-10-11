@@ -100,20 +100,23 @@ def textos(linhas: list[dict], med_y: float | None) -> dict:
     dest = sorted((l for l in linhas if l["destaque"]), key=lambda l: -l["disputa"])
     n_coord = sum(1 for l in linhas if l["lat"] is not None)
     loc = lambda k: "local" if k == 1 else "locais"
+    em_cor = lambda k: "" if k is None else " · nenhum em destaque" if k == 0 else f" · em cor, {'o' if k == 1 else 'os'} {num(k)} em destaque"
     if not n:
         return {"subtitulo": "Nenhum local de votação desta cidade tem par em 2022 para comparar (EL0009).",
                 "amostra_grafico": "N = 0 locais de votação comparáveis", "amostra_mapa": "N = 0 locais de votação comparáveis",
-                "ref_y": "", "ref_x": "0 = igual a 2022", "legenda_linhas": "", "anotacao": None, "rotulos": []}
+                "ref_y": "", "ref_x": "0 = igual a 2022", "legenda_linhas": "", "mapa_vazio": "", "anotacao": None, "rotulos": []}
     sub = (f"{num(len(dest))} de {num(n)} {loc(n)} onde {NOME_G} perdeu participação desde 2022 e com votos em disputa "
            f"acima da mediana ({num(med_y)} por local)." if dest else
            f"Em nenhum dos {num(n)} {loc(n)} {NOME_G} perdeu participação desde 2022 com votos em disputa acima da mediana ({num(med_y)} por local).")
-    em_cor = f" · em cor, os {num(len(dest))} em destaque" if dest else ""
+    dest_mapa = sum(1 for l in dest if l["lat"] is not None)
     return {
         "subtitulo": sub,
-        "amostra_grafico": f"N = {num(n)} {loc(n)} de votação{em_cor}",
+        "amostra_grafico": f"N = {num(n)} {loc(n)} de votação{em_cor(len(dest))}",
         "amostra_mapa": (f"N = {num(n_coord)} {loc(n_coord)} de votação no mapa"
                          + (f" ({num(n - n_coord)} sem coordenada)" if n_coord < n else "")
-                         + (f" · em cor, os {num(sum(1 for l in dest if l['lat'] is not None))} em destaque" if dest else "")),
+                         + (em_cor(dest_mapa) if n_coord else "")),
+        "mapa_vazio": "" if n_coord else f"Nenhum dos {num(n)} {loc(n)} de votação desta cidade tem coordenada no cadastro do TSE: não há o que mostrar no mapa." if n > 1
+                      else "O local de votação desta cidade não tem coordenada no cadastro do TSE: não há o que mostrar no mapa.",
         "ref_y": f"mediana: {num(med_y)}", "ref_x": "0 = igual a 2022",
         "legenda_linhas": f"linhas tracejadas: mediana dos votos em disputa ({num(med_y)} por local) e variação zero",
         "anotacao": {"alvo": dest[0]["id"], "texto": f"Maior volume em disputa entre os destacados: {num(dest[0]['disputa'])} votos"} if dest else None,

@@ -54,6 +54,10 @@ passos:
       No mapa, as imagens de ruas são pedidas aos servidores do OpenStreetMap (© colaboradores do OpenStreetMap),
       que recebem o endereço de internet de quem vê a página e a área mostrada. O fundo pode ser desligado em
       Explorar. Aberta direto do computador ou sem internet, a página segue sem fundo; os dados dos locais não mudam.
+  - titulo: Contagem de visitas
+    texto: >-
+      A página publicada conta visitas com o GoatCounter, sem cookies e sem guardar dados pessoais: registra a página,
+      o site de origem do link e o tamanho da tela. Nada da contagem entra nos dados da peça.
 
 perguntas:
   - p: Por que alguns locais da cidade não aparecem?

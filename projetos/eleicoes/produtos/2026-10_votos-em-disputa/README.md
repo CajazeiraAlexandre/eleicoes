@@ -24,7 +24,9 @@ comparáveis; 34 cidades sem local comparável; votos em disputa = soma das part
 - Forma: especificação `viz.yaml`, validada (`labdados.viz`) e desenhada pelos componentes do DS (`lab-viz.js`);
   comportamentos decididos na bancada de formatos (L0011–L0013).
 - Decisões locais (pesquisador, 2026-10-11): todas as cidades, abre na cidade do link (padrão Teresina); só Lula;
-  fundo de ruas do OpenStreetMap; uso por link (WhatsApp, com prévia) e embed. Título: proposta a validar.
+  fundo de ruas do OpenStreetMap; uso por link (WhatsApp, com prévia) e embed. Revisão do piloto (2026-10-11, L0014):
+  título mantido; metodologia na folha ✎ Notas e fontes; tamanho Fixo | Votos no gráfico e no mapa; "Baixar ou
+  Compartilhar"; sem rastreamento; tema do leitor ou `?tema=`. Conferência humana dos números: `conferencia.md`.
 
 ## Como reproduzir
 ```bash

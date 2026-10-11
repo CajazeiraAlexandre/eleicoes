@@ -203,6 +203,16 @@ details.metodologia[open] > summary::before{transform:rotate(90deg)}
 ol.passos{padding-left:20px} ol.passos li{margin:10px 0} ol.passos p{margin:4px 0}
 ul.arquivos{margin:0;padding-left:14px;font-size:12px;color:var(--cor-texto-secundario)}
 ul.adrs{padding-left:18px} ul.adrs li{margin:8px 0}
+/* bloco em camadas na folha ✎ Notas e fontes (L0014) */
+.met-camadas{display:grid;gap:0;margin-top:8px;border-top:1px solid var(--cor-grade)}
+details.met-camada{border-bottom:1px solid var(--cor-grade)}
+details.met-camada > summary{cursor:pointer;font-weight:600;padding:8px 2px;list-style:none;display:flex;justify-content:space-between;gap:8px}
+details.met-camada > summary::-webkit-details-marker{display:none}
+details.met-camada > summary::after{content:"▸";color:var(--cor-texto-secundario);transition:transform .2s}
+details.met-camada[open] > summary::after{transform:rotate(90deg)}
+.met-corpo-camada{padding:0 2px 10px;font-size:13px;min-width:0}
+.met-corpo-camada pre{white-space:pre;overflow-x:auto;font-size:11px;max-width:100%}
+.met-corpo-camada table{font-size:12px}
 details.codigo summary,details.pergunta summary{cursor:pointer;font-size:13px;color:var(--cor-texto-secundario)}
 details.pergunta{margin:6px 0} details.pergunta summary{font-size:14.5px;color:var(--cor-texto);font-weight:600}
 details.codigo pre{background:var(--cor-fundo);border:1px solid var(--cor-borda);border-radius:var(--raio);padding:10px;overflow:auto;font-size:12px;max-height:360px}
