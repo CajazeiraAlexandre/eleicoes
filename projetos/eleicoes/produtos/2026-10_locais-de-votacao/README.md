@@ -1,6 +1,6 @@
 # Onde o 2º turno pode ser decidido em sua cidade: locais de votação, Presidente 2026
 
-**Tipo:** painel · **Projeto:** eleicoes · **Status:** publicado (1.1, 2026-10-09) · **Deriva de:** `2026-10_mapa-da-virada`
+**Tipo:** painel · **Projeto:** eleicoes · **Status:** publicado (1.2, 2026-10-12: edição corrigida — EL0010; 1.1 de 2026-10-09) · **Deriva de:** `2026-10_mapa-da-virada`
 
 ## Pergunta
 Em cada local de votação de uma cidade: eleitores aptos, votos para Presidente no 1º turno de 2026 (Lula, Flávio
@@ -17,7 +17,7 @@ Bolsonaro, Augusto Cury, Renan Santos, Outros) e abstenção, com a variação e
 | `ibge.malha_municipios_2022` | contorno e coordenada dentro/fora |
 
 ## Método e decisões
-- EL0003 (válidos), EL0008 (grupos de 2026 aplicados a 2022), EL0009 (mesmo local), EL0002/L0001 (municípios).
+- EL0003 (válidos), EL0010 (Presidente: em 2018 e 2022, cada candidatura comparada com a do seu partido — Lula 2022 = PT, sem os aliados de 2026; substitui o EL0008 para Presidente nesta edição), EL0009 (mesmo local), EL0002/L0001 (municípios).
 - Decisões locais (pesquisador, 2026-10-08): colunas Lula, Flávio, Cury, Renan e Outros (Caiado e demais); votos em
   % dos válidos com o número de votos, variação em p.p.; abstenção em % dos aptos; exportação em CSV e PNG.
 - Conferência com tolerância zero em `analise/relatorio_qualidade_locais_votacao.json`.

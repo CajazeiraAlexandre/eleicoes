@@ -1,7 +1,7 @@
 # EL0008 — Conglomerados presidenciais de 2026, federações e linhagem partidária (2018–2026)
 
 - **Escopo:** projeto eleições (primeiro uso: produto `2026-10_mapa-da-virada`)
-- **Status:** aprovada
+- **Status:** aprovada; regra de aplicação para Presidente revista pela [EL0010](EL0010-presidente-comparacao-pela-candidatura-do-partido.md) (2026-10-12)
 - **Data:** 2026-10-07
 - **Aprovado por:** Alexandre (pesquisador)
 - **Uso de IA:** Claude (Claude Code, Anthropic) levantou coligações, federações e siglas nos arquivos do TSE, propôs a tabela e redigiu este ADR; o pesquisador decidiu o ponto de partida, o uso de federações, o tratamento do PSL e o corte de 2%.

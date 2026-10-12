@@ -17,19 +17,21 @@ passos:
       Cada seção eleitoral pertence a um local de votação (uma escola, por exemplo). Em 2026, o arquivo de
       resultados do TSE não traz o local da seção; ele vem do cadastro de locais de votação. Seções agregadas
       contam no local da seção principal, onde o eleitor vota. A soma dos locais confere, sem diferença, com
-      o total oficial de cada cidade (aptos, abstenções, votos válidos e votos de cada grupo), em 2026 e em 2022.
+      o total oficial de cada cidade (aptos, abstenções, votos válidos e votos de cada candidatura), em 2026 e em 2022.
     adrs: [EL0009]
-  - titulo: Votos válidos e grupos
+  - titulo: Votos válidos e comparação com 2022
     texto: >-
       Os percentuais são sobre os votos válidos (sem brancos e nulos). Votos de candidatura que o TSE não conta
       como válidos ficam fora, como no total oficial — em 2026, os 5.123 votos de uma candidatura ausente dos
       resultados oficiais, que o TSE trata como nulos. Para comparar com 2022, cada candidatura de 2026 é
-      comparada com o seu grupo (os partidos que a apoiam hoje) em 2022: Lula com o grupo de Lula (que em 2022
-      incluía também o PDT de Ciro Gomes) e Flávio Bolsonaro com o PL de Jair Bolsonaro. Augusto Cury e Renan
-      Santos não tiveram candidatura do seu grupo em 2022 e ficam sem variação. "Outros" reúne Ronaldo Caiado e
-      as demais candidaturas.
-    adrs: [EL0003, EL0008]
-    codigo: votos.bloco_de
+      comparada com a candidatura do seu partido em 2022: Lula com Lula (PT) e Flávio Bolsonaro com Jair
+      Bolsonaro (PL). Eleição presidencial é muito personificada e, no 1º turno, o voto em outras candidaturas
+      costuma ser de oposição ou protesto; por isso os partidos que apoiam Lula em 2026 não são somados a ele nos
+      anos anteriores (Ciro Gomes, do PDT, fica em "Outros" em 2022). Augusto Cury e Renan Santos não tiveram
+      candidatura do seu partido em 2022 e ficam sem variação. "Outros" reúne Ronaldo Caiado e as demais
+      candidaturas.
+    adrs: [EL0003, EL0010]
+    codigo: votos.bloco_presidente
   - titulo: O mesmo local em 2022
     texto: >-
       O TSE não tem um código fixo para o local entre eleições. Um local de 2026 tem par em 2022 quando a zona e
@@ -42,11 +44,13 @@ passos:
   - titulo: Como a cidade votou, 2018–2026
     texto: >-
       O gráfico de linhas mostra, no 1º turno de cada eleição presidencial, a parte do eleitorado apto que votou em
-      cada grupo, votou em branco ou nulo, ou não compareceu (as linhas somam 100%). Os totais são os oficiais por
-      cidade. O quadro ao lado conta, entre os locais com par em 2022, em quantos cada grupo e a abstenção subiram
+      cada candidatura, votou em branco ou nulo, ou não compareceu (as linhas somam 100%). Em 2018 e 2022, a linha
+      de Lula é a candidatura do PT (Fernando Haddad, Lula) e a de Flávio Bolsonaro, a de Jair Bolsonaro (PSL, PL).
+      Os totais são os oficiais por cidade. O quadro ao lado conta, entre os locais com par em 2022, em quantos cada
+      candidatura e a abstenção subiram
       ou caíram, e a variação mediana. Não há gráfico de fluxo (sankey): saber quem mudou de voto exigiria
       estimar transferências de eleitores a partir de totais, o que estes dados não permitem afirmar.
-    adrs: [EL0008, EL0009]
+    adrs: [EL0010, EL0009]
   - titulo: Onde há mais votos em disputa
     texto: >-
       Para cada local, contam-se os eleitores que não escolheram nenhuma das duas candidaturas principais (Lula e
@@ -62,8 +66,7 @@ passos:
       duas candidaturas ganhou, somados à variação de brancos e nulos e de abstenção, igualam os votos que as
       outras candidaturas tiveram no 1º turno. O quadro da cidade mostra essa conta em 2018 e 2022, e a cor da
       dispersão mostra, em cada local, com quem ficou o ganho em 2022. Aqui a comparação é entre as candidaturas
-      (PT × PSL/PL), não entre os grupos de 2026, porque no 1º turno o grupo de Lula incluiria o PDT de Ciro Gomes,
-      que não estava no 2º turno. É o saldo do lugar: não diz quais eleitores mudaram de voto nem prevê 2026.
+      (PT × PSL/PL), como no resto da página (EL0010). É o saldo do lugar: não diz quais eleitores mudaram de voto nem prevê 2026.
       Os totais do estado e do Brasil somam os municípios (exterior fora); os nomes das outras candidaturas do
       1º turno vêm do cadastro de candidaturas do TSE.
     codigo: votos.saldo_entre_turnos
@@ -100,7 +103,7 @@ sobre: >-
 uso_de_ia: >-
   Claude (Claude Code, Anthropic) implementou a preparação dos dados, a conferência, a página e a exportação,
   e redigiu estes textos, sob orientação do pesquisador, que definiu o recorte, as colunas, a comparação com
-  2022 e as regras metodológicas (EL0008, EL0009). Revisão humana dos resultados pendente.
+  2022 e as regras metodológicas (EL0009, EL0010). Revisão humana dos resultados pendente.
 
 licenca: "Código: MIT · Dados derivados: CC BY 4.0"
 
@@ -108,5 +111,6 @@ citacao: "RAMOS, Alexandre Ribeiro Cajazeira. Onde o 2º turno pode ser decidido
 
 decisoes_resumo:
   EL0003: "Votos válidos por seção reconstruídos com o destino oficial de cada candidatura."
-  EL0008: "Grupos de 2026 aplicados aos anos anteriores pelos partidos que os formam."
+  EL0008: "Conglomerados de 2026: cada candidatura identificada pelo partido (para Presidente, só em 2026 — EL0010)."
+  EL0010: "Presidente: cada candidatura de 2026 comparada com a do seu partido em 2018 e 2022."
   EL0009: "Mesmo local em 2022 e 2026: mesma zona e número, e nome normalizado igual ou até 100 m."

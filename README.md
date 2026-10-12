@@ -80,13 +80,14 @@ os produtos usam (`dados/referencia/`, `dados/snapshots/`) e os recortes web de 
 - `projetos/eleicoes/decisoes/EL0007-ligacao-de-candidaturas-entre-eleicoes.md`
 - `projetos/eleicoes/decisoes/EL0008-conglomerados-presidenciais-2026-e-linhagem-partidaria.md`
 - `projetos/eleicoes/decisoes/EL0009-pareamento-de-locais-de-votacao-entre-eleicoes.md`
+- `projetos/eleicoes/decisoes/EL0010-presidente-comparacao-pela-candidatura-do-partido.md`
 - `metodologia/decisoes/L0001-correspondencia-municipal-nacional-tse-ibge.md`
 - `metodologia/decisoes/L0002-produtos-autocontidos-calculo-hibrido.md`
 - `metodologia/decisoes/L0003-design-system-componentes-e-bloco-de-metodologia.md`
 
 ## Origem e uso de IA
 
-Recorte do laboratório de dados do autor (commit de origem `4e348520`, 2026-10-12). O uso de IA generativa
+Recorte do laboratório de dados do autor (commit de origem `0d04a903`, 2026-10-12). O uso de IA generativa
 (Claude, Anthropic) está declarado no README de cada produto, conforme a Portaria CNPq nº 2.664/2026;
 as decisões metodológicas e a revisão são do pesquisador.
 

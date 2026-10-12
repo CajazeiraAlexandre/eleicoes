@@ -3,7 +3,7 @@ id: 2026-10_locais-de-votacao
 titulo: 'Onde o 2º turno pode ser decidido em sua cidade: locais de votação, Presidente 2026'
 tipo: painel
 status: publicado
-versao: '1.1'
+versao: '1.2'
 deriva_de: 2026-10_mapa-da-virada
 pergunta: 'Em cada local de votação de uma cidade escolhida: quantos eleitores aptos, quanto votaram Lula, Flávio
   Bolsonaro, Augusto Cury, Renan Santos e os demais no 1º turno de 2026, qual foi a abstenção — e quanto isso variou
@@ -43,6 +43,7 @@ decisoes:
 - EL0003
 - EL0008
 - EL0009
+- EL0010
 analise:
 - analise/preparar_locais_votacao.py
 - analise/preparar_locais_mapa_virada.py
@@ -55,6 +56,11 @@ componentes_web:
 - lab-graficos.js
 - lab-metodologia.js
 decisoes_locais:
+  2026_10_12_correcao_el0010: 'Edição corrigida 1.2 (pesquisador, 2026-10-12): para Presidente, a comparação com
+    2018 e 2022 deixa de somar os partidos que apoiam Lula em 2026 (o PDT de Ciro Gomes e outros) ao PT. Cada candidatura
+    de 2026 é comparada com a candidatura do seu partido (Lula ↔ Haddad 2018 / Lula 2022; Flávio Bolsonaro ↔ Jair
+    Bolsonaro, PSL/PL); o resto vai para Outros. Efeito no Brasil: Lula 2022 passa de 51,5% (grupo) para 48,4% dos
+    válidos (oficial). A 1.1 (2026-10-09) usava o EL0008 e fica como retrato anterior no histórico do repositório.'
   2026_10_09_ajustes: 'Pedido do pesquisador: (1) mapa no padrão do projeto — bolhas em cartograma de Dorling (sem
     sobreposição, 45% da envoltória dos locais, teto de 30 px, fora de escala rotulado) e transição Pontos ⇄ Bolhas;
     (2) PNG com o total e os 20 primeiros locais na ordem mostrada, com aviso dos demais (CSV completo); (3) análise

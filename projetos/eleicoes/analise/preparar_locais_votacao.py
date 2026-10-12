@@ -1,8 +1,10 @@
 """Produto "Locais de votação": abstenção e votos para Presidente por local de votação, 1º turno de 2026 × 2022.
 
 Derivado da seção de locais do "Mapa da virada" (mesma ligação seção → local e mesmo par entre eleições, EL0009).
-Votos por seção (tse.votacao_secao, _BR) somados por local e por grupo de 2026 (EL0008): Lula, Flávio, Cury, Renan e
-Outros (Caiado e demais). Válidos por seção pela regra do EL0003 — 2026: destino `dvt` da API (candidatura ausente da
+Votos por seção (tse.votacao_secao, _BR) somados por local e por candidatura: em 2026, Lula, Flávio, Cury, Renan e
+Outros (Caiado e demais); em 2018 e 2022, a candidatura presidencial do mesmo partido — PT (Lula; Haddad em 2018) e
+PL/PSL (Bolsonaro) — e Outros (todas as demais, inclusive as de partidos que apoiam Lula em 2026) (EL0010, que revisa a
+EL0008 para Presidente). Válidos por seção pela regra do EL0003 — 2026: destino `dvt` da API (candidatura ausente da
 API = nulo técnico); 2022: `NM_TIPO_DESTINACAO_VOTOS` de votacao_candidato_munzona.
 
 Conferência (tolerância zero), por município: 2026 — válidos = `vv` da API e votos por grupo = Σ `vap`;
@@ -48,6 +50,16 @@ TURNOS = ["aptos_1t", "abstencoes_1t", "validos_1t", "pt_1t", "pl_1t", "aptos_2t
 def bloco_de(conglomerado: str | None) -> str:
     """Grupo de 2026 (EL0008) → coluna da tabela: Caiado, demais e sem candidatura vão para "Outros"."""
     return conglomerado if conglomerado in ("lula", "flavio", "cury", "renan") else "outros"
+
+
+def bloco_presidente(sigla: str, ano: int, ag=None) -> str:
+    """Coluna da tabela para um voto a Presidente (EL0010). 2026: a candidatura de cada grupo (EL0008). 2018 e 2022: a
+    candidatura presidencial do mesmo partido — PT → "lula" (Lula em 2022, Haddad em 2018); PL (2022) e PSL (2018,
+    linhagem da EL0008) → "flavio" (Bolsonaro); qualquer outra (Ciro, Tebet, Boulos, Marina, Alckmin…) → "outros"."""
+    if ano == 2026:
+        return bloco_de(ag.conglomerado_de(sigla, 2026))
+    s = sigla.strip().upper()
+    return "lula" if s == "PT" else "flavio" if s in ("PL", "PSL") else "outros"
 
 
 DISPUTA_PRINCIPAL = ("lula", "flavio")
@@ -107,7 +119,7 @@ def destinos_2022(raiz_lab: Path, ag) -> dict[str, tuple[str, bool]]:
                            "votacao_candidato_munzona_2022_BR.csv", "Presidente"):
         if r["DS_CARGO"] != "Presidente" or r["NR_TURNO"] != "1":
             continue
-        out[r["NR_CANDIDATO"]] = (bloco_de(ag.conglomerado_de(r["SG_PARTIDO"], 2022)),
+        out[r["NR_CANDIDATO"]] = (bloco_presidente(r["SG_PARTIDO"], 2022),   # EL0010: por candidatura, sem aliados de 2026
                                   r["NM_TIPO_DESTINACAO_VOTOS"] in ("Válido", "Válido (legenda)"))
     return out
 
@@ -224,8 +236,10 @@ def montar(raiz_lab: Path, tmp: Path) -> tuple[dict, dict, list]:
     ofi22_val = {k[2]: v for k, v in qa.detalhe(raiz_lab, 2022).items() if k[0] == "1" and k[1] == "presidente"}
     base_v = json.loads(gzip.decompress((raiz_lab / PRODUTO_VIRADA / "data/base_mapa_virada.json.gz").read_bytes()))
     e22 = next(e for e in base_v["eleicoes"] if e["id"] == "presidente_2022_1")
-    ofi22_bloco = {tse: Counter({b: sum(e22["votos"][g][k] or 0 for g in e22["votos"] if bloco_de(g) == b) for b in IDS})
-                   for k, tse in enumerate(base_v["municipios"]["tse"])}
+    # 2022 por candidatura (EL0010): PT e PL da base do Mapa da virada; Outros = válidos − PT − PL
+    ofi22_bloco = {tse: Counter({"lula": e22["destaque"]["PT"][k] or 0, "flavio": e22["destaque"]["PL"][k] or 0, "cury": 0, "renan": 0,
+                                 "outros": (e22["validos"][k] or 0) - (e22["destaque"]["PT"][k] or 0) - (e22["destaque"]["PL"][k] or 0)})
+                   for k, tse in enumerate(base_v["municipios"]["tse"]) if e22["validos"][k] is not None}
 
     def conferir(ano, val, bloc):
         divs = []
@@ -257,7 +271,7 @@ def montar(raiz_lab: Path, tmp: Path) -> tuple[dict, dict, list]:
 
     rel = {
         "gerado_em": datetime.now().astimezone().isoformat(timespec="seconds"),
-        "decisoes": ["EL0003", "EL0008", "EL0009", "EL0002", "L0001"],
+        "decisoes": ["EL0003", "EL0008", "EL0010", "EL0009", "EL0002", "L0001"],
         "ligacao_secao_local": rel_lig,
         "nulo_tecnico_2026": dict(nulo_tecnico),
         "conferencia_2026": conferir(2026, ofi26_val, ofi26_bloco),
@@ -273,22 +287,32 @@ def montar(raiz_lab: Path, tmp: Path) -> tuple[dict, dict, list]:
 def evolucao(raiz_lab: Path) -> dict:
     """Presidente, 1º turno de 2018, 2022 e 2026 por município (base do Mapa da virada, já conferida com os totais
     oficiais): {"anos", "campos", "sem_candidatura", "municipios": {IBGE: [[aptos, abstenções, válidos, blocos…] por ano]}}.
-    `sem_candidatura[ano]` = blocos sem nenhum voto no país naquele ano (o grupo não teve candidatura)."""
+    2026: candidaturas (grupos da EL0008); 2018 e 2022: candidatura do PT ("lula": Haddad, Lula) e do PSL/PL ("flavio":
+    Bolsonaro), demais em "outros" (EL0010). `sem_candidatura[ano]` = blocos sem nenhum voto no país naquele ano."""
     base_v = json.loads(gzip.decompress((raiz_lab / PRODUTO_VIRADA / "data/base_mapa_virada.json.gz").read_bytes()))
     es = {e["id"]: e for e in base_v["eleicoes"]}
     anos = ["2018", "2022", "2026"]
     sel = [es[f"presidente_{a}_1"] for a in anos]
+    direita = {"2018": "PSL", "2022": "PL"}
+
+    def blocos(a: str, e: dict, k: int) -> list[int]:
+        if a == "2026":
+            return [sum(e["votos"][g][k] or 0 for g in e["votos"] if bloco_de(g) == b) for b in IDS]
+        pt, dr, val = e["destaque"]["PT"][k] or 0, e["destaque"][direita[a]][k] or 0, e["validos"][k] or 0
+        return [{"lula": pt, "flavio": dr, "outros": val - pt - dr}.get(b, 0) for b in IDS]
+
     out, sem = {}, {}
+    n = len(base_v["municipios"]["ibge"])
     for a, e in zip(anos, sel):
-        sem[a] = [b for b in IDS if sum(sum(e["votos"][g][k] or 0 for g in e["votos"] if bloco_de(g) == b) for k in range(len(base_v["municipios"]["ibge"]))) == 0]
+        tot = [sum(x) for x in zip(*(blocos(a, e, k) for k in range(n) if e["validos"][k] is not None))]
+        sem[a] = [b for b, t in zip(IDS, tot) if t == 0]
     for k, ibge in enumerate(base_v["municipios"]["ibge"]):
         linhas = []
-        for e in sel:
+        for a, e in zip(anos, sel):
             if e["validos"][k] is None:
                 linhas.append(None)
                 continue
-            linhas.append([e["aptos"][k], e["abstencoes"][k], e["validos"][k],
-                           *(sum(e["votos"][g][k] or 0 for g in e["votos"] if bloco_de(g) == b) for b in IDS)])
+            linhas.append([e["aptos"][k], e["abstencoes"][k], e["validos"][k], *blocos(a, e, k)])
         out[ibge] = linhas
     # 1º × 2º turno por município, por candidatura (PT × PSL em 2018, PT × PL em 2022)
     tur = {}

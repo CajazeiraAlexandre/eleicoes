@@ -1,6 +1,6 @@
 /* app.js — Locais de votação: abstenção e votos para Presidente por local, 1º turno de 2026 × 2022.
  * Derivado da seção de locais do Mapa da virada. Os totais de cada local chegam prontos da base Python
- * (projetos/eleicoes/analise/preparar_locais_votacao.py: válidos EL0003, grupos EL0008, mesmo local EL0009);
+ * (projetos/eleicoes/analise/preparar_locais_votacao.py: válidos EL0003, candidaturas de Presidente EL0010, mesmo local EL0009);
  * aqui só se divide (percentual), subtrai, ordena e desenha. Nada é estimado: local sem par em 2022 = "—".
  * Escalas de cor marcadas com PROPOSTA dependem de validação do pesquisador. */
 (async function () {
@@ -188,7 +188,7 @@
         : variacao ? "Cinza: caiu no local; cor da lente: subiu. A faixa clara do meio indica estabilidade. Círculo tracejado: local sem par em 2022."
         : "Cinco classes com o mesmo número de locais (quintis entre os locais convencionais da cidade): a cor mostra a posição relativa entre os locais, não um patamar fixo.",
         est.forma === "bolhas" ? `Bolhas: área proporcional a ${turno ? "votos das outras candidaturas no 1º turno de 2022" : lente === "abst" ? "abstenções" : `votos de ${nomeDe(lente)}`}. Pontos: um ponto do mesmo tamanho por local.` : "Pontos: um ponto do mesmo tamanho por local.",
-        !turno && semPar2022(lente) ? `${nomeDe(lente)}: o grupo não teve candidatura presidencial em 2022, por isso não há variação.` : null,
+        !turno && semPar2022(lente) ? `${nomeDe(lente)}: o partido não teve candidatura presidencial em 2022, por isso não há variação.` : null,
         "Passe o mouse (ou toque) num local para ver todos os números. Relação entre lugares não descreve o voto de pessoas."));
     const noMapa = L.filter((o) => o.coord === "ok");
     const W = 560, H = 520, bolhas = est.forma === "bolhas";
@@ -346,7 +346,7 @@
         valores: T.map((t, i) => (ev.sem_candidatura[anosV[i]].includes(b.id) ? null : medida(t, t?.[b.id]))), n: T.map((t) => t?.[b.id]), p: T.map((t) => (t ? percentual(t[b.id], t.aptos) : null)) })),
       { id: "bn", rotulo: "Brancos e nulos", cor: COR_BN, tracejado: true, valores: T.map((t) => medida(t, t && t.aptos - t.abstencoes - t.validos)), n: T.map((t) => t && t.aptos - t.abstencoes - t.validos), p: T.map((t) => (t ? percentual(t.aptos - t.abstencoes - t.validos, t.aptos) : null)) },
       { id: "abst", rotulo: "Abstenção", cor: corDe("abst"), tracejado: true, valores: T.map((t) => medida(t, t?.abstencoes)), n: T.map((t) => t?.abstencoes), p: T.map((t) => (t ? percentual(t.abstencoes, t.aptos) : null)) }];
-    for (const sr of series) sr.dicas = anosV.map((a, i) => [`${sr.rotulo} · ${a}`, sr.valores[i] === null ? ["sem candidatura do grupo"] : [`${fmtPct(sr.p[i])} do eleitorado apto`, `${fmtInt.format(sr.n[i])} ${sr.id === "abst" ? "abstenções" : "votos"}`]]);
+    for (const sr of series) sr.dicas = anosV.map((a, i) => [`${sr.rotulo} · ${a}`, sr.valores[i] === null ? ["sem candidatura do partido"] : [`${fmtPct(sr.p[i])} do eleitorado apto`, `${fmtInt.format(sr.n[i])} ${sr.id === "abst" ? "abstenções" : "votos"}`]]);
     const cartao = el("div", { class: "cartao" }, el("h3", {}, "Evolução no 1º turno, em ",
       seletorTitulo("Medida da evolução", [["pct", "% do eleitorado apto"], ["votos", "votos"]], emVotos ? "votos" : "pct", (v) => atualizar({ evm: v }))));
     const alvo = el("div");
@@ -369,7 +369,7 @@
     cartao.append(el("p", { class: "nota", text: "Passe o mouse (ou toque) numa linha ou num nome da legenda para destacá-la; tocar no nome fixa o destaque." }),
       el("details", { class: "info" }, el("summary", {}, "Ver em tabela"), Lab.tabela(["", ...anosV.flatMap((a) => [`${a} (%)`, `${a} (votos)`])],
         series.map((sr) => [sr.rotulo, ...anosV.flatMap((a, i) => (sr.valores[i] === null ? ["—", "—"] : [fmtPct(sr.p[i]), fmtInt.format(sr.n[i])]))]))),
-      Lab.rodape({ fontes: ["tse"], nota: (area ? `${rotuloArea(est.area)}: soma dos ${area.nPar} locais com par em 2022 (os mesmos locais nos dois anos, EL0009); por local não há 2018. ` : "") + "Grupos de 2026 aplicados às eleições anteriores pelos partidos que os formam hoje (EL0008): em 2018 e 2022, o grupo de Lula reúne PT e aliados (com o PDT de Ciro Gomes) e o de Flávio Bolsonaro é o PL/PSL de Jair Bolsonaro; Augusto Cury e Renan Santos não tinham candidatura. Brancos e nulos inclui votos anulados. Linhas tracejadas: não são candidaturas." }));
+      Lab.rodape({ fontes: ["tse"], nota: (area ? `${rotuloArea(est.area)}: soma dos ${area.nPar} locais com par em 2022 (os mesmos locais nos dois anos, EL0009); por local não há 2018. ` : "") + "Em 2018 e 2022, cada candidatura de 2026 é comparada com a candidatura do seu partido (EL0010): Lula com Fernando Haddad (PT, 2018) e Lula (PT, 2022); Flávio Bolsonaro com Jair Bolsonaro (PSL, 2018; PL, 2022); as demais candidaturas daqueles anos, inclusive Ciro Gomes, estão em Outros. Augusto Cury e Renan Santos não tinham candidatura do partido. Brancos e nulos inclui votos anulados. Linhas tracejadas: não são candidaturas." }));
     // quadro: locais com par em 2022 que subiram ou caíram
     const comPar = LA.filter((o) => o.abst_dif !== null);
     const itens = [...BL.filter((b) => !b.sem_2022).map((b) => [b.nome, `${b.id}_dif`, "dos válidos"]), ["Abstenção", "abst_dif", "dos aptos"]];
@@ -439,7 +439,7 @@
       return { o, ...v, x: semX ? o[g] : o[`${g}_dif`], turno: tt ? saldoEntreTurnos(tt, g) : null };
     }).filter((p) => p.x !== null);
     const medY = quantil(P.map((p) => p.disputa), 0.5);
-    // destaque: abaixo de 2022 (ou abaixo da mediana do grupo, sem 2022) e acima da mediana de votos em disputa
+    // destaque: abaixo de 2022 (ou abaixo da mediana da candidatura, sem 2022) e acima da mediana de votos em disputa
     const medX = semX ? quantil(P.map((p) => p.x), 0.5) : 0;
     const dest = (p) => p.x < medX && p.disputa >= medY;
     // com bairro/zona: as linhas de referência continuam as da cidade; os locais da área ficam em primeiro plano
@@ -450,7 +450,7 @@
     sec.append(placar(`${est.area ? `${rotuloArea(est.area)} — ` : ""}${fmtInt.format(D.length)} de ${fmtInt.format(PA.length)} locais ${semX ? `com ${nome} abaixo da mediana da cidade` : `onde ${nome} perdeu participação desde 2022`} e com votos em disputa acima da mediana ${est.area ? "da cidade " : ""}(${fmtInt.format(Math.round(medY))}). Somam ${fmtInt.format(d3.sum(D, (p) => p.disputa))} dos ${fmtInt.format(est.area ? d3.sum(PA, (p) => p.disputa) : tot)} votos em disputa ${est.area ? "da área" : "da cidade"}.`
       + (DISPUTA_PRINCIPAL.includes(g) ? ` Em ${fmtInt.format(D.filter((p) => (p.turno?.fatia ?? -1) > 50).length)} deles, ${g === "lula" ? "Lula" : "Bolsonaro"} ficou com mais da metade do ganho de votos no 2º turno de 2022.` : "")),
       instrucao("Votos em disputa = abstenções + brancos e nulos + votos em candidaturas fora da disputa principal (Lula × Flávio Bolsonaro), sem as da candidatura escolhida. A conta é a mesma para qualquer candidatura.",
-        semX ? `${nome}: o grupo não teve candidatura em 2022; o eixo horizontal mostra o % dos válidos em 2026, e o destaque é abaixo da mediana dos locais.`
+        semX ? `${nome}: o partido não teve candidatura em 2022; o eixo horizontal mostra o % dos válidos em 2026, e o destaque é abaixo da mediana dos locais.`
           : `Eixo horizontal: variação de ${nome} desde 2022 no mesmo local (p.p. dos válidos). Os votos perdidos desde 2022 aparecem na dica, à parte: podem ser as mesmas pessoas que hoje se abstêm ou votam em outra candidatura, por isso não entram na soma.`,
         "Em destaque: locais à esquerda da linha vertical e acima da linha horizontal (mediana dos votos em disputa); os demais ficam em cinza claro. Os cinco com mais votos em disputa têm o nome no gráfico.",
         DISPUTA_PRINCIPAL.includes(g) ? "Cor (Lula e Flávio Bolsonaro): no 2º turno de 2022, quanto do ganho de votos do local, entre o 1º e o 2º turno, ficou com cada candidatura (Lula × Jair Bolsonaro, PL). É o saldo do local, não o voto de pessoas; mostra para onde os votos em disputa foram da última vez, não para onde irão." : null,
@@ -545,7 +545,7 @@
       + (agA && k22.ls[0].s?.fatia != null ? ` Nos locais de ${rotuloArea(est.area)}, ${fmtPct(k22.ls[0].s.fatia)}.` : "")
       + (c18?.fatia != null ? ` Em 2018, Fernando Haddad ficou com ${fmtPct(c18.fatia)} na cidade.` : "")));
     sec.append(instrucao("Entre os turnos, o eleitorado é praticamente o mesmo. O que as duas candidaturas ganharam, somado à variação de brancos, nulos e abstenção, é igual aos votos que as outras candidaturas tiveram no 1º turno. A barra divide o ganho entre as duas candidaturas do 2º turno.",
-      "Comparação por candidatura (PT × PSL/PL), não pelos grupos de 2026: no 1º turno o grupo de Lula incluiria o PDT de Ciro Gomes. É o saldo de cada lugar, não o voto de quem mudou; mostra o que aconteceu, não o que vai acontecer em 2026."));
+      "Comparação por candidatura (PT × PSL/PL), como no resto da página (EL0010). É o saldo de cada lugar, não o voto de quem mudou; mostra o que aconteceu, não o que vai acontecer em 2026."));
     // barras: cidade, estado e Brasil, 2022 e 2018
     const cartao = el("div", { class: "cartao composicao" }, el("h3", { text: "Com quem ficou o ganho de votos do 1º para o 2º turno" }));
     const sinal = (v) => Lab.comSinal(v, (x) => fmtInt.format(x));
@@ -627,8 +627,8 @@
       el("p", { class: "sub", text: `${fmtInt.format(L.length)} locais · ${fmtInt.format(tot.aptos)} eleitores aptos. Votos em % dos válidos (número de votos abaixo); abstenção em % dos aptos. Δ p.p. = variação em pontos percentuais em relação ao 1º turno de 2022 no mesmo local.` }),
       el("div", { class: "rolar" }, tabela),
       el("p", { class: "fonte", text: `Fonte: TSE — votação e detalhe por seção eleitoral e cadastro de locais de votação, 1º turno de 2022 e de 2026. `
-        + `Outros = Ronaldo Caiado e demais candidaturas (em 2022, as candidaturas fora dos grupos de Lula e de Flávio Bolsonaro; o grupo de Lula inclui o PDT). `
-        + (semVar.length ? `${semVar.join(" e ")}: grupo sem candidatura presidencial em 2022, sem variação. ` : "")
+        + `Outros = Ronaldo Caiado e demais candidaturas (em 2022, todas as candidaturas exceto Lula e Jair Bolsonaro, inclusive Ciro Gomes; EL0010). `
+        + (semVar.length ? `${semVar.join(" e ")}: partido sem candidatura presidencial em 2022, sem variação. ` : "")
         + `Mesmo local em 2022: mesma zona e número, com nome igual ou a até 100 m; locais novos, sem par ou especiais (trânsito, presos, temporários) ficam com “—”. `
         + `Elaboração: __AUTOR__ · Laboratório de Dados Públicos.` }));
     return f;

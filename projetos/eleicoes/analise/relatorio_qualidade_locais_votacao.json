@@ -1,8 +1,9 @@
 {
-  "gerado_em": "2026-10-09T00:23:16-03:00",
+  "gerado_em": "2026-10-12T13:24:11-03:00",
   "decisoes": [
     "EL0003",
     "EL0008",
+    "EL0010",
     "EL0009",
     "EL0002",
     "L0001"
@@ -46,11 +47,11 @@
       "aptos": 155758656,
       "abstencoes": 32380232,
       "validos": 117935194,
-      "lula": 60706517,
+      "lula": 57120571,
       "flavio": 50949797,
       "cury": 0,
       "renan": 0,
-      "outros": 6278880
+      "outros": 9864826
     }
   },
   "conferencia_turnos_2022": {
@@ -66,5 +67,5 @@
     "especial": 1018
   },
   "municipios_com_arquivo": 5570,
-  "tamanho_total_mb": 25.3
+  "tamanho_total_mb": 25.0
 }
