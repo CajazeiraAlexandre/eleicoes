@@ -8,7 +8,6 @@ TSE e do IBGE, e o código para refazê-los do zero. Site: <https://cajazeiraale
 - **[Onde estão os votos? Distribuição territorial de candidaturas no Piauí](https://cajazeiraalexandre.github.io/eleicoes/onde-estao-os-votos/)** — `projetos/eleicoes/produtos/2026-10_distribuicao-votos-candidato-pi`
 - **[Forças políticas no Piauí: PT, PSD, MDB e os demais (2018–2026)](https://cajazeiraalexandre.github.io/eleicoes/forcas-politicas/)** — `projetos/eleicoes/produtos/2026-10_forcas-politicas-pi`
 - **[Onde o 2º turno pode ser decidido em sua cidade: locais de votação, Presidente 2026](https://cajazeiraalexandre.github.io/eleicoes/onde-o-2-turno-se-decide/)** — `projetos/eleicoes/produtos/2026-10_locais-de-votacao`
-- **[Onde Lula perdeu espaço e há mais votos em disputa](https://cajazeiraalexandre.github.io/eleicoes/votos-em-disputa/)** — `projetos/eleicoes/produtos/2026-10_votos-em-disputa`
 
 Cada produto é uma página HTML única (abre com duplo clique, sem servidor) com o bloco
 "Fontes de Dados, Metodologia e Códigos" no fim. O README de cada pasta resume método, decisões,
@@ -84,17 +83,10 @@ os produtos usam (`dados/referencia/`, `dados/snapshots/`) e os recortes web de 
 - `metodologia/decisoes/L0001-correspondencia-municipal-nacional-tse-ibge.md`
 - `metodologia/decisoes/L0002-produtos-autocontidos-calculo-hibrido.md`
 - `metodologia/decisoes/L0003-design-system-componentes-e-bloco-de-metodologia.md`
-- `metodologia/decisoes/L0007-visualizacao-declarativa-especificacao-palco-e-contratos.md`
-- `metodologia/decisoes/L0008-visualizacao-tarefas-formatos-estatico-detalhe-anotacoes-sequencia.md`
-- `metodologia/decisoes/L0010-publicacao-retrato-datado-pacote-enxuto.md`
-- `metodologia/decisoes/L0011-especificacao-v02-vistas-ligados-facetas-controles.md`
-- `metodologia/decisoes/L0012-moldura-no-celular-barra-fixa-imagem-svg-limites-de-texto.md`
-- `metodologia/decisoes/L0013-revisao-no-celular-fechamento-da-fase-0.md`
-- `metodologia/decisoes/L0014-metodologia-na-folha-e-revisao-do-piloto.md`
 
 ## Origem e uso de IA
 
-Recorte do laboratório de dados do autor (commit de origem `4e348520`, 2026-10-11). O uso de IA generativa
+Recorte do laboratório de dados do autor (commit de origem `4e348520`, 2026-10-12). O uso de IA generativa
 (Claude, Anthropic) está declarado no README de cada produto, conforme a Portaria CNPq nº 2.664/2026;
 as decisões metodológicas e a revisão são do pesquisador.
 
