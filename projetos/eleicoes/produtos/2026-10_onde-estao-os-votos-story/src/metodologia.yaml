@@ -1,0 +1,31 @@
+# Textos do bloco "Fontes de Dados, Metodologia e Códigos" (L0003), na folha ✎ Notas e fontes (L0014).
+# Story-piloto derivado do "Onde estão os votos?" — mesma base, regras e funções.
+
+apresentacao: >-
+  Este story mostra onde estão os votos das candidaturas mais votadas no Piauí no 1º turno de 2026: o Senado, município a
+  município; os deputados estaduais, entre votos concentrados e espalhados; e a correlação entre o mapa do governador e o
+  de outras candidaturas. Os números vêm dos arquivos por seção do TSE, conferidos no produto "Onde estão os votos?";
+  nada é estimado ou completado. É um piloto.
+
+modulos:
+  distribuicao: projetos.eleicoes.analise.preparar_distribuicao_pi
+
+passos:
+  - titulo: Votos e válidos por município
+    texto: >-
+      Os votos de cada candidatura e os votos válidos do cargo são somados das seções para o município antes de dividir.
+      Candidatura sem votos numa seção do território em que concorre tem zero votos ali (regra do produto de origem).
+    adrs: [EL0003]
+    codigo: distribuicao.agregar
+  - titulo: Correlação entre mapas
+    texto: >-
+      Pearson entre os percentuais dos votos válidos das duas candidaturas, município a município, cada um com o mesmo peso.
+    codigo: distribuicao.pearson
+
+perguntas:
+  - p: Uma correlação alta quer dizer que um candidato levou votos ao outro?
+    r: Não. Só diz que, de um município para outro, os dois percentuais sobem e descem juntos. O voto é secreto.
+
+uso_de_ia: >-
+  Claude (Claude Code, Anthropic) propôs o roteiro e escreveu o preparo dos dados e os textos deste piloto, a partir da
+  base conferida do "Onde estão os votos?", com autonomia dada pelo pesquisador. Revisão humana pendente.

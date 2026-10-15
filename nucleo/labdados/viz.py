@@ -10,8 +10,9 @@ A especificação é `viz.yaml` ou `viz.json`, com o mesmo conteúdo (L0007, D1)
   componente registrado, papéis obrigatórios ligados, colunas existentes e de tipo compatível, limites de controles.
 
 ERRO bloqueia a geração (integridade: esquema, componente inexistente, papel obrigatório ausente, coluna inexistente
-ou de tipo incompatível). AVISO não bloqueia (escolhas de forma: componente experimental, tarefa fora do contrato,
-chapéu longo, número no título, controles além do limite) — o DS não é engessado (L0007, item 4).
+ou de tipo incompatível; ao gerar, componente sem adaptador no hospedeiro da peça — L0016). AVISO não bloqueia
+(escolhas de forma: componente experimental no hospedeiro, tarefa fora do contrato, chapéu longo, número no título,
+controles além do limite; contexto recomendado ausente, só informativo — L0016, D3) — o DS não é engessado (L0007).
 """
 from __future__ import annotations
 
@@ -80,8 +81,28 @@ def _conferir_ligacoes(nome: str, ligacoes: dict, contrato: dict, colunas: dict,
                 r.erros.append(f"{onde}: a coluna '{col}' é do tipo '{colunas[col].get('tipo')}', e o papel '{papel}' aceita {papeis[papel].get('tipo')}")
 
 
-def validar(spec: dict, raiz: Path, ds: str = "padrao") -> Resultado:
-    """Confere a especificação: esquema (estrutura) + regras do DS. Devolve erros (bloqueiam) e avisos."""
+def _hospedeiro(contrato: dict, hosp: str) -> str:
+    """Status do componente no hospedeiro (contrato v2, L0016); sem `hospedeiros`, o status geral."""
+    return (contrato.get("hospedeiros") or {}).get(hosp) or contrato.get("status", "experimental")
+
+
+def _conferir_hospedeiro(nome: str, contrato: dict, hosp: str, opcoes: dict, r: Resultado, onde: str, para_gerar: bool) -> None:
+    """Contrato v2 (L0016): sem adaptador no hospedeiro = erro ao gerar (aviso ao só validar, ex.: teste de papel);
+    experimental = aviso; contexto recomendado ausente = aviso informativo (D3, avaliado caso a caso)."""
+    st = _hospedeiro(contrato, hosp)
+    if st in ("sem_adaptador", "nao_se_aplica"):
+        msg = f"{onde}: o componente '{nome}' não tem adaptador para o hospedeiro '{hosp}' ({st}; L0016) — a peça não desenharia"
+        (r.erros if para_gerar else r.avisos).append(msg)
+    elif st == "experimental":
+        r.avisos.append(f"{onde}: componente '{nome}' é experimental em '{hosp}' (L0007, L0016): pode ser usado; vira estável depois de revisto")
+    campo = contrato.get("contexto_opcao")
+    if campo and not (opcoes or {}).get(campo):
+        r.avisos.append(f"{onde}: contexto (informativo, L0016): '{nome}' recomenda {contrato.get('contexto')} — em opcoes.{campo}; avaliar caso a caso")
+
+
+def validar(spec: dict, raiz: Path, ds: str = "padrao", para_gerar: bool = False) -> Resultado:
+    """Confere a especificação: esquema (estrutura) + regras do DS. Devolve erros (bloqueiam) e avisos.
+    `para_gerar`: a geração exige adaptador no hospedeiro da peça (L0016); a validação pura só avisa."""
     import jsonschema
     r = Resultado()
     esquema = json.loads(ESQUEMA.read_text(encoding="utf-8"))
@@ -91,24 +112,29 @@ def validar(spec: dict, raiz: Path, ds: str = "padrao") -> Resultado:
         return r
     registro, tarefas = _ds(raiz, ds)
     colunas = (spec.get("dados") or {}).get("colunas") or {}
+    hosp = "story" if spec.get("tipo") == "story" else "visualizacao"
     # tarefa antes do gráfico (L0008)
     cat = spec["tarefa"]["categoria"]
     if tarefas and cat not in tarefas:
         r.avisos.append(f"tarefa '{cat}' não está na lista do DS ({', '.join(sorted(tarefas))}); se for nova, acrescente em design.yaml › tarefas")
-    # componente principal e companheiro
-    g = spec["grafico"]
-    for nome, lig, onde in [(g["componente"], g["ligacoes"], "grafico")] + (
-            [(g["companheiro"]["componente"], g["companheiro"]["ligacoes"], "grafico.companheiro")] if g.get("companheiro") else []):
+    # componente principal e companheiro. Story só de cartões com componente próprio (ou texto) dispensa o gráfico; com
+    # `dados` (marcador do Python), o componente desenha dados prontos e dispensa as ligações (L0015, 2026-10-12)
+    g = spec.get("grafico") or {}
+    if not g and spec.get("tipo") != "story":
+        r.erros.append("grafico: obrigatório fora do story")
+    pares = ([(g["componente"], g.get("ligacoes") or {}, "grafico")] if g else []) + (
+        [(g["companheiro"]["componente"], g["companheiro"]["ligacoes"], "grafico.companheiro")] if g.get("companheiro") else [])
+    for nome, lig, onde in pares:
         contrato = registro.get(nome)
         if not contrato:
             if not g.get("extensao"):
                 r.erros.append(f"{onde}: componente '{nome}' não está no registro do DS (design/{ds}/componentes.yaml) e não há extensao")
             continue
-        if contrato.get("status") == "experimental":
-            r.avisos.append(f"{onde}: componente '{nome}' é experimental (L0007): pode ser usado; vira estável depois de revisto")
+        _conferir_hospedeiro(nome, contrato, hosp, (g if onde == "grafico" else g["companheiro"]).get("opcoes"), r, onde, para_gerar)
         if onde == "grafico" and cat not in (contrato.get("tarefas") or []):
             r.avisos.append(f"grafico: o componente '{nome}' não declara a tarefa '{cat}' (declara {contrato.get('tarefas')}); justifique ou troque")
-        _conferir_ligacoes(nome, lig, contrato, colunas, r, onde)
+        if not (onde == "grafico" and g.get("dados")):
+            _conferir_ligacoes(nome, lig, contrato, colunas, r, onde)
         if "tamanho" in lig and not (spec.get("legenda") or {}).get("tamanho", True):
             r.erros.append(f"{onde}: tamanho variável exige legenda de tamanho (L0013, Q-062)")
     # destaque por coluna booleana calculada no Python (A9)
@@ -125,6 +151,9 @@ def validar(spec: dict, raiz: Path, ds: str = "padrao") -> Resultado:
         r.avisos.append("texto.titulo: tem número; os números vão no subtítulo (design.yaml › padroes.titulos)")
     # controles (L0011)
     ctl = spec.get("controles") or []
+    if spec.get("tipo") == "story":   # no story, o seletor citado só num cartão fica naquele cartão: o limite vale para o título geral
+        geral = json.dumps([t.get("chapeu"), t.get("titulo"), t.get("subtitulo")], ensure_ascii=False)
+        ctl = [c for c in ctl if c.get("local", "explorar") != "titulo" or f"{{c.{c['id']}}}" in geral]
     n = {k: sum(1 for c in ctl if c.get("local", "explorar") == k) for k in ("titulo", "grafico", "explorar")}
     if n["titulo"] > LIMITES_CONTROLES["titulo"]:
         r.avisos.append(f"controles: {n['titulo']} no título (limite {LIMITES_CONTROLES['titulo']})")
@@ -132,6 +161,39 @@ def validar(spec: dict, raiz: Path, ds: str = "padrao") -> Resultado:
         r.avisos.append(f"controles: {n['titulo'] + n['grafico']} em título + gráfico (limite {LIMITES_CONTROLES['titulo+grafico']})")
     if n["explorar"] > LIMITES_CONTROLES["explorar"]:
         r.avisos.append(f"controles: {n['explorar']} em Explorar (limite {LIMITES_CONTROLES['explorar']})")
+    # story (Q-066): cada cartão usa a vista do plano ou um componente registrado com dados próprios
+    ids_anot = {x.get("id") for x in g.get("anotacoes") or [] if x.get("id")}
+    vistos = set()
+    for k in spec.get("cartoes") or []:
+        onde = f"cartoes/{k['id']}"
+        if k["id"] in vistos:
+            r.erros.append(f"{onde}: id repetido")
+        vistos.add(k["id"])
+        for it in ([k] if k.get("componente") else []) + list(k.get("componentes") or []):
+            contrato = registro.get(it["componente"])
+            if not contrato and g.get("extensao") and it["componente"] == g.get("componente"):
+                pass   # componente do próprio produto (A16), declarado em grafico.extensao
+            elif not contrato:
+                r.erros.append(f"{onde}: componente '{it['componente']}' não está no registro do DS")
+            else:
+                _conferir_hospedeiro(it["componente"], contrato, "story", it.get("opcoes"), r, onde, para_gerar)
+            if not it.get("dados"):
+                r.erros.append(f"{onde}: componente sem `dados` (marcador {{e.…}} calculado no Python)")
+        if k.get("imagem") and k["imagem"] not in {c.get("id") for c in spec.get("cartoes") or []}:
+            r.erros.append(f"{onde}: imagem '{k['imagem']}' não é o id de um cartão")
+        if k.get("vista") == "mapa" and not g.get("companheiro"):
+            r.erros.append(f"{onde}: vista 'mapa' sem grafico.companheiro")
+        for a_ in k.get("anotacoes") or []:
+            if a_ not in ids_anot:
+                r.erros.append(f"{onde}: anotação '{a_}' não existe em grafico.anotacoes")
+        # seletor no cartão: os dados mudam com a opção; o título também precisa mudar (pesquisador, 2026-10-12 — a
+        # imagem exportada com outra opção ficava com o título da opção inicial)
+        dados_k = " ".join(str(it.get("dados") or "") for it in [k, *(k.get("componentes") or [])])
+        if "$" in dados_k and "$" not in str(k.get("titulo") or ""):
+            r.avisos.append(f"{onde}: os dados mudam com o seletor do cartão, mas o título não; a imagem com outra opção fica "
+                            "com um título que não fala do gráfico — use um título por opção ({e.….$controle.titulo})")
+        if k.get("texto") and len(re.sub(r"\{[^}]*\}", "", k["texto"])) > 220:
+            r.avisos.append(f"{onde}: texto longo para um cartão de celular (> 220 caracteres)")
     seq = spec.get("sequencia")
     if seq and len(seq.get("passos", [])) > 4:
         r.erros.append("sequencia: até quatro passos (L0008)")
@@ -180,7 +242,7 @@ def compilar(spec: dict, raiz: Path, produto_dir: Path) -> dict:
     (o dos dados + rótulos da especificação), escalas com os rótulos das classes, índice das fatias, autoria, endereço
     público, edição (data da base) e o bloco de metodologia. Erro se a especificação não passar na validação ou se
     pedir coluna que os dados não têm."""
-    r = validar(spec, raiz)
+    r = validar(spec, raiz, para_gerar=True)
     if not r.ok:
         raise ValueError("especificação inválida:\n" + "\n".join(r.erros))
     produto_dir = Path(produto_dir)
@@ -214,6 +276,8 @@ def compilar(spec: dict, raiz: Path, produto_dir: Path) -> dict:
     plano = {
         "id": spec["id"], "tipo": spec["tipo"], "edicao": edicao, "status": produto.get("status", spec["status"]),
         "teste": bool((produto.get("publicacao") or {}).get("teste")) and produto.get("status") != "publicado",
+        # aviso ao lado do selo "Versão de teste" (ex.: dados ilustrativos; pesquisador, 2026-10-15): só em página de teste
+        "aviso_teste": (pub.get("aviso") if pub.get("teste") and produto.get("status") != "publicado" else None),
         "chapeu": t.get("chapeu"), "titulo": t["titulo"], "subtitulo": t.get("subtitulo"), "amostra": t.get("amostra"),
         "como_ler": t.get("como_ler"), "notas": t.get("notas", []),
         "fonte": " · ".join(x for x in [t.get("fonte"), f"base de {_data_br(edicao)}" if edicao else None] if x),
@@ -222,12 +286,20 @@ def compilar(spec: dict, raiz: Path, produto_dir: Path) -> dict:
         "decisoes": d.get("decisoes", []), "autor": perfil.get("nome_curto") or perfil.get("nome", ""),
         "portfolio": perfil.get("pagina_autor") or perfil.get("portfolio_url") or "",
         "endereco": endereco,
-        "colunas": colunas, "escalas": escalas, "grafico": spec["grafico"], "legenda": spec.get("legenda") or {},
+        "colunas": colunas, "escalas": escalas, "legenda": spec.get("legenda") or {},
+        "grafico": spec.get("grafico") or {"componente": None, "ligacoes": {}, "opcoes": {}},   # story só de cartões próprios
+        "cartoes": spec.get("cartoes"),
         "controles": spec.get("controles") or [], "formatos": spec.get("formatos") or {}, "saidas": spec.get("saidas") or {},
     }
     if d.get("fatiar_por"):
         plano["fatias"] = {"campo": d["fatiar_por"], "pasta": d["fonte"]["tabela"], "global": "VIZ_FATIAS",
                            "indice": indice.get("linhas", [])}
+    elif d["fonte"].get("base"):   # base única (sem fatias), embutida no plano: {textos, colunas?, linhas?}
+        arq = produto_dir / d["fonte"]["base"]
+        plano["base"] = json.loads(arq.read_text(encoding="utf-8"))
+        edicao = plano["edicao"] = plano["edicao"] or (plano["base"].get("gerado_em") or "")[:10] or None
+        plano["fonte"] = " · ".join(x for x in [t.get("fonte"), f"base de {_data_br(edicao)}" if edicao else None] if x)
+        plano["fonte_curta"] = " · ".join(x for x in [t.get("fonte_curta") or t.get("fonte"), f"base de {_data_br(edicao)}" if edicao else None] if x) or None
     if (produto_dir / "src" / "metodologia.yaml").exists():
         from labdados import metodologia
         plano["metodologia"] = metodologia.montar(raiz, produto_dir, gerado_em=indice.get("gerado_em") or edicao or "")
@@ -235,8 +307,25 @@ def compilar(spec: dict, raiz: Path, produto_dir: Path) -> dict:
 
 
 MODELO = "modelos/visualizacao/index.template.html"
-COMPONENTES_JS = ("lab-nucleo.js", "lab-escalas.js", "lab-metodologia.js", "lab-viz.js")
+COMPONENTES_JS = ("lab-nucleo.js", "lab-selecao.js", "lab-escalas.js", "lab-mapa.js", "lab-metodologia.js", "lab-viz.js")   # lab-mapa: adaptador do mapa (L0016)
 COMPONENTES_CSS = ("lab.css", "lab-viz.css")
+
+
+def extensao_js(spec: dict, produto_dir: Path) -> str:
+    """Componente do próprio produto (A16, adendo à L0007 de 2026-10-14): `grafico.extensao` aponta um arquivo JS da pasta
+    do produto (ex.: src/extensao.js) que registra `Lab.viz.adaptadores.<grafico.componente>`; entra depois de lab-viz.js.
+    Sem `extensao`, nada muda."""
+    caminho = (spec.get("grafico") or {}).get("extensao")
+    if not caminho:
+        return ""
+    arq = Path(produto_dir) / caminho
+    if not arq.is_file():
+        raise FileNotFoundError(f"grafico.extensao: {caminho} não existe na pasta do produto")
+    js = arq.read_text(encoding="utf-8")
+    comp = spec["grafico"]["componente"]
+    if f"adaptadores.{comp}" not in js and f'adaptadores["{comp}"]' not in js:
+        raise ValueError(f"grafico.extensao: {caminho} não registra Lab.viz.adaptadores.{comp}")
+    return f"\n/* ==== extensão do produto: {caminho} (A16) ==== */\n{js}"
 
 
 def gerar(produto_dir: Path, raiz: Path | None = None) -> Path:
@@ -261,7 +350,7 @@ def gerar(produto_dir: Path, raiz: Path | None = None) -> Path:
         "/*__TOKENS_CSS__*/": (raiz / "design" / ds / "tokens.css").read_text(encoding="utf-8"),
         "/*__LAB_CSS__*/": ler_componentes(raiz, COMPONENTES_CSS),
         "/*__PRODUTO_CSS__*/": css_produto,
-        "/*__LAB_JS__*/": ler_componentes(raiz, COMPONENTES_JS),
+        "/*__LAB_JS__*/": ler_componentes(raiz, COMPONENTES_JS) + extensao_js(spec, produto_dir),
         "__PLANO_BASE64__": codificar_base(plano),
         "__TITULO__": _html.escape(titulo), "__DESCRICAO__": _html.escape(descricao),
         "__OG_URL__": _html.escape(plano["endereco"] or ""),
@@ -273,6 +362,12 @@ def gerar(produto_dir: Path, raiz: Path | None = None) -> Path:
             raise ValueError(f"marca {m} ausente de {MODELO}")
         html = html.replace(m, v)
     html = re.sub(r'\s*<meta property="og:(?:url|image)" content="">', "", html)
+    tudo = json.dumps([spec, plano.get("base")], ensure_ascii=False)
+    if re.search(r'"forma":\s*"bolhas"|"rotulo_tamanho"', tudo):   # círculos padrão ou disponíveis (tamanho declarado)   # Lab.mapa: transição Mapa ⇄ Círculos com morph (flubber)
+        html = html.replace("</head>", '<script src="https://cdn.jsdelivr.net/npm/flubber@0.4.2/build/flubber.min.js"></script>\n</head>', 1)
+    if re.search(r'"fundo":\s*"vetorial"', tudo):   # Lab.mapa com fundo vetorial (L0006)
+        html = html.replace("</head>", '<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">\n'
+                            '<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>\n</head>', 1)
     if plano["teste"]:   # versão de teste, sem divulgação (Q-018): fora dos buscadores
         html = html.replace('<meta name="viewport"', '<meta name="robots" content="noindex">\n<meta name="viewport"', 1)
     destino = produto_dir / "index.html"
@@ -322,6 +417,57 @@ def gerar_og(produto_dir: Path, raiz: Path | None = None, chrome: str = "google-
     return destino
 
 
+# Cartão de story autossuficiente (pesquisador, 2026-10-12): a imagem de um cartão circula sozinha, sem o anterior.
+# Frase que abre com conector ou retomada ("Mas…", "Também…", "Esse grupo…") só faz sentido depois do outro cartão.
+CONECTORES = re.compile(r"^\W*(mas|e|já|também|ainda|isso|esse|essa|esses|essas|este|esta|aqui|lá|além disso|por outro lado|"
+                        r"enquanto isso|nos outros|nas outras|os outros|as outras|o mesmo|a mesma|na execução|pela execução)\b", re.I)
+
+
+def _textos_resolvidos(v, base: dict) -> list[str]:
+    """Todas as versões de um texto com marcadores {e.…} (um caminho com $controle expande todas as opções)."""
+    if not isinstance(v, str):
+        return []
+    m = re.search(r"\{e\.([\w.$-]+)\}", v)
+    if not m:
+        return [v]
+    def caminhos(no, partes):
+        if not partes:
+            return [no]
+        if no is None:
+            return [None]
+        if partes[0].startswith("$"):
+            return [x for f in (no.values() if isinstance(no, dict) else []) for x in caminhos(f, partes[1:])]
+        return caminhos(no.get(partes[0]) if isinstance(no, dict) else None, partes[1:])
+    saida = []
+    for valor in caminhos(base, m.group(1).split(".")):
+        txt = "" if valor is None or isinstance(valor, (dict, list)) else str(valor)
+        saida += _textos_resolvidos(v[:m.start()] + txt + v[m.end():], base)
+    return saida
+
+
+def avisos_narrativa(plano: dict) -> list[str]:
+    """Avisos de cartões cujo TÍTULO depende do anterior (abre com conector ou retomada). O texto do cartão pode retomar
+    o próprio título ("Essa é a régua…"): fica fora da checagem."""
+    bruta = plano.get("base") or {}
+    avisos = []
+    if bruta and "textos" not in bruta and any(isinstance(v, dict) for v in bruta.values()):
+        # a página só lê, da base única, os valores simples do topo e o que estiver em `textos` (lab-viz.js › lerFatia)
+        avisos.append("dados.fonte.base: textos e dados dos cartões precisam estar em `textos`; as chaves-objeto do topo "
+                      "não chegam à página e o story quebra (achado do piloto de 2026-10-12)")
+    base = bruta.get("textos") or bruta
+    for k in plano.get("cartoes") or []:
+        if k.get("capa") or k.get("fim"):
+            continue
+        for campo in ("titulo",):
+            for t in _textos_resolvidos(k.get(campo), base):
+                t = re.sub(r"[⟦⟧]", "", t)
+                if CONECTORES.match(t):
+                    avisos.append(f"cartoes/{k['id']}: o {campo} abre com “{t.split()[0]}…” e depende do cartão anterior; "
+                                  "a imagem do cartão circula sozinha — diga o recorte na própria frase")
+                    break
+    return avisos
+
+
 def main(argv: list[str] | None = None) -> int:
     argv = argv if argv is not None else sys.argv[1:]
     if len(argv) != 2 or argv[0] not in ("validar", "gerar", "og"):
@@ -330,9 +476,13 @@ def main(argv: list[str] | None = None) -> int:
     raiz = Path(__file__).resolve().parents[2]
     alvo = Path(argv[1])
     alvo = alvo if alvo.is_absolute() else raiz / alvo
-    r = validar(carregar(alvo), raiz)
+    if alvo.is_file():   # aceita o viz.yaml ou a pasta do produto
+        alvo = alvo.parent
+    r = validar(carregar(alvo), raiz, para_gerar=argv[0] in ("gerar", "og"))
     for e in r.erros:
         print(f"ERRO  {e}")
+    if r.ok and carregar(alvo).get("tipo") == "story":
+        r.avisos += avisos_narrativa(compilar(carregar(alvo), raiz, alvo))
     for a in r.avisos:
         print(f"aviso {a}")
     if not r.ok:

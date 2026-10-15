@@ -45,10 +45,10 @@
   Lab.limparPaineis = () => { paineis.length = 0; };
 
   /** Conteúdo do painel da unidade: nome, linhas de dados, "Ver ficha" (opcional) e "Limpar seleção". */
-  Lab.conteudoPainel = (painel, { u, nome, linhas, abrir = null, rotuloAbrir = "Ver ficha →", esc }) =>
+  Lab.conteudoPainel = (painel, { u, nome, linhas, abrir = null, rotuloAbrir = "Ver ficha →", esc, acoes = [] }) =>
     painel.replaceChildren(el("b", { text: nome }), ...linhas.filter(Boolean).map((t) => el("span", { text: t })),
       el("div", { class: "acoes-sel" },
-        abrir ? el("button", { type: "button", class: "voltar", text: rotuloAbrir, onclick: () => abrir(u) }) : null,
+        abrir ? el("button", { type: "button", class: "voltar", text: rotuloAbrir, onclick: () => abrir(u) }) : null, ...acoes.filter(Boolean),
         el("button", { type: "button", class: "voltar", text: "Limpar seleção", onclick: () => Lab.selecionar("", esc) })));
 
   /** Painel da unidade selecionada sob um gráfico. Em telas largas, dentro de .grade2 (mapa ao lado), fica oculto

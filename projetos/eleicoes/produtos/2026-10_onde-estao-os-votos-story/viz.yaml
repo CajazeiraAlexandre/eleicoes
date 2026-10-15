@@ -1,0 +1,72 @@
+# Story-piloto declarativo (L0015; pedido do pesquisador em 2026-10-12: story a partir do "Onde estão os votos?").
+# Roteiro proposto pelo Claude Code com autonomia (piloto, sem validação prévia).
+# Preparar: PYTHONPATH=nucleo:. python projetos/eleicoes/produtos/2026-10_onde-estao-os-votos-story/src/preparar_story.py
+# Gerar:    PYTHONPATH=nucleo:. python -m labdados.viz og projetos/eleicoes/produtos/2026-10_onde-estao-os-votos-story
+id: 2026-10_onde-estao-os-votos-story
+tipo: story
+edicao: null
+status: rascunho
+
+tarefa: {categoria: espaco, alvo: concentracao, pergunta: "Onde estão os votos das candidaturas mais votadas no Piauí em 2026 — espalhados pelo estado ou concentrados em poucos municípios?"}
+
+texto:
+  titulo: "Onde estão os votos no Piauí"
+  chapeu: "1º turno de 2026"
+  fonte: "TSE (votação e detalhe por seção, 1º turno de 2026; API de resultados) · IBGE (malha municipal 2022)"
+  fonte_curta: TSE · IBGE
+  como_ler: >-
+    Nos mapas de percentual, a cor é a parte dos ⟦votos válidos⟧ do município que foi para a candidatura, em cinco faixas
+    iguais de zero ao maior valor dela — mapas de candidaturas diferentes não se comparam pela cor. As barras ao lado
+    mostram onde estão os votos em número. Cores dos candidatos: o grupo do partido (PT/PV/PCdoB, PSD, MDB, União
+    Progressista e Outros).
+  notas:
+    - "{e.universo}"
+    - Relação entre lugares não descreve o voto de pessoas; correlação não é causa.
+    - "Ao Senado, duas vagas em 2026: cada eleitor votou em dois candidatos, e os percentuais do município somam 200%."
+
+dados:
+  fonte: {analise: projetos/eleicoes/produtos/2026-10_onde-estao-os-votos-story/src/preparar_story.py, base: data/story.json}
+  conferencias:
+    - "votos e válidos por seção da base do produto publicado 'Onde estão os votos?' (seção × detalhe sem divergência; válidos = oficiais, EL0003)"
+    - "somas e correlação pelas funções de referência daquele produto (agregar, percentual, pearson), com paridade JS × Python"
+  decisoes: [L0001, L0002, EL0002, EL0003, EL0004, EL0006]
+
+cartoes:
+  - {id: capa, imagem: senado, capa: true, titulo: "Onde estão os votos no Piauí", texto: "Senado, deputados estaduais e governador: onde cada candidatura foi forte no 1º turno de 2026 — e onde estão, de fato, os votos dela."}
+  - {id: leitura, titulo: "{e.leitura.titulo}", texto: "{e.leitura.texto}"}
+  # Senado
+  - {id: senado, capitulo: Senado, titulo: "{e.senado.titulo}", texto: "{e.senado.texto}", componente: mapa, dados: "{e.senado.dados}"}
+  - id: senador
+    capitulo: Senado
+    titulo: "{e.senador.$senador.titulo}"
+    texto: "{e.senador.$senador.texto} Ver: {c.senador}."
+    componentes:
+      - {componente: mapa, dados: "{e.senador.$senador.mapa}", altura: 1.15, rotulo: "% dos votos válidos, por município"}
+      - {componente: barras, dados: "{e.senador.$senador.barras}", altura: 1, rotulo: "Os 5 municípios com mais votos", opcoes: {formato: pct, eixo: false, titulo_valor: "% dos votos do candidato"}}
+  # Deputados estaduais
+  - {id: concentracao, capitulo: Deputados estaduais, titulo: "{e.concentracao.titulo}", texto: "{e.concentracao.texto}", componente: barras, dados: "{e.concentracao.dados}",
+     opcoes: {formato: pct, titulo_valor: "% dos votos que vêm do município com mais votos"}}
+  - id: deputado
+    capitulo: Deputados estaduais
+    titulo: "{e.deputado.$deputado.titulo}"
+    texto: "{e.deputado.$deputado.texto} Ver: {c.deputado}."
+    componentes:
+      - {componente: mapa, dados: "{e.deputado.$deputado.mapa}", altura: 1.15, rotulo: "% dos votos válidos, por município"}
+      - {componente: barras, dados: "{e.deputado.$deputado.barras}", altura: 1, rotulo: "Os 5 municípios com mais votos", opcoes: {formato: pct, eixo: false, titulo_valor: "% dos votos do candidato"}}
+  # Votos que andam juntos
+  - {id: juntos, capitulo: Votos que andam juntos, titulo: "{e.juntos.titulo}", texto: "{e.juntos.texto}", componente: quadros, dados: "{e.juntos.dados}", opcoes: {nota: "{e.juntos.nota}"}}
+  - {id: limites, capitulo: Votos que andam juntos, titulo: "O que estes mapas não dizem sobre o voto no Piauí",
+     texto: "Não dizem como cada pessoa votou: o voto é secreto e a relação entre lugares não descreve indivíduos. Uma correlação alta não quer dizer que um candidato levou votos ao outro."}
+  - {id: fim, titulo: "Fontes de Dados, Metodologia e Códigos", fim: true,
+     texto: "Em ✎ Notas e fontes: de onde vêm os números e os códigos. Quer escolher qualquer candidatura, cargo, eleição ou local de votação?",
+     links: [{rotulo: "Onde estão os votos? A exploração completa", href: "https://cajazeiraalexandre.github.io/eleicoes/onde-estao-os-votos/"}]}
+
+controles:
+  # inicial: o mais votado (Marcelo Castro; Severo Eulálio) — códigos SQ do TSE, conferidos na base
+  - {id: senador, tipo: alternar, local: titulo, rotulo: Candidato, inicial: "180002533967", valores: "{e.opcoes_senador}"}
+  - {id: deputado, tipo: alternar, local: titulo, rotulo: Deputado, inicial: "180002536235", valores: "{e.opcoes_deputado}"}
+
+formatos: {aceitos: [story, paisagem]}
+saidas:
+  imagens: {og: {estado: {cartao: senado}, formato: paisagem}}
+  embed: {largura: 400, altura: 720}

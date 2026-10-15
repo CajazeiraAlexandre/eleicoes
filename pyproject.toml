@@ -16,10 +16,11 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-geo = ["geopandas>=1.0", "shapely>=2.0", "geobr"]
+geo = ["geopandas>=1.0", "shapely>=2.0", "geobr", "rasterio>=1.4"]   # rasterio: leitura de janelas do MapBiomas (raster), projeto metodos-e-recursos
 dev = ["pytest>=8", "jupyterlab"]
 cultura = ["pandas>=2.2", "openpyxl>=3.1"]   # projeto cultura (bases do MinC e do IBGE em XLSX/Parquet)
-geocodificacao = ["geocodebr>=0.2"]           # endereço → lat/long com o CNEFE (Ipea; L0005)
+geocodificacao = ["geocodebr>=0.2"]
+educacao = ["xlrd>=2.0", "certifi"]           # projeto educação: sinopses antigas do INEP (.xls) e cadeia TLS do INEP           # endereço → lat/long com o CNEFE (Ipea; L0005)
 
 [tool.setuptools.packages.find]
 where = ["nucleo"]

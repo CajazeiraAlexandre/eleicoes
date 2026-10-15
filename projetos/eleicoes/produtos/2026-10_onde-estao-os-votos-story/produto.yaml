@@ -1,0 +1,71 @@
+# Ficha do produto (recorte público: sem as chaves de dinâmica interna do laboratório — L0010)
+id: 2026-10_onde-estao-os-votos-story
+titulo: Onde estão os votos no Piauí
+tipo: story
+status: publicado
+versao: '1.0'
+edicao: null
+deriva_de: 2026-10_distribuicao-votos-candidato-pi
+pergunta: Onde estão os votos das candidaturas mais votadas no Piauí em 2026 — espalhados pelo estado ou concentrados
+  em poucos municípios — e quais mapas de votos andam juntos?
+recorte:
+  territorio: Piauí, 224 municípios
+  eleicao: 1º turno de 2026
+  cargos: Senado (os 3 mais votados), deputado estadual (os 15 mais votados), governador e presidente (correlação)
+design_system: null
+decisoes_locais:
+  roteiro: 'Proposto pelo Claude Code com autonomia (piloto): Senado (mais votado por município; mapa de cada um),
+    concentração dos deputados estaduais, correlação entre mapas.'
+  escala_mapa: '% dos válidos em 5 faixas iguais de 0 ao maior valor da candidatura, no tom da cor do grupo do partido
+    — a versão em classes da escala linear do produto de origem; mapas de candidaturas diferentes não se comparam
+    pela cor (dito em Como ler).'
+  concentracao: 'Dois indicadores descritivos novos, só deste piloto: parte dos votos que vem do município com mais
+    votos e número de municípios que somam metade dos votos (soma dos votos, sem ponderação). A confirmar antes
+    de virarem indicador do projeto.'
+  senado: Mais votado no município entre os três candidatos com mais votos no estado; duas vagas, percentuais do
+    município somam 200%.
+  correlacao: Pearson por município, peso igual, n = 224 — a função e a regra do produto de origem.
+  cores: Grupos do EL0004 com as cores do EL0006; o PL fica em Outros (a cor própria do PL é decisão local só do
+    produto de origem).
+datasets:
+- tse.votacao_secao
+- tse.detalhe_votacao_secao
+- tse.resultados_2026_1t
+- tse.candidatos
+- ibge.malha_municipios_2022
+- ibge.malha_ufs_2022
+- pi.territorios_desenvolvimento
+decisoes:
+- L0001
+- L0002
+- L0003
+- L0006
+- L0015
+- L0016
+- L0017
+- EL0002
+- EL0003
+- EL0004
+- EL0006
+analise:
+- analise/preparar_distribuicao_pi.py
+- analise/validar_distribuicao_pi.py
+- analise/html_forcas_pi.py
+preparo: src/preparar_story.py
+especificacao: viz.yaml
+componentes_web:
+- lab.css
+- lab-viz.css
+- lab-nucleo.js
+- lab-selecao.js
+- lab-escalas.js
+- lab-mapa.js
+- lab-metodologia.js
+- lab-viz.js
+publicacao:
+  destino: eleicoes
+  endereco: onde-estao-os-votos-pi
+  url: https://cajazeiraalexandre.github.io/eleicoes/onde-estao-os-votos-pi/
+licenca:
+  codigo: MIT
+  dados_derivados: CC-BY-4.0

@@ -1,0 +1,92 @@
+# Story declarativo (L0015; extensões de 2026-10-12). Roteiro validado pelo pesquisador em 2026-10-10 (src/roteiro.yaml,
+# v5, revisto para v6 em 2026-10-12 e 2026-10-14 — cartões autossuficientes, Q-082 — com conferência pendente); migrado do formato antigo (src/legado/) para o declarativo por decisão do pesquisador em 2026-10-12.
+# Preparar: python src/preparar_story.py   (textos, dados e camadas do mapa, do Python — nenhum número à mão)
+# Gerar:    python -m labdados.viz og projetos/eleicoes/produtos/2026-10_quem-lidera-o-voto-pi
+# O mesmo mapa segue de um cartão para o outro (c1-3 → c1-4 → c2-1; c4-1 → c4-2) e o mesmo Sankey é montado em fases
+# (c3-1 → c3-5): o componente muda de estado, sem ser redesenhado (matriz de transições, ESTADO — L0016).
+# Câmera por cartão: em `dados.camera` (src/preparar_story.py); ajuste com ?editar=1 e "Copiar câmera" (L0006).
+id: 2026-10_quem-lidera-o-voto-pi
+tipo: story
+edicao: null
+status: rascunho
+
+tarefa: {categoria: comparacao, alvo: lider, pergunta: "Quem lidera o voto no Piauí em 2026, como isso se compara às prefeituras de 2024 e o que mudou desde 2022?"}
+
+texto:
+  titulo: "Quem lidera o voto no Piauí"
+  fonte: "TSE (Portal de Dados Abertos e API de resultados de 2026) · IBGE (malha municipal 2022)"
+  fonte_curta: TSE · IBGE
+  como_ler: >-
+    ⟦Mais votado⟧ = o grupo com mais votos válidos no município, no território ou no estado (EL0005). Os grupos somam
+    partidos aliados: {e.glossario.grupos}
+  notas:
+    - "{e.universo}"
+    - Grupo mais votado não é maioria — em muitos municípios a vantagem é pequena. Nada aqui diz por que o voto mudou nem para onde foram os eleitores.
+    - Prefeitos eleitos em 2024, em 1º ou 2º turno; eleições suplementares ficam de fora. Nome de urna como registrado no TSE.
+    - Territórios de Desenvolvimento pela lista da Wikipédia (fonte secundária), com 3 lacunas resolvidas pelo pesquisador (pi.territorios_desenvolvimento).
+    - Totalização do 1º turno de 2026 publicada pelo TSE em 05/10/2026.
+
+dados:
+  fonte: {analise: projetos/eleicoes/produtos/2026-10_quem-lidera-o-voto-pi/src/preparar_story.py, base: data/story.json}
+  conferencias:
+    - "frases preenchidas pelos mesmos marcadores da prancha do roteiro (src/prancha.py), a partir da base do produto de origem (2026-10_forcas-politicas-pi, conferida com o TSE)"
+    - "camadas do mapa e fluxo 2022 → 2026 contados no Python; o JS só desenha"
+  decisoes: [L0001, L0002, L0003, L0006, EL0002, EL0003, EL0004, EL0005, EL0006]
+
+cartoes:
+  - {id: c0-1, imagem: c1-3, capa: true, titulo: "Quem lidera o voto no Piauí", texto: "{e.c0_1.texto}", nota: "{e.c0_1.nota}"}
+  # 1. O retrato de 2026
+  - {id: c1-1, capitulo: O retrato de 2026, titulo: "{e.c1_1.titulo}", texto: "{e.c1_1.texto}", componente: barras, dados: "{e.c1_1.dados}",
+     opcoes: {formato: pct, destaque: PT, titulo_valor: "% dos votos válidos para deputado estadual, 2026"}}
+  - {id: c1-2, capitulo: O retrato de 2026, titulo: "{e.c1_2.titulo}", texto: "{e.c1_2.texto}", componente: barras, dados: "{e.c1_2.dados}",
+     opcoes: {formato: pct, destaque: PT, titulo_valor: "% dos votos válidos para deputado federal, 2026"}}
+  - {id: c1-3, capitulo: O retrato de 2026, titulo: "{e.c1_3.titulo}", texto: "{e.c1_3.texto}", nota: "{e.c1_3.nota}", componente: mapa, dados: "{e.c1_3.dados}"}
+  - {id: c1-4, capitulo: O retrato de 2026, titulo: "{e.c1_4.titulo}", texto: "{e.c1_4.texto}", nota: "{e.c1_4.nota}", componente: mapa, dados: "{e.c1_4.dados}"}
+  # 2. As prefeituras
+  - {id: c2-1, capitulo: As prefeituras, titulo: "{e.c2_1.titulo}", texto: "{e.c2_1.texto}", nota: "{e.c2_1.nota}", componente: mapa, dados: "{e.c2_1.dados}"}
+  - {id: c2-2, capitulo: As prefeituras, titulo: "{e.c2_2.titulo}", texto: "{e.c2_2.texto}", nota: "{e.c2_2.nota}", componente: quadros, dados: "{e.c2_2.dados}",
+     opcoes: {nota: "224 municípios do Piauí: prefeito eleito em 2024 × grupo mais votado para deputado estadual em 2026."}}
+  # 3. Como o mapa mudou (o mesmo Sankey, montado em fases)
+  - {id: c3-1, capitulo: Como o mapa mudou, titulo: "{e.c3_1.titulo}", texto: "{e.c3_1.texto}", nota: "{e.c3_1.nota}", componente: fluxos, dados: "{e.fluxo}", opcoes: {fase: origem}}
+  - {id: c3-2, capitulo: Como o mapa mudou, titulo: "{e.c3_2.titulo}", texto: "{e.c3_2.texto}", nota: "{e.c3_2.nota}", componente: fluxos, dados: "{e.fluxo}", opcoes: {fase: blocos}}
+  - {id: c3-3, capitulo: Como o mapa mudou, titulo: "{e.c3_3.titulo}", texto: "{e.c3_3.texto}", nota: "{e.c3_3.nota}", componente: fluxos, dados: "{e.fluxo}",
+     opcoes: {destaque: ["PT>PT", "MDB>MDB"]}}
+  - {id: c3-4, capitulo: Como o mapa mudou, titulo: "{e.c3_4.titulo}", texto: "{e.c3_4.texto}", componente: fluxos, dados: "{e.fluxo}", opcoes: {destaque: "MDB>PSD"}}
+  - {id: c3-5, capitulo: Como o mapa mudou, titulo: "{e.c3_5.titulo}", texto: "{e.c3_5.texto}", componente: fluxos, dados: "{e.fluxo}", opcoes: {destaque: ["PP>PT", "PT>MDB"]}}
+  # 4. Onde cada grupo perdeu
+  - {id: c4-1, capitulo: Onde cada grupo perdeu, titulo: "{e.c4_1.titulo}", texto: "{e.c4_1.texto}", componente: mapa, dados: "{e.c4_1.dados}"}
+  - {id: c4-2, capitulo: Onde cada grupo perdeu, titulo: "{e.c4_2.grupo.$grupo.titulo}", texto: "{e.c4_2.grupo.$grupo.texto} Grupo: {c.grupo}", nota: "{e.c4_2.nota}",
+     componente: mapa, dados: "{e.c4_2.grupo.$grupo.dados}"}
+  # 5. Seu território, seu município
+  - {id: c5-1, capitulo: "Seu território, seu município", titulo: "{e.c5_1.titulo}", texto: "{e.c5_1.texto}", nota: "{e.c5_1.nota}", componente: mapa, dados: "{e.c5_1.dados}"}
+  - id: c5-2
+    capitulo: "Seu território, seu município"
+    titulo: "{e.c5_2.territorio.$territorio.titulo}"
+    texto: "{e.c5_2.territorio.$territorio.texto} Território: {c.territorio}"
+    nota: "{e.c5_2.nota}"
+    componentes:
+      - {componente: mapa, dados: "{e.c5_2.territorio.$territorio.mapa}", altura: 1.1}
+      - {componente: barras, dados: "{e.c5_2.territorio.$territorio.barras}", altura: 1, opcoes: {formato: pct, valor_ref: ref, rotulo_ref: "2022", titulo_valor: "% dos válidos, deputado estadual, 2026"}}
+  - id: c5-3
+    capitulo: "Seu território, seu município"
+    titulo: "{e.c5_3.municipio.$municipio.titulo}"
+    texto: "{e.c5_3.municipio.$municipio.texto} Município: {c.municipio}"
+    nota: "{e.c5_3.nota}"
+    componentes:
+      - {componente: mapa, dados: "{e.c5_3.municipio.$municipio.mapa}", altura: 1.1}
+      - {componente: barras, dados: "{e.c5_3.municipio.$municipio.barras}", altura: 1, opcoes: {formato: pct, valor_ref: ref, rotulo_ref: "2022", titulo_valor: "% dos válidos, deputado estadual, 2026"}}
+  # 6. Como sabemos
+  - {id: c6-1, capitulo: Como sabemos, titulo: "{e.c6_1.titulo}", texto: "{e.c6_1.texto}"}
+  - {id: fim, titulo: "Fontes de Dados, Metodologia e Códigos", fim: true,
+     texto: "Em ✎ Notas e fontes: de onde vêm os números, as decisões de método e os códigos. Quer ver tudo, cargo a cargo e região a região?",
+     links: [{rotulo: "Forças políticas no Piauí: a análise completa", href: "https://cajazeiraalexandre.github.io/eleicoes/forcas-politicas/"}]}
+
+controles:
+  - {id: grupo, tipo: alternar, local: titulo, rotulo: Grupo, inicial: PT, valores: {PT: PT/PV/PCdoB, MDB: MDB, PP: União Progressista}}   # ordem fixa do EL0006; PSD fora (sem candidatos em 2022)
+  - {id: territorio, tipo: alternar, local: titulo, rotulo: Território, inicial: Serra da Capivara, valores: "{e.opcoes.territorio}"}
+  - {id: municipio, tipo: alternar, local: titulo, rotulo: Município, inicial: "12190", valores: "{e.opcoes.municipio}"}   # 12190 = Teresina (código TSE)
+
+formatos: {aceitos: [story, paisagem]}
+saidas:
+  imagens: {og: {estado: {cartao: c1-3}, formato: paisagem}}
+  embed: {largura: 400, altura: 720}

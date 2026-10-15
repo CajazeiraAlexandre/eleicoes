@@ -5,9 +5,12 @@ TSE e do IBGE, e o código para refazê-los do zero. Site: <https://cajazeiraale
 
 ## Produtos
 
+- **[Onde o 2º turno para presidente pode ser decidido em sua cidade?](https://cajazeiraalexandre.github.io/eleicoes/2-turno-na-sua-cidade/)** — `projetos/eleicoes/produtos/2026-10_2-turno-na-sua-cidade`
 - **[Onde estão os votos? Distribuição territorial de candidaturas no Piauí](https://cajazeiraalexandre.github.io/eleicoes/onde-estao-os-votos/)** — `projetos/eleicoes/produtos/2026-10_distribuicao-votos-candidato-pi`
 - **[Forças políticas no Piauí: PT, PSD, MDB e os demais (2018–2026)](https://cajazeiraalexandre.github.io/eleicoes/forcas-politicas/)** — `projetos/eleicoes/produtos/2026-10_forcas-politicas-pi`
 - **[Onde o 2º turno pode ser decidido em sua cidade: locais de votação, Presidente 2026](https://cajazeiraalexandre.github.io/eleicoes/onde-o-2-turno-se-decide/)** — `projetos/eleicoes/produtos/2026-10_locais-de-votacao`
+- **[Onde estão os votos no Piauí](https://cajazeiraalexandre.github.io/eleicoes/onde-estao-os-votos-pi/)** — `projetos/eleicoes/produtos/2026-10_onde-estao-os-votos-story`
+- **[Quem lidera o voto no Piauí](https://cajazeiraalexandre.github.io/eleicoes/quem-lidera-o-voto-pi/)** — `projetos/eleicoes/produtos/2026-10_quem-lidera-o-voto-pi`
 
 Cada produto é uma página HTML única (abre com duplo clique, sem servidor) com o bloco
 "Fontes de Dados, Metodologia e Códigos" no fim. O README de cada pasta resume método, decisões,
@@ -84,10 +87,22 @@ os produtos usam (`dados/referencia/`, `dados/snapshots/`) e os recortes web de 
 - `metodologia/decisoes/L0001-correspondencia-municipal-nacional-tse-ibge.md`
 - `metodologia/decisoes/L0002-produtos-autocontidos-calculo-hibrido.md`
 - `metodologia/decisoes/L0003-design-system-componentes-e-bloco-de-metodologia.md`
+- `metodologia/decisoes/L0006-componente-de-mapa-camera-interacao-fundo.md`
+- `metodologia/decisoes/L0007-visualizacao-declarativa-especificacao-palco-e-contratos.md`
+- `metodologia/decisoes/L0008-visualizacao-tarefas-formatos-estatico-detalhe-anotacoes-sequencia.md`
+- `metodologia/decisoes/L0009-relacoes-entre-produtos-e-tipo-visualizacao.md`
+- `metodologia/decisoes/L0010-publicacao-retrato-datado-pacote-enxuto.md`
+- `metodologia/decisoes/L0011-especificacao-v02-vistas-ligados-facetas-controles.md`
+- `metodologia/decisoes/L0012-moldura-no-celular-barra-fixa-imagem-svg-limites-de-texto.md`
+- `metodologia/decisoes/L0013-revisao-no-celular-fechamento-da-fase-0.md`
+- `metodologia/decisoes/L0014-metodologia-na-folha-e-revisao-do-piloto.md`
+- `metodologia/decisoes/L0015-story-declarativo-cartoes-sobre-o-plano.md`
+- `metodologia/decisoes/L0016-acervo-de-graficos-contrato-v2-maturidade-bancada.md`
+- `metodologia/decisoes/L0017-ambiente-de-pilotos-no-github-pages.md`
 
 ## Origem e uso de IA
 
-Recorte do laboratório de dados do autor (commit de origem `0d04a903`, 2026-10-12). O uso de IA generativa
+Recorte do laboratório de dados do autor (commit de origem `51ae0dc5`, 2026-10-15). O uso de IA generativa
 (Claude, Anthropic) está declarado no README de cada produto, conforme a Portaria CNPq nº 2.664/2026;
 as decisões metodológicas e a revisão são do pesquisador.
 

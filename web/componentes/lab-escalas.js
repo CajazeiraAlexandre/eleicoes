@@ -54,6 +54,37 @@
     }
     return caixa;
   };
+  /** Legenda que filtra/foca (design.yaml › padroes.legendas; pesquisador, 2026-10-12 — o mesmo recurso da Visualização,
+   *  Q-079): passar o mouse destaca a categoria em `alvo` (segmentos e linhas com data-cat; os demais esmaecem); tocar fixa
+   *  e leva a categoria para a base das barras 100% (à esquerda); tocar de novo desfaz. itens: [[cor, texto, id]].
+   *  `alvo`: elemento ou função que o devolve (ex.: o cartão inteiro, para acender também as linhas da tabela). */
+  Lab.legendaFoco = (itens, alvo_, ...extras) => {
+    let fixa = null;
+    const A = () => (typeof alvo_ === "function" ? alvo_() : alvo_);
+    const leg = el("div", { class: "legenda legenda-interativa", role: "group", "aria-label": "Categorias: passe o mouse ou toque para destacar" });
+    const ordem = new Map();
+    const reordenar = () => {
+      for (const barra of A().querySelectorAll(".barra")) {
+        const sps = [...barra.children];
+        if (!ordem.has(barra)) ordem.set(barra, sps);
+        const orig = ordem.get(barra);
+        const lista = fixa === null ? orig : [...orig.filter((s) => s.dataset.cat === fixa), ...orig.filter((s) => s.dataset.cat !== fixa)];
+        barra.replaceChildren(...lista);
+      }
+    };
+    const aplicar = (id) => {
+      const foco = id ?? fixa;
+      for (const n of A().querySelectorAll("[data-cat]")) { n.classList.toggle("esmaecido", foco !== null && n.dataset.cat !== foco); n.classList.toggle("em-foco", foco !== null && n.dataset.cat === foco); }
+      leg.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.foco === fixa)));
+    };
+    leg.append(...itens.map(([cor, texto, id]) => {
+      const am = el("span", { class: "amostra" }); am.style.background = cor;
+      return el("button", { type: "button", class: "item-legenda", "data-foco": String(id), "aria-pressed": "false",
+        onpointerenter: () => aplicar(String(id)), onpointerleave: () => aplicar(null), onfocus: () => aplicar(String(id)), onblur: () => aplicar(null),
+        onclick: () => { fixa = fixa === String(id) ? null : String(id); reordenar(); aplicar(null); } }, am, texto);
+    }), ...extras);
+    return leg;
+  };
   /** Legenda categórica: amostra + nome, na ordem fixa das categorias. itens: [[cor, texto]]. */
   Lab.legendaCategorias = (itens, ...extras) => el("div", { class: "legenda" }, ...itens.map(([cor, texto]) => Lab.chave(cor, texto)), ...extras);
 })();

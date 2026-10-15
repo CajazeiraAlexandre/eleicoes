@@ -1,0 +1,262 @@
+# Roteiro do story "Quem lidera o voto no Piauí" (tipo story — docs/TIPOS_DE_PRODUTO.md).
+#
+# O produto só é gerado com `status: validado`. Qualquer mudança depois disso volta o status para `rascunho`.
+# Prancha de leitura: python src/prancha.py  →  roteiro.html
+#
+# NENHUM número é escrito à mão: marcadores preenchidos em Python a partir da base do produto de origem
+# (deriva_de: 2026-10_forcas-politicas-pi, data/base_forcas_pi.json.gz).
+#   {f.<ano>.<cargo>.<grupo>}        % dos votos válidos do grupo no estado        cargo: estadual | federal | vereador | prefeito
+#   {e.<ano>.<cargo>.<grupo|total>}  eleitos (cadeiras; prefeitos)
+#   {l.<ano>.<cargo>.<grupo>}        municípios em que o grupo foi o mais votado
+#   {m.<estadual|federal>.mudou}     municípios que mudaram de grupo mais votado de 2022 para 2026
+#   {m.<estadual|federal>.<de>><para>}  municípios que passaram do grupo <de> ao grupo <para>
+#   {p.coincide}                     municípios em que o prefeito eleito em 2024 é do grupo mais votado para deputado estadual em 2026
+#   {m.<cargo>.perdeu.<grupo>} / {m.<cargo>.ganhou.<grupo>}  municípios em que o grupo deixou de ser / passou a ser o mais votado
+#   {b.<ano>.<cargo>.<grupo>}        % dos votos válidos do estado que estão nos municípios em que o grupo foi o mais votado
+#   {v.<municipio>}                  % dos votos válidos do estado (deputado estadual 2026) num município (ex.: v.teresina)
+#   {t.10}                           % dos votos válidos do estado nos 10 municípios com mais votos válidos
+#   {lt.<ano>.<cargo>.<grupo>}       Territórios de Desenvolvimento em que o grupo foi o mais votado
+#   {tm.<cargo>.trocas}              territórios que mudaram de grupo mais votado de 2022 para 2026, com a troca
+#   {n.municipios} / {n.territorios} municípios / Territórios de Desenvolvimento do Piauí na base
+#   {y.<campo>}                      frases do Explore por território, recalculadas para cada território
+#   {g.<campo>}                      frases do cartão de perdas, recalculadas para cada grupo do Explorar ({g.nome} no início da frase, {g.nome_min} no meio)
+#   {x.<campo>}                      frases do Explore, recalculadas para cada município
+#   grupos: pt, psd, mdb, pp, outros
+
+status: validado            # rascunho | validado
+versao: 6
+aprovado_por: Alexandre Cajazeira
+data_validacao: 2026-10-10
+revisao_pendente: "frases reescritas em 2026-10-12 (cartões autossuficientes): conferir na prancha (roteiro.html)"
+historico:
+  - {data: 2026-10-10, versao: 1, nota: "primeiro rascunho (Claude Code) a partir do produto Forças políticas no Piauí"}
+  - {data: 2026-10-10, versao: 2, nota: "pesquisador: mais mapas (quem lidera, onde e como perdeu), mapa → bolhas explicado, Sankey explicado"}
+  - {data: 2026-10-10, versao: 3, nota: "pesquisador: sem o cartão das cadeiras; territórios no Explore; perdas começam por outro grupo (PT, ordem fixa do EL0006); indicadores aprovados: % dos válidos onde o grupo lidera (cartão das bolhas) e prefeito × deputado (c2-2)"}
+  - {data: 2026-10-10, versao: 4, nota: "pesquisador: 18 cartões ok; + 1 cartão de deputado federal; mapas voltam ao modo mapa depois das bolhas, com OSM de fundo; Explore mostra o prefeito; território inicial Serra da Capivara"}
+  - {data: 2026-10-10, versao: 5, nota: "pesquisador: sem \"Federação do PT\"; nomes dos grupos iguais aos do produto publicado (PT/PV/PCdoB, União Progressista), mesmo tratamento para todos. Concordância ajustada nas frases geradas (perdas, cadeiras, trocas de território). Roteiro validado."}
+  - {data: 2026-10-10, versao: 5, nota: "mapas no Lab.mapa do design system (L0006): câmera por cartão, fundo vetorial, referência e rótulos — ajuste de apresentação, sem nova validação"}
+  - {data: 2026-10-12, versao: 6, nota: "pesquisador: cada cartão precisa fazer sentido sozinho (a imagem exportada circula sem o anterior) e cuidado com prefixos. Frases que dependiam do cartão anterior reescritas por Claude Code (sem \"Mas\", \"também\", \"na execução\" soltos; com o recorte e o ano na frase); UF e território com a preposição certa. Status mantido como validado para gerar o piloto, com a conferência das frases nova pendente (revisao_pendente)."}
+  - {data: 2026-10-14, versao: 6, nota: "revisão do produto (Claude Code): títulos que ainda omitiam lugar, ano ou cargo completados pela regra do cartão autossuficiente (Q-082) — c1-1, c1-2, c1-3, c2-2, c4-2, c5-1, c5-2; mesmos marcadores, nenhum número novo. Entra na mesma conferência pendente."}
+
+pergunta: >-
+  Quem lidera o voto no Piauí em 2026, como isso se compara às prefeituras de 2024 e o que mudou desde 2022?
+universo: >-
+  Os {n.municipios} municípios do Piauí; votos válidos do 1º turno para deputado estadual (2022 e 2026) e prefeitos
+  eleitos em 2024. "Mais votado" = grupo com mais votos válidos no município (EL0005).
+fonte_padrao: >-
+  TSE (Portal de Dados Abertos e API de resultados de 2026) · IBGE (malha municipal 2022). Elaboração própria.
+
+grupos:   # nomes de exibição (EL0004) — a cor de cada grupo vem do EL0006 (dados/referencia/cores_grupos_politicos.yaml)
+  PT: PT/PV/PCdoB
+  PSD: PSD
+  MDB: MDB
+  PP: União Progressista
+  Outros: Outros partidos
+
+palcos:
+  votos:
+    grafico: barras
+    descricao: "Barras horizontais: % dos votos válidos de cada grupo no estado, numa eleição e cargo. Da maior para a menor, com eixo no pé (Q-085); cores fixas por grupo (EL0006)."
+  mapa:
+    grafico: mapa
+    descricao: >-
+      Os 224 municípios no Lab.mapa do design system (L0006, modo compacto): `mapa` (geográfico) e `bolhas`
+      (círculos com área ∝ votos válidos do cargo, cartograma de Dorling), com a transição suave do design system.
+      Referência: UFs vizinhas e as cidades de `rotulos` (malha IBGE); fundo vetorial OpenFreeMap (some sem
+      internet). Zoom + − ⟲, card ao tocar. Câmera por cartão (`camera`), editável sem nova validação: abra o
+      produto com ?editar=1, enquadre e use "Copiar câmera". As bolhas só aparecem no c1-4 e no Explorar.
+      Cor: `lider` (grupo mais votado), `eleito` (grupo do prefeito), `mudou` (grupo de 2026 só onde houve troca; demais
+      em cinza) ou `perdeu` (onde o grupo escolhido perdeu a liderança, na cor de quem passou a liderar; onde manteve,
+      contorno). Na prancha, esquema: quadrados (mapa) ou círculos ∝ votos (bolhas).
+    fundo: vetorial
+    rotulos: [Teresina, Parnaíba, Picos, Floriano, São Raimundo Nonato, Bom Jesus]
+  fluxo:
+    grafico: sankey
+    descricao: >-
+      Sankey vertical: grupo mais votado em 2022 (em cima) → em 2026 (embaixo), contando municípios. Montado em
+      etapas para ser explicado: `fase: 2022` (só os blocos de 2022), `fase: 2026` (blocos dos dois anos, sem
+      faixas) e `fase: faixas` (com as ligações e o destaque).
+  territorio:
+    grafico: barras
+    descricao: "Território escolhido: mapa pequeno com os seus municípios destacados e barras de cada grupo (2026 cheia, 2022 fina)."
+  municipio:
+    grafico: barras
+    descricao: "Barras do município escolhido: % dos válidos de cada grupo para deputado estadual em 2026, com 2022 ao lado."
+
+capitulos:
+
+  - id: c0
+    titulo: Capa
+    cartoes:
+      - id: c0-1
+        tipo: capa
+        frase: Quem lidera o voto no Piauí
+        subtitulo: >-
+          Quatro grupos disputam o estado: PT/PV/PCdoB, PSD, MDB e União Progressista. Onde cada um é o
+          mais votado, onde perdeu espaço e o que mudou desde 2022.
+        rodape: "6 capítulos · cerca de 4 minutos · por Alexandre Cajazeira"
+
+  - id: c1
+    titulo: O retrato de 2026
+    cartoes:
+      - id: c1-1
+        tipo: grafico
+        transicao: entrada
+        palco: {grafico: votos, ano: 2026, cargo: estadual, destaque: PT}
+        frase: "No Piauí, PT/PV/PCdoB teve {f.2026.estadual.pt} dos votos válidos para deputado estadual em 2026."
+        subtitulo: "O MDB veio em seguida, com {f.2026.estadual.mdb}, no 1º turno. PT/PV/PCdoB ficou com {e.2026.estadual.pt} das {e.2026.estadual.total} cadeiras da Assembleia."
+        glossario: [grupos]
+      - id: c1-2
+        tipo: grafico
+        transicao: transformar
+        palco: {grafico: votos, ano: 2026, cargo: federal, destaque: PT}
+        frase: "No Piauí, PT/PV/PCdoB teve {f.2026.federal.pt} dos votos válidos para deputado federal em 2026."
+        subtitulo: "MDB {f.2026.federal.mdb}, PSD {f.2026.federal.psd}, União Progressista {f.2026.federal.pp}. PT/PV/PCdoB ficou com {e.2026.federal.pt} das {e.2026.federal.total} vagas do Piauí na Câmara."
+      - id: c1-3
+        tipo: grafico
+        transicao: trocar
+        palco: {grafico: mapa, modo: mapa, ano: 2026, cargo: estadual, cor: lider, camera: estado}
+        frase: "Para deputado estadual em 2026, PT/PV/PCdoB é o mais votado em {l.2026.estadual.pt} dos {n.municipios} municípios do Piauí."
+        subtitulo: "O MDB lidera em {l.2026.estadual.mdb}, o PSD em {l.2026.estadual.psd} e a União Progressista em {l.2026.estadual.pp}."
+        como_ler: "Cada município tem a cor do grupo com mais votos válidos para deputado estadual. Toque num município para ver os números."
+        explorar: {modos: [mapa, bolhas]}
+      - id: c1-4
+        tipo: grafico
+        transicao: transformar
+        palco: {grafico: mapa, modo: bolhas, ano: 2026, cargo: estadual, cor: lider, camera: estado, escala_bolhas: fiel}
+        frase: "No mapa do Piauí, área não é voto: só Teresina tem {v.teresina} dos votos válidos do estado."
+        subtitulo: >-
+          Nas bolhas, cada município tem o tamanho dos seus votos válidos. Os municípios em que PT/PV/PCdoB lidera somam
+          {b.2026.estadual.pt} dos votos do Piauí.
+        como_ler: >-
+          Cada círculo é um município, com área proporcional aos votos válidos para deputado estadual e a cor do grupo
+          mais votado. Os círculos ficam perto da posição do município no mapa. Os 10 maiores somam {t.10} dos votos.
+        explorar: {modos: [mapa, bolhas]}
+
+  - id: c2
+    titulo: As prefeituras
+    cartoes:
+      - id: c2-1
+        tipo: grafico
+        transicao: transformar
+        palco: {grafico: mapa, modo: mapa, ano: 2024, cargo: prefeito, cor: eleito, camera: estado}
+        frase: "Nas prefeituras do Piauí, o mapa é outro: o PSD elegeu {e.2024.prefeito.psd} prefeitos em 2024."
+        subtitulo: "MDB {e.2024.prefeito.mdb}, PT/PV/PCdoB {e.2024.prefeito.pt}, União Progressista {e.2024.prefeito.pp}, outros partidos {e.2024.prefeito.outros}."
+        nota: "Prefeitos eleitos em 1º ou 2º turno; eleições suplementares ficam de fora."
+        explorar: {modos: [mapa, bolhas]}
+      - id: c2-2
+        tipo: frase-numero
+        numero: "{p.coincide}"
+        frase: "dos {n.municipios} municípios do Piauí têm prefeito eleito em 2024 do mesmo grupo mais votado para deputado estadual em 2026."
+        subtitulo: "Nos outros, quem governa a cidade é de um grupo e o voto para a Assembleia vai para outro."
+        palco: {grafico: mapa, esmaecido: true}
+        nota: "Comparação de duas eleições diferentes (2024 e 2026); não diz que o prefeito transfere votos."
+
+  - id: c3
+    titulo: Como o mapa mudou
+    cartoes:
+      - id: c3-1
+        tipo: grafico
+        transicao: trocar
+        palco: {grafico: fluxo, cargo: estadual, fase: "2022"}
+        frase: "Em 2022, o MDB era o mais votado em {l.2022.estadual.mdb} municípios e PT/PV/PCdoB em {l.2022.estadual.pt}."
+        subtitulo: "Cada bloco é o número de municípios em que o grupo foi o mais votado para deputado estadual. A União Progressista liderava em {l.2022.estadual.pp}."
+        como_ler: "Este gráfico vai ser montado em três passos: os blocos de 2022, os de 2026 e as faixas que ligam os dois."
+      - id: c3-2
+        tipo: grafico
+        transicao: transformar
+        palco: {grafico: fluxo, cargo: estadual, fase: "2026"}
+        frase: "Para deputado estadual em 2026, PT/PV/PCdoB foi o mais votado em {l.2026.estadual.pt} municípios do Piauí (eram {l.2022.estadual.pt} em 2022); o MDB, em {l.2026.estadual.mdb} (eram {l.2022.estadual.mdb})."
+        subtitulo: "O PSD, que não teve candidatos a deputado estadual em 2022, chegou a {l.2026.estadual.psd}."
+        como_ler: "Embaixo, os blocos de 2026, na mesma escala dos de 2022: a soma dos dois lados é sempre {n.municipios} municípios."
+      - id: c3-3
+        tipo: grafico
+        transicao: transformar
+        palco: {grafico: fluxo, cargo: estadual, fase: faixas, destaque: ["pt>pt", "mdb>mdb"]}
+        frase: "De 2022 para 2026, {m.estadual.pt>pt} municípios do Piauí seguiram com PT/PV/PCdoB como mais votado para deputado estadual e {m.estadual.mdb>mdb} com o MDB."
+        subtitulo: "Faixa que chega ao mesmo grupo é continuidade; a que chega a outro é troca. {m.estadual.mudou} municípios trocaram."
+        como_ler: >-
+          Cada faixa sai do grupo mais votado em 2022 e chega ao de 2026; a largura é o número de municípios que fizeram
+          esse caminho. Toque numa faixa para ver quantos são.
+        nota: "Mostra quem foi o mais votado em cada eleição, não para onde foram os eleitores (sem inferência sobre transferência de votos)."
+      - id: c3-4
+        tipo: grafico
+        transicao: transformar
+        palco: {grafico: fluxo, cargo: estadual, fase: faixas, destaque: "mdb>psd"}
+        frase: "A maior troca de 2022 para 2026: {m.estadual.mdb>psd} municípios do Piauí passaram do MDB para o PSD como mais votado para deputado estadual."
+        subtitulo: "Outros {m.estadual.mdb>pt} foram do MDB para PT/PV/PCdoB."
+      - id: c3-5
+        tipo: grafico
+        transicao: transformar
+        palco: {grafico: fluxo, cargo: estadual, fase: faixas, destaque: ["pp>pt", "pt>mdb"]}
+        frase: "De 2022 para 2026, {m.estadual.pp>pt} municípios do Piauí passaram da União Progressista para PT/PV/PCdoB como mais votado para deputado estadual."
+        subtitulo: "Na direção contrária, {m.estadual.pt>mdb} passaram de PT/PV/PCdoB para o MDB."
+
+  - id: c4
+    titulo: Onde cada grupo perdeu
+    cartoes:
+      - id: c4-1
+        tipo: grafico
+        transicao: trocar
+        palco: {grafico: mapa, modo: mapa, ano: 2026, cargo: estadual, cor: mudou, camera: estado}
+        frase: "Onde o mapa mudou: os {m.estadual.mudou} municípios do Piauí que trocaram de grupo mais votado para deputado estadual de 2022 para 2026."
+        subtitulo: "Na cor de quem passou a liderar em 2026; em cinza, onde o grupo de 2022 continuou na frente."
+        explorar: {modos: [mapa, bolhas]}
+      - id: c4-2
+        tipo: explore
+        palco: {grafico: mapa, modo: mapa, ano: 2026, cargo: estadual, cor: perdeu, camera: estado}
+        explorar: {grupos: [PT, MDB, PP], inicial: PT, modos: [mapa, bolhas]}   # ordem fixa dos grupos (EL0006)
+        frase: "Para deputado estadual, {g.nome_min} perdeu em 2026 a liderança em {g.perdeu} dos {g.de} municípios do Piauí onde era o mais votado em 2022."
+        subtitulo: "A maior parte foi para {g.destino} ({g.destino_n}). E passou a liderar em {g.ganhou} outros."
+        como_ler: "Na cor de quem passou a liderar, os municípios que o grupo escolhido perdeu; com contorno, os que ele manteve."
+        nota: "O PSD fica fora da escolha: não teve candidatos a deputado estadual em 2022."
+
+  - id: c5
+    titulo: Seu território, seu município
+    cartoes:
+      - id: c5-1
+        tipo: grafico
+        transicao: trocar
+        palco: {grafico: mapa, nivel: territorio, modo: mapa, ano: 2026, cargo: estadual, cor: lider, camera: estado}
+        frase: "Para deputado estadual em 2026, PT/PV/PCdoB é o mais votado em {lt.2026.estadual.pt} dos {n.territorios} Territórios de Desenvolvimento do Piauí; o MDB, em {lt.2026.estadual.mdb}."
+        subtitulo: "Em 2022, eram {lt.2022.estadual.pt} e {lt.2022.estadual.mdb}. Mudaram de grupo: {tm.estadual.trocas}."
+        como_ler: >-
+          Os 12 Territórios de Desenvolvimento são a divisão do Piauí usada pelo governo do estado para planejamento.
+          A cor é a do grupo com mais votos válidos somando os municípios de cada território.
+        nota: "Territórios pela lista da Wikipédia (fonte secundária), com 3 lacunas resolvidas pelo pesquisador (dataset pi.territorios_desenvolvimento)."
+        explorar: {modos: [mapa, bolhas]}
+      - id: c5-2
+        tipo: explore
+        palco: {grafico: territorio, camera: {foco: escolha, contexto: 1.4}}
+        explorar: {territorio: true, inicial: Serra da Capivara}
+        frase: "{y.Em_nome}, o mais votado para deputado estadual em 2026 foi {y.lider26}, com {y.pct26}, {y.margem} pontos à frente {y.segundo}."
+        subtitulo: "Em 2022, foi {y.lider22}. {y.lider26_maiusc} lidera em {y.mun_lider} dos {y.municipios} municípios do território."
+        como_ler: "Escolha o território: o mapa destaca os seus municípios e as barras mostram cada grupo em 2026 (cheia) e 2022 (fina)."
+      - id: c5-3
+        tipo: explore
+        palco: {grafico: municipio, camera: {foco: escolha, contexto: 6}}
+        explorar: {municipio: true, inicial: Teresina}
+        frase: "Em {x.nome}, o grupo mais votado para deputado estadual em 2026 foi {x.lider26}, com {x.pct26}."
+        subtitulo: "Em 2022, foi {x.lider22}. O prefeito eleito em 2024 é {x.prefeito24}."
+        nota: "Prefeito pelo nome de urna registrado no TSE (eleições de 2024, 1º ou 2º turno; suplementares fora)."
+
+  - id: c6
+    titulo: Como sabemos
+    cartoes:
+      - id: c6-1
+        tipo: respiro
+        frase: O que estes números não dizem
+        subtitulo: >-
+          Grupo mais votado não é maioria: em muitos municípios a vantagem é pequena. Os grupos somam partidos aliados
+          (federações e o PP com o União Brasil). Nada aqui diz por que o voto mudou.
+      - id: c6-2
+        tipo: fecho
+        frase: Fontes de Dados, Metodologia e Códigos
+        subtitulo: "Quer ver tudo, cargo a cargo e região a região? A análise completa está no Forças políticas no Piauí."
+
+glossario:
+  grupos: >-
+    PT/PV/PCdoB = Federação Brasil da Esperança (PT, PCdoB e PV). União Progressista = PP e União Brasil (federados em 2026; em 2022 e 2024, somados pelo mesmo critério — EL0004). PSD e MDB
+    sozinhos. Outros = demais partidos (EL0004).
+
+para_validar: []   # validado em 2026-10-10; nome de urna do prefeito como registrado no TSE (sem mudar maiúsculas); OSM só neste produto

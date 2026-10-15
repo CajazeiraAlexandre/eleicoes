@@ -1,0 +1,81 @@
+# Ficha do produto (recorte público: sem as chaves de dinâmica interna do laboratório — L0010)
+id: 2026-10_quem-lidera-o-voto-pi
+titulo: Quem lidera o voto no Piauí
+tipo: story
+status: publicado
+versao: '1.0'
+edicao: null
+deriva_de: 2026-10_forcas-politicas-pi
+pergunta: Quem lidera o voto no Piauí em 2026, como isso se compara às prefeituras de 2024 e o que mudou desde 2022?
+  As principais informações do "Forças políticas no Piauí", de forma direta e dinâmica (pesquisador, 2026-10-10).
+recorte:
+  territorio: Piauí, 224 municípios
+  eleicoes: deputado estadual 2022 e 2026 (1º turno), deputado federal 2026 (um cartão), prefeito 2024
+  grupos: federação do PT, PSD, MDB, PP (+ União Brasil) e Outros — EL0004
+roteiro: src/roteiro.yaml
+decisoes_locais:
+  votos_onde_lidera: '% dos votos válidos do estado que estão nos municípios em que o grupo foi o mais votado (soma
+    dos válidos desses municípios ÷ válidos do estado) — mostra o peso do voto por trás da contagem de municípios
+    (cartão c1-3, bolhas).'
+  prefeito_x_deputado: Municípios em que o prefeito eleito em 2024 é do mesmo grupo mais votado para deputado estadual
+    em 2026 — contagem de coincidência entre duas eleições, sem leitura de transferência de votos (cartão c2-2).
+  perdas_ordem: Explorar das perdas por grupo começa pelo PT e segue a ordem fixa do EL0006 (não o ranking de perdas).
+  mapa_lab: 'Mapas no Lab.mapa do design system em modo compacto (L0006): câmera por cartão no roteiro, zoom + −
+    ⟲, card ao tocar, referência (UFs vizinhas e cidades do IBGE) e fundo vetorial OpenFreeMap (preferido pelo pesquisador
+    em 2026-10-10). Substitui o mapa próprio com fundo do OpenStreetMap (bloqueado em páginas abertas por arquivo).'
+  prefeito_nome: Explore por município mostra o grupo e o nome de urna do prefeito eleito em 2024 (dado público
+    do TSE).
+  territorio_inicial: Explore por território começa na Serra da Capivara (pesquisador, 2026-10-10).
+  bolhas_fiel: 'No cartão das bolhas (c1-4), escalaBolhas "fiel" (exceção prevista na L0006): área sempre proporcional
+    aos votos, sem o "fora de escala" — o cartão fala do peso de Teresina (21,8% dos votos).'
+  migracao_2026_10_12: 'Migrado para o story declarativo (L0015) mantendo o roteiro v5: mesmas frases, números,
+    capítulos e cartões. Forma: o mesmo mapa segue de um cartão para o outro (cor, mapa → bolhas → mapa, câmera)
+    e o mesmo Sankey é montado em fases (estado entre cartões, L0016); "frase-número" vira números grandes com o
+    complemento; território e município mostram o mapa (realçado) e as barras de 2026 com a fina de 2022 no mesmo
+    cartão; metodologia em ✎ Notas e fontes (L0014).'
+  nomes_grupos: PT/PV/PCdoB e União Progressista, como no produto de origem, sem 'Federação do PT' (pesquisador,
+    2026-10-10).
+design_system: null
+datasets:
+- tse.votacao_candidato_munzona
+- tse.votacao_partido_munzona
+- tse.detalhe_votacao_munzona
+- tse.votacao_secao
+- tse.detalhe_votacao_secao
+- tse.resultados_2026_1t
+- tse.candidatos
+- ibge.municipios_regiao_imediata
+- ibge.malha_municipios_2022
+- ibge.malha_ufs_2022
+- pi.territorios_desenvolvimento
+decisoes:
+- L0001
+- L0002
+- L0003
+- L0006
+- EL0002
+- EL0003
+- EL0004
+- EL0005
+- EL0006
+analise:
+- analise/forcas_pi.py
+- analise/html_forcas_pi.py
+preparo: src/preparar_story.py
+especificacao: viz.yaml
+componentes_web:
+- lab.css
+- lab-viz.css
+- lab-nucleo.js
+- lab-selecao.js
+- lab-escalas.js
+- lab-mapa.js
+- lab-metodologia.js
+- lab-viz.js
+publicacao:
+  destino: eleicoes
+  endereco: quem-lidera-o-voto-pi
+  url: https://cajazeiraalexandre.github.io/eleicoes/quem-lidera-o-voto-pi/
+licenca:
+  codigo: MIT
+  dados_derivados: CC-BY-4.0

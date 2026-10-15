@@ -1,0 +1,97 @@
+# Textos de "Fontes de Dados, Metodologia e Códigos" (L0003), na folha ✎ Notas e fontes (L0014).
+# Partes automáticas (fontes, decisões, trechos de código, versão) por labdados.metodologia.montar.
+
+apresentacao: >-
+  Este story mostra, para a cidade escolhida, como Lula foi no 1º turno de 2026 em comparação com 2022 e em que locais
+  de votação há mais votos fora da disputa entre Lula e Flávio Bolsonaro (abstenções, brancos e nulos e votos nas
+  demais candidaturas) onde Lula perdeu espaço. Todos os números vêm dos arquivos oficiais do TSE, somados por local e
+  por município no produto "Onde o 2º turno pode ser decidido em sua cidade", que confere cada cidade com o total
+  oficial; nada é estimado ou completado.
+
+modulos:
+  story: projetos.eleicoes.analise.preparar_2_turno_na_sua_cidade
+  disputa: projetos.eleicoes.analise.preparar_votos_em_disputa
+  votos: projetos.eleicoes.analise.preparar_locais_votacao
+
+passos:
+  - titulo: De onde vêm os números
+    texto: >-
+      O story lê o recorte publicado do produto "Onde o 2º turno pode ser decidido em sua cidade" (versão 1.2): por
+      local de votação, os aptos, as abstenções e os votos de cada candidatura em 2026 e da candidatura do mesmo
+      partido em 2022; por município, os totais do 1º turno de 2018, 2022 e 2026. Lá, a soma dos locais confere, sem diferença,
+      com o total oficial de cada cidade.
+  - titulo: A cidade, o estado e o Brasil
+    texto: >-
+      O primeiro cartão mostra a parte dos votos válidos de Lula em 2026 e a de Lula (PT) em 2022. Os partidos que apoiam
+      Lula em 2026 não são somados a ele nos anos anteriores: eleição presidencial é muito personificada e, no 1º
+      turno, o voto em outras candidaturas costuma ser de oposição ou protesto. Em 2018, a linha de Lula é a
+      candidatura do PT (Fernando Haddad); a de Flávio Bolsonaro, a de Jair Bolsonaro (PSL; em 2022, PL). Estado e Brasil são a soma dos municípios. As linhas de 2018 a 2026 usam outra base, o
+      eleitorado apto, para que candidaturas, brancos e nulos e abstenção somem 100%.
+    adrs: [EL0010]
+    codigo: story.totais
+  - titulo: Quais locais entram
+    texto: >-
+      Entram os locais convencionais que têm par em 2022: mesma zona e número do local, e nome igual (sem acentos e
+      pontuação) ou coordenadas a até 100 metros. Locais de voto em trânsito, de presos provisórios e temporários,
+      e os locais novos, ficam fora.
+    adrs: [EL0009]
+    codigo: disputa.linhas_municipio
+  - titulo: Votos em disputa e destaque
+    texto: >-
+      Para cada local, contam-se os eleitores que não escolheram nenhuma das duas candidaturas principais: os que não
+      compareceram, os que votaram em branco ou nulo e os que votaram nas demais candidaturas. Ficam em destaque os
+      locais onde a parte dos válidos de Lula caiu desde 2022 e os votos em disputa são iguais ou maiores que a mediana
+      dos locais da cidade. Não é previsão nem estimativa de quantos votos uma candidatura pode ganhar.
+    adrs: [EL0003, EL0010]
+    codigo: votos.votos_em_disputa
+  - titulo: Por bairro
+    texto: >-
+      Soma dos votos em disputa dos locais em destaque, por bairro, com o nome do bairro como consta no cadastro do
+      TSE. Grafias que só diferem em maiúsculas, acentos ou espaços contam juntas; nomes diferentes do mesmo lugar não
+      são juntados. O cartão aparece quando a cidade tem pelo menos 3 bairros com local em destaque.
+    codigo: story.bairros
+  - titulo: Fundo de ruas do mapa
+    texto: >-
+      No mapa, as imagens de ruas são pedidas aos servidores do OpenStreetMap (© colaboradores do OpenStreetMap), que
+      recebem o endereço de internet de quem vê a página e a área mostrada. O fundo pode ser desligado em Explorar.
+
+perguntas:
+  - p: Por que alguns cartões não aparecem na minha cidade?
+    r: >-
+      Quando nenhum local tem par em 2022, ou nenhum está em destaque, ou não há coordenadas, ou há menos de 3 bairros
+      com local em destaque, o cartão correspondente sai; o story diz isso quando é o caso.
+  - p: Por que só Lula?
+    r: É a pergunta deste story, a mesma da peça "Onde Lula perdeu espaço e há mais votos em disputa".
+
+limitacoes:
+  - "Relação entre lugares não descreve o voto de pessoas: o local reúne eleitores que mudam entre eleições."
+  - "Pares pela localização podem juntar dois locais vizinhos diferentes (regra da EL0009)."
+  - "A mediana é da cidade: o destaque de uma cidade não se compara diretamente ao de outra."
+  - "Bairro é o do cadastro do TSE, não a divisão oficial da prefeitura nem do IBGE."
+
+codigos:
+  - arquivo: projetos/eleicoes/analise/preparar_2_turno_na_sua_cidade.py
+    papel: Dados de cada cartão por cidade (resumo, série, bairros, textos com números) e data/locais/<IBGE>.js.
+  - arquivo: projetos/eleicoes/analise/preparar_votos_em_disputa.py
+    papel: Tabela de locais comparáveis e destaque (a mesma do piloto).
+  - arquivo: nucleo/labdados/viz.py
+    papel: Valida a especificação (viz.yaml) e gera a página com os componentes do design system (lab-viz.js).
+
+sobre: >-
+  Produto do Laboratório de Dados Públicos, por Alexandre Ribeiro Cajazeira Ramos. Primeiro story declarativo,
+  promovido de "Onde o 2º turno pode ser decidido em sua cidade".
+
+uso_de_ia: >-
+  Claude (Claude Code, Anthropic) implementou a preparação dos dados, a especificação e o hospedeiro story do
+  renderizador, e redigiu estes textos, sob orientação do pesquisador, que definiu a pergunta, o roteiro dos cartões,
+  as regras do cartão de bairros e as regras metodológicas herdadas (EL0009, EL0010). Revisão humana dos resultados
+  pendente.
+
+licenca: "Código: MIT · Dados derivados: CC BY 4.0"
+
+citacao: "RAMOS, Alexandre Ribeiro Cajazeira. Onde o 2º turno para presidente pode ser decidido em sua cidade? Laboratório de Dados Públicos, 2026."
+
+decisoes_resumo:
+  EL0003: "Votos válidos por seção reconstruídos com o destino oficial de cada candidatura."
+  EL0010: "Presidente: cada candidatura de 2026 comparada com a do seu partido em 2018 e 2022."
+  EL0009: "Mesmo local em 2022 e 2026: mesma zona e número, e nome normalizado igual ou até 100 m."

@@ -1,0 +1,86 @@
+# Ficha do produto (recorte público: sem as chaves de dinâmica interna do laboratório — L0010)
+id: 2026-10_2-turno-na-sua-cidade
+titulo: Onde o 2º turno para presidente pode ser decidido em sua cidade?
+tipo: story
+status: publicado
+versao: '1.0'
+edicao: null
+deriva_de: 2026-10_locais-de-votacao
+origem: eleicoes/2026-10_locais-de-votacao@1.2
+pergunta: Em que lugares da sua cidade estão os votos que ainda podem decidir o 2º turno?
+recorte:
+  eleicao: Presidente, 1º turno de 2026 × 1º turno de 2022; série 2018–2026 no cartão de linhas
+  territorio: uma cidade por vez (5.570), a do link ou da busca (padrão Teresina); estado e Brasil só como linha
+    de comparação no resumo
+  unidade: município e local de votação convencional com par em 2022 (EL0009)
+  candidatura: só Lula, como no piloto (pesquisador, 2026-10-11)
+tarefa:
+  categoria: relacao
+  alvo: fora_da_curva
+  pergunta: Em que lugares da sua cidade estão os votos que ainda podem decidir o 2º turno?
+design_system: null
+roteiro: 'Validado pelo pesquisador em 2026-10-11: capa; a cidade no 1º turno (números grandes + linha do estado
+  e do Brasil); 2018 → 2022 → 2026 em linhas (como o resumo de origem); local a local (dispersão); onde as duas
+  coisas se juntam (destaque); o maior deles (anotação); onde ficam (mapa); por bairro (barras); fim. Sem os cartões
+  de definição e de limites (ficam em ✎ Notas e fontes) e sem o capítulo de 2022 entre turnos.'
+decisoes_locais:
+  2026_10_12_titulos_autossuficientes: 'Pesquisador (2026-10-12): a imagem de um cartão circula sozinha e o título
+    narrativo ("Onde ficam", "O maior deles") deixava de fazer sentido. Títulos com a cidade e o recorte (Claude
+    Code, a conferir); a imagem leva o chapéu com o recorte e, se o leitor tocou num local, o bloco "Em foco" com
+    os números dele.'
+  2026_10_11_bairros: Bairro como consta no cadastro do TSE (2026), agrupado só sem diferença de maiúsculas, acentos
+    e espaços, sem juntar variantes; medida = soma dos votos em disputa dos locais em destaque; os 10 maiores; o
+    cartão sai quando a cidade tem menos de 3 bairros com local em destaque (pesquisador, 2026-10-11).
+  2026_10_11_cor: No story, a cor marca só o destaque (Lula), sem a escala do 2º turno de 2022 do piloto, que saiu
+    do roteiro.
+publicacao:
+  destino: eleicoes
+  endereco: 2-turno-na-sua-cidade
+  url: https://cajazeiraalexandre.github.io/eleicoes/2-turno-na-sua-cidade/
+fonte_dados: 'Recorte publicado de 2026-10_locais-de-votacao (versão 1.1): data/locais/<IBGE>.js e data/base.json
+  (totais municipais 2018–2026), conferidos com o TSE no produto de origem; tabela de locais pelas funções do piloto.'
+datasets:
+- tse.votacao_secao
+- tse.detalhe_votacao_secao
+- tse.eleitorado_local_votacao
+- tse.votacao_candidato_munzona
+- tse.detalhe_votacao_munzona
+- tse.votacao_partido_munzona
+- tse.resultados_2026_1t_presidente_municipios
+- ibge.malha_municipios_2022
+- tse.candidatos
+decisoes:
+- L0001
+- L0002
+- L0003
+- L0007
+- L0008
+- L0009
+- L0010
+- L0011
+- L0012
+- L0013
+- L0014
+- L0015
+- EL0002
+- EL0003
+- EL0008
+- EL0009
+- EL0010
+analise:
+- analise/preparar_2_turno_na_sua_cidade.py
+- analise/preparar_votos_em_disputa.py
+- analise/preparar_locais_votacao.py
+- analise/preparar_mapa_virada.py
+especificacao: viz.yaml
+componentes_web:
+- lab.css
+- lab-viz.css
+- lab-nucleo.js
+- lab-escalas.js
+- lab-graficos.js
+- lab-metodologia.js
+- lab-viz.js
+licenca:
+  codigo: MIT
+  dados_derivados: CC-BY-4.0

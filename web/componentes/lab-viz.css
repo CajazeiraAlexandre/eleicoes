@@ -118,7 +118,97 @@ textarea.viz-texto{width:100%;box-sizing:border-box;font:11px ui-monospace,monos
 /* hospedeiros: página avulsa e embed */
 body.viz-pagina{margin:0;background:var(--cor-fundo);color:var(--cor-texto);font-family:var(--fonte-texto);line-height:1.5}
 .viz-pagina main{max-width:760px;margin:0 auto;padding:12px 8px 40px;box-sizing:border-box}
+/* aviso de produto em teste (publicacao.aviso): alerta visível no início da página (pesquisador, 2026-10-15) */
+.viz-aviso-teste{font-size:13.5px;line-height:1.45;color:var(--cor-texto);background:color-mix(in srgb,var(--cor-status-atencao,#fab219) 14%,var(--cor-superficie));border:1px solid color-mix(in srgb,var(--cor-status-atencao,#fab219) 55%,var(--cor-superficie));border-left:4px solid var(--cor-status-atencao,#fab219);border-radius:6px;padding:8px 12px;margin:0 0 10px;max-width:72ch}
+.viz-aviso-teste::before{content:"⚠ ";font-weight:700}
 .viz-selo-teste{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--cor-texto-secundario);border:1px solid var(--cor-borda);border-radius:999px;padding:0 8px;margin:0 0 6px}
 body.viz-embed{background:transparent;overflow:hidden}
 body.viz-embed main{max-width:none;padding:0}
 body.viz-embed .viz{border:0;border-radius:0}
+
+/* ---------------------------------------------------------------- story (Q-066): cartões sobre o mesmo plano */
+.viz.story{touch-action:pan-y;gap:6px;padding-top:10px}
+.story-progresso{display:flex;gap:3px}
+.story-progresso span{flex:1;height:3px;border-radius:2px;background:var(--cor-grade)}
+.story-progresso span.lido{background:var(--cor-texto-secundario)}
+.story-progresso span.atual{background:var(--cor-texto)}
+.viz.story .viz-titulo{font-size:20px}
+.viz.story.capa .viz-titulo{font-size:34px;line-height:1.1;margin-top:6px;letter-spacing:-.01em}
+.viz.story.capa .story-texto{font-size:18px;line-height:1.45}
+/* capa e cartões só de texto (pesquisador, 2026-10-12: "fonte ampliada e design mais atraente"): texto centrado na
+   altura, traço de destaque acima do título; capa com `imagem`: o gráfico principal, estático, esmaecendo para baixo */
+.viz.story .story-vao.antes{flex:1 1 0;min-height:12px}
+.viz.story.so-texto .story-vao:not(.antes),.viz.story.capa:not(.com-imagem) .story-vao:not(.antes){flex:1.4 1 0}
+.viz.story.so-texto .viz-titulo{font-size:26px;line-height:1.2}
+.viz.story.so-texto .story-texto{font-size:18px;line-height:1.5}
+.viz.story.so-texto .viz-titulo::before,.viz.story.capa .viz-titulo::before{content:"";display:block;width:44px;height:4px;border-radius:2px;background:var(--cor-texto);margin-bottom:14px}
+.viz.story .capa-imagem{flex:1 1 auto;min-height:140px;position:relative;overflow:hidden;pointer-events:none;
+  -webkit-mask-image:linear-gradient(to bottom,#000 55%,transparent);mask-image:linear-gradient(to bottom,#000 55%,transparent);opacity:.92}
+.viz.story .capa-imagem .viz-palco{position:absolute;inset:0}
+.viz.story .story-texto{font-size:15px;line-height:1.45;color:var(--cor-texto)}
+.viz.story .story-texto b{font-weight:700}
+.story-vao{flex:1 1 auto;min-height:80px}
+.story-fim{display:flex;flex-direction:column;gap:8px;margin:6px 0}
+.story-fim a,.story-fim button{font:inherit;font-size:14px;text-align:left;color:var(--cor-texto);background:var(--cor-fundo);border:1px solid var(--cor-borda);border-radius:8px;padding:10px 12px;cursor:pointer;text-decoration:none}
+.story-nav{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:2px}
+.story-nav button{font:inherit;font-size:15px;font-weight:700;min-width:44px;min-height:40px;border-radius:999px;border:1px solid var(--cor-borda);background:none;color:var(--cor-texto);padding:0 14px;cursor:pointer}
+.story-nav button.prox{background:var(--cor-texto);color:var(--cor-superficie);border-color:var(--cor-texto)}
+.story-nav button:disabled{opacity:.3;cursor:default}
+.story-nav .pos{font-size:12px;color:var(--cor-texto-secundario);font-variant-numeric:tabular-nums}
+.viz.story.host-pagina{height:calc(100svh - 16px);min-height:600px;max-height:940px;margin:0 auto}
+.viz.story .viz-corpo{min-height:200px}
+.viz.story .viz-palco svg text{font-family:inherit}
+.viz-palco .fundo-mini.dir{left:auto;right:4px;top:2px}
+/* interação comum dos componentes de cartão (2026-10-11): card informativo, marca selecionada, legenda acesa */
+.viz-cartao:not(.fixo){pointer-events:none;padding-right:9px}
+.viz-palco .marca-sel,.viz-palco g.marca-sel>circle,.viz-palco g.marca-sel>rect{stroke:var(--cor-texto)!important;stroke-width:2px!important}
+button.item-leg.ativo{border-color:var(--cor-borda);color:var(--cor-texto)}
+.viz-palco g.faixa-t>rect{stroke:none!important}
+.viz-palco g.faixa-t line{opacity:0;pointer-events:none}
+.viz-palco g.faixa-t:hover line,.viz-palco g.faixa-t.marca-sel line{opacity:.45}
+.viz-palco g.faixa-t:hover>rect,.viz-palco g.faixa-t.marca-sel>rect{fill:var(--cor-texto);fill-opacity:.06}
+.viz-palco>.fundo-mini,.viz-palco>.zoom-pontos,.viz-palco>.aviso-roda,.viz-palco>.mapa-atribuicao-mini{z-index:5}   /* controles acima do desenho (o mapa compacto empilha o SVG) */
+/* story: nota curta do cartão; pilha de componentes no palco (L0015, extensões de 2026-10-12) */
+.story-nota{margin:2px 0 0;font-size:11.5px;line-height:1.35;color:var(--cor-texto-secundario)}
+.viz-palco.pilha{display:flex;flex-direction:column;gap:6px}
+.viz-palco-pilha{position:relative;min-height:0}
+.viz-palco-pilha.com-rotulo{display:flex;flex-direction:column}
+.pilha-rotulo{margin:0 0 2px;font-size:12px;font-weight:700;color:var(--cor-texto-secundario)}
+.pilha-alvo{flex:1 1 0;min-height:0;position:relative}
+/* mapa no palco do story: preenche o palco (a altura muda entre cartões quando o mesmo mapa segue de um para o outro) */
+.viz-palco{position:relative}
+.viz-palco>.bloco-mapa.compacto{position:absolute;inset:0;height:auto}
+.leg-tamanho-sobre{position:absolute;left:4px;top:4px;max-width:46%;z-index:3;background:color-mix(in srgb,var(--cor-superficie) 88%,transparent);border-radius:6px;padding:2px 6px;pointer-events:none;font-size:10.5px;color:var(--cor-texto-secundario)}
+.leg-tamanho-sobre .legenda{display:grid;gap:0}
+.leg-tamanho-sobre,.leg-tamanho-sobre *{font-size:10px!important;line-height:1.25}
+.leg-tamanho-sobre svg text{fill:var(--cor-texto-secundario);font-size:10px}
+
+/* frase-chave do texto do cartão (⟪…⟫): sublinhada, sem mudar a cor do texto */
+.sublinhado{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px;text-decoration-color:var(--cor-texto-secundario)}
+
+/* legenda de escala contínua (degradê): título, valor mínimo, barra com o zero marcado, valor máximo */
+.leg-continua{display:flex;flex-direction:column;gap:2px;flex-basis:100%;font-size:11.5px;color:var(--cor-texto-secundario)}
+.leg-continua-linha{display:flex;align-items:center;gap:6px;font-variant-numeric:tabular-nums}
+.leg-continua-barra-caixa{position:relative;flex:1 1 auto;max-width:220px;height:10px}
+.leg-continua-barra{position:absolute;inset:0;border-radius:3px}
+.leg-continua-zero{position:absolute;left:50%;top:11px;transform:translateX(-50%);font-size:10px;line-height:1}
+.leg-continua-zero::before{content:"";position:absolute;left:50%;top:-12px;height:10px;border-left:1px solid var(--cor-texto)}
+.leg-continua-linha{padding-bottom:10px}
+
+/* mapa em níveis (Q-094, piloto 2026-10-14): faixa no alto (trilha, resumo, abrir), mapa no meio, faixa no pé (ver por, forma) */
+.mapa-niveis-palco{display:flex;flex-direction:column;gap:4px}
+.mapa-area{position:relative;flex:1 1 auto;min-height:160px}
+.mapa-area>.bloco-mapa.compacto{position:absolute;inset:0;height:auto}
+.mapa-cabeca{display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--cor-texto)}
+.mapa-trilha{display:flex;flex-wrap:wrap;align-items:center;gap:2px 4px;min-height:30px}
+.mapa-trilha button{font:inherit;border:0;background:none;color:var(--cor-texto-secundario);text-decoration:underline;text-underline-offset:2px;padding:3px 2px;min-height:28px;cursor:pointer}
+.mapa-trilha button.voltar{text-decoration:none;font-weight:700;color:var(--cor-texto);border:1px solid var(--cor-borda);border-radius:999px;padding:2px 10px;margin-right:4px}
+.mapa-trilha b{font-weight:700}
+.mapa-trilha .sep{color:var(--cor-texto-secundario)}
+.mapa-linha{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 8px;min-height:30px}   /* altura fixa: abrir e voltar não empurram o mapa */
+.mapa-resumo{margin:0;font-size:12.5px}
+.mapa-abrir{font:inherit;font-size:12px;max-width:100%;min-height:28px;border:1px solid var(--cor-borda);border-radius:6px;background:var(--cor-superficie);color:var(--cor-texto)}
+.mapa-pe{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px}
+.mapa-pe .fundo-mini{position:static}
+.leg-titulo{font-weight:700;color:var(--cor-texto-secundario)}
+.leg-tamanho-sobre.dir{left:auto;right:4px;top:auto;bottom:20px}

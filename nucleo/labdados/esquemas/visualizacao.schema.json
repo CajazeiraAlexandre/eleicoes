@@ -10,8 +10,7 @@
     "status",
     "tarefa",
     "texto",
-    "dados",
-    "grafico"
+    "dados"
   ],
   "additionalProperties": false,
   "properties": {
@@ -20,7 +19,11 @@
       "pattern": "^[0-9]{4}-[0-9]{2}_[a-z0-9-]+$"
     },
     "tipo": {
-      "const": "visualizacao"
+      "enum": [
+        "visualizacao",
+        "story"
+      ],
+      "description": "story = sequência de cartões sobre o mesmo plano (hospedeiro story, Q-066)"
     },
     "edicao": {
       "type": [
@@ -139,6 +142,10 @@
             },
             "csv": {
               "type": "string"
+            },
+            "base": {
+              "type": "string",
+              "description": "arquivo JSON com a base única (sem fatias), embutida na página: {textos: {...}, colunas?, linhas?}"
             }
           },
           "additionalProperties": false
@@ -190,8 +197,7 @@
     "grafico": {
       "type": "object",
       "required": [
-        "componente",
-        "ligacoes"
+        "componente"
       ],
       "additionalProperties": false,
       "properties": {
@@ -219,6 +225,12 @@
               "type": "string"
             },
             "fora": {
+              "type": "string"
+            },
+            "rotulo": {
+              "type": "string"
+            },
+            "rotulo_dentro": {
               "type": "string"
             }
           },
@@ -319,8 +331,24 @@
         },
         "extensao": {
           "type": "string"
+        },
+        "dados": {
+          "type": "string",
+          "description": "marcador {e.…} com os dados prontos do Python (componente de dados próprios; dispensa ligacoes — L0015, 2026-10-12)"
         }
-      }
+      },
+      "anyOf": [
+        {
+          "required": [
+            "ligacoes"
+          ]
+        },
+        {
+          "required": [
+            "dados"
+          ]
+        }
+      ]
     },
     "vistas": {
       "type": "array",
@@ -434,6 +462,173 @@
         }
       },
       "additionalProperties": false
+    },
+    "cartoes": {
+      "type": "array",
+      "minItems": 2,
+      "description": "story: cartões em ordem; cada um escolhe a vista (principal, mapa) ou um componente com dados próprios",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "titulo"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$"
+          },
+          "titulo": {
+            "type": "string"
+          },
+          "texto": {
+            "type": "string"
+          },
+          "vista": {
+            "enum": [
+              "principal",
+              "mapa"
+            ]
+          },
+          "componente": {
+            "type": "string"
+          },
+          "dados": {
+            "type": "string",
+            "description": "marcador {e.…} com os dados do componente"
+          },
+          "opcoes": {
+            "type": "object"
+          },
+          "destaque": {
+            "type": "boolean",
+            "description": "false = todos os pontos na mesma cor, sem destaque"
+          },
+          "anotacoes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "ids de grafico.anotacoes mostradas neste cartão"
+          },
+          "se": {
+            "type": "string",
+            "pattern": "^!?[a-z_]+$",
+            "description": "condição calculada no Python (textos da fatia); ! inverte"
+          },
+          "capa": {
+            "type": "boolean"
+          },
+          "imagem": {
+            "type": "string",
+            "description": "Só na capa: id do cartão cujo gráfico ilustra a capa (estático, esmaecido) — proposta de 2026-10-12"
+          },
+          "fim": {
+            "type": "boolean"
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "rotulo",
+                "href"
+              ],
+              "properties": {
+                "rotulo": {
+                  "type": "string"
+                },
+                "href": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "capitulo": {
+            "type": "string",
+            "description": "nome do capítulo, no lugar do chapéu"
+          },
+          "nota": {
+            "type": "string",
+            "description": "nota curta sob o gráfico (fonte, definição, limite)"
+          },
+          "componentes": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 3,
+            "description": "pilha de componentes no palco (ex.: mapa em cima, barras embaixo)",
+            "items": {
+              "type": "object",
+              "required": [
+                "componente",
+                "dados"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "componente": {
+                  "type": "string"
+                },
+                "dados": {
+                  "type": "string"
+                },
+                "opcoes": {
+                  "type": "object"
+                },
+                "altura": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                "rotulo": {
+                  "type": "string",
+                  "description": "nome curto do gráfico, acima dele (ex.: '2022' e '2026') — proposta de 2026-10-12"
+                }
+              }
+            }
+          }
+        },
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "vista",
+                "componente"
+              ]
+            },
+            {
+              "required": [
+                "vista",
+                "componentes"
+              ]
+            },
+            {
+              "required": [
+                "componente",
+                "componentes"
+              ]
+            }
+          ]
+        }
+      }
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "tipo": {
+            "const": "story"
+          }
+        },
+        "required": [
+          "tipo"
+        ]
+      },
+      "then": {
+        "required": [
+          "cartoes"
+        ]
+      }
+    }
+  ]
 }

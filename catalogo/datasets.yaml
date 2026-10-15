@@ -363,8 +363,9 @@ ibge.pib_municipios:
   grupo: financas-publicas
   fonte: ibge
   acesso: api
-  descricao: PIB dos Municípios — PIB a preços correntes e PIB per capita (tabela
-    SIDRA 5938), último ano publicado
+  descricao: PIB dos Municípios — PIB a preços correntes (tabela SIDRA 5938, variável
+    37), último ano publicado; a tabela não traz PIB per capita (quem precisar o deriva
+    com a população, registrando o denominador)
   url_fonte: https://www.ibge.gov.br/estatisticas/economicas/contas-nacionais/9088-produto-interno-bruto-dos-municipios.html
   endpoint: https://servicodados.ibge.gov.br/api/v3/agregados/5938/periodos/2022/variaveis/37?localidades=N6[all]
   snapshot: sempre

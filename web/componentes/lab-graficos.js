@@ -196,4 +196,54 @@
     });
     return { foraIds: o.porPeso ? o.linhas.flatMap((l) => l.pontos).filter((p) => ea.fora(p.peso)).map((p) => p.u) : [] };
   };
+
+  // ------------------------------------------------------------ pontos conectados (desproporções)
+  /** Pontos conectados para exploratórios (D12; promovido da Visualização — design.yaml › graficos.pontos_conectados): uma
+   *  linha por grupo, um ponto por medida (ex.: % da população, % dos contemplados, % do valor) no mesmo eixo, ligados do
+   *  menor ao maior. Lê "quanto cada grupo pesa em cada régua"; a distância entre os pontos é a desproporção.
+   *  Lab.pontosConectados(alvo, { grupos: [rótulo], medidas: [{chave, rotulo, cor, vazado}], valor(g, chave) → número | null,
+   *    fmt(v) → texto, dica(g) → linhas, aria, largura })
+   *  Valor nulo (célula suprimida) não desenha o ponto; o grupo fica com a nota "1 a 4". Legenda: passar o mouse num item
+   *  realça a medida; tocar fixa. */
+  // ausente: texto de valor ausente na dica e sufixo do rótulo (padrão: supressão "1 a 4"; ex.: "sem dado" quando a fonte não tem a medida)
+  Lab.pontosConectados = (alvo, { grupos, medidas, valor, fmt = (v) => `${v.toLocaleString("pt-BR", { maximumFractionDigits: 1 })}%`, dica = null, aria = "", largura = 760, ausente = "1 a 4", sufixoAusente = true, fmtEixo = (v) => `${v}%`, delta = true, referencia = null }) => {
+    // referencia (opcional): {valor, rotulo} — linha vertical tracejada (ex.: a meta, ou 1 = iguais)
+    const W = Math.min(largura, Math.max(320, alvo.clientWidth || largura)), estreito = W < 560;
+    const mRot = estreito ? 0 : Math.min(230, W * 0.32), lh = estreito ? 44 : 30, topo = referencia ? 24 : 8, pe = 26;
+    const H = topo + pe + grupos.length * lh;
+    const vals = grupos.flatMap((g) => medidas.map((m) => valor(g, m.chave))).filter((v) => v !== null && v !== undefined);
+    const x = d3.scaleLinear().domain([0, Math.max(1, d3.max(vals), referencia ? referencia.valor : 0)]).nice().range([mRot + 8, W - 46]);
+    const svg = d3.select(alvo).append("svg").attr("viewBox", `0 0 ${W} ${H}`).attr("width", "100%").attr("role", "img").attr("aria-label", aria).style("max-width", `${W}px`).style("overflow", "visible");
+    svg.append("g").attr("transform", `translate(0,${H - pe + 4})`).call(d3.axisBottom(x).ticks(estreito ? 4 : 6).tickFormat(fmtEixo)).call(Lab.eixo).call((g) => g.select(".domain").remove());
+    svg.append("g").selectAll("line").data(x.ticks(estreito ? 4 : 6)).join("line").attr("x1", x).attr("x2", x).attr("y1", topo).attr("y2", H - pe).attr("stroke", Lab.token("cor-grade")).attr("stroke-width", 1);
+    if (referencia) {
+      const xr = x(referencia.valor);
+      svg.append("line").attr("x1", xr).attr("x2", xr).attr("y1", topo - 4).attr("y2", H - pe).attr("stroke", Lab.token("cor-texto"))
+        .attr("stroke-width", 1.5).attr("stroke-dasharray", "4 3");
+      if (referencia.rotulo) svg.append("text").attr("x", xr).attr("y", topo - 10).attr("text-anchor", xr > W * 0.7 ? "end" : "start").attr("dx", xr > W * 0.7 ? -4 : 4)
+        .style("font-size", "11.5px").style("font-weight", "600").attr("fill", Lab.token("cor-texto")).text(referencia.rotulo);
+    }
+    const linhas = svg.append("g").selectAll("g").data(grupos).join("g").attr("transform", (g, i) => `translate(0,${topo + i * lh + (estreito ? 30 : lh / 2)})`).style("cursor", dica ? "pointer" : null);
+    linhas.append("text").attr("x", estreito ? x.range()[0] : mRot).attr("y", estreito ? -16 : 4).attr("text-anchor", estreito ? "start" : "end")
+      .style("font-size", "13px").attr("fill", Lab.token("cor-texto")).text((g) => g + (sufixoAusente && medidas.some((m) => valor(g, m.chave) == null) ? ` (${ausente})` : ""));
+    linhas.append("line").attr("x1", (g) => x(d3.min(medidas, (m) => valor(g, m.chave)) ?? 0)).attr("x2", (g) => x(d3.max(medidas, (m) => valor(g, m.chave)) ?? 0))
+      .attr("stroke", Lab.token("cor-texto-suave")).attr("stroke-width", 3).attr("stroke-opacity", 0.55).attr("stroke-linecap", "round");
+    const pts = linhas.selectAll("circle").data((g) => medidas.filter((m) => valor(g, m.chave) != null).map((m) => ({ g, m, v: valor(g, m.chave) }))).join("circle")
+      .attr("class", "pc-ponto").attr("cx", (d) => x(d.v)).attr("r", (d) => (d.m.vazado ? 6 : 7))
+      .attr("fill", (d) => (d.m.vazado ? Lab.token("cor-superficie") : d.m.cor)).attr("stroke", (d) => (d.m.vazado ? d.m.cor : Lab.token("cor-superficie")))
+      .attr("stroke-width", (d) => (d.m.vazado ? 2.5 : 1.5));   // vazado = régua de referência (ex.: % da população)
+    linhas.append("text").attr("class", "pc-rot").attr("x", (g) => x(d3.max(medidas, (m) => valor(g, m.chave)) ?? 0) + 9).attr("y", 4).style("font-size", "11.5px").attr("fill", Lab.token("cor-texto-secundario"))
+      .text((g) => { const vs = medidas.map((m) => valor(g, m.chave)).filter((v) => v != null); return delta && vs.length > 1 ? `Δ ${fmt(d3.max(vs) - d3.min(vs)).replace("%", " p.p.")}` : ""; });
+    if (dica) linhas.on("pointermove", (ev, g) => Lab.mostrarDica(ev, g, [...medidas.map((m) => `${m.rotulo}: ${valor(g, m.chave) == null ? ausente : fmt(valor(g, m.chave))}`), ...(dica(g) || [])])).on("pointerleave", Lab.esconderDica);
+    let fixa = null;
+    const realcar = (k) => pts.attr("opacity", (d) => (k && d.m.chave !== k ? 0.2 : 1));
+    const leg = Lab.el("div", { class: "legenda legenda-interativa", role: "group", "aria-label": "Medidas" }, ...medidas.map((m) => {
+      const am = Lab.el("span", { class: "amostra" }); am.style.borderRadius = "50%";
+      if (m.vazado) { am.style.background = "transparent"; am.style.border = `2.5px solid ${m.cor}`; am.style.boxSizing = "border-box"; } else am.style.background = m.cor;
+      return Lab.el("button", { type: "button", class: "item-legenda", "aria-pressed": "false", onpointerenter: () => realcar(m.chave), onpointerleave: () => realcar(fixa),
+        onclick: (ev) => { fixa = fixa === m.chave ? null : m.chave; leg.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String(b === ev.currentTarget && fixa !== null))); realcar(fixa); } }, am, m.rotulo);
+    }));
+    alvo.insertBefore(leg, svg.node());
+    return svg.node();
+  };
 })();

@@ -157,6 +157,25 @@ def territorios_tradicionais(area_min_km2: float = 1.0, fracao_min: float = 0.01
     return saida
 
 
+def malha_municipios(codigos: set[str] | None = None, tolerancia: float = 0.03, casas: int = 2) -> dict:
+    """Contornos dos municípios (IBGE, malha 2022) para mapas web: simplificação de cobertura (sem frestas entre vizinhos),
+    anéis no sentido do d3-geo e coordenadas com `casas` decimais (2 ≈ 1 km). properties.id = código IBGE (7 dígitos).
+    `codigos` limita o universo (ex.: os 5.570 do Censo 2022, sem as lagoas da malha)."""
+    import json
+    import re
+
+    import geopandas as gpd
+    import shapely
+
+    g = gpd.read_file(f"zip://{raiz() / PASTA_BRUTO / 'malha_municipios_2022' / 'BR_Municipios_2022.zip'}")
+    if codigos is not None:
+        g = g[g["CD_MUN"].isin(codigos)]
+    g["geometry"] = shapely.coverage_simplify(g.geometry.values, tolerance=tolerancia, simplify_boundary=True)
+    g["geometry"] = shapely.orient_polygons(g.geometry.values, exterior_cw=True)
+    g = g[["CD_MUN", "geometry"]].rename(columns={"CD_MUN": "id"})
+    return json.loads(re.sub(rf"(-?\d+\.\d{{{casas}}})\d+", r"\1", g.to_json(drop_id=True)))
+
+
 def _buscar_populacao_tradicional(endpoint: str, params: dict) -> list[dict]:
     """Pessoas indígenas (SIDRA 9718, var. 350) e quilombolas (SIDRA 10089, var. 4709) por município, Censo 2022."""
     import httpx

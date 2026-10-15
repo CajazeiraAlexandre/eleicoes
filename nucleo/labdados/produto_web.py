@@ -126,11 +126,13 @@ def montar_html(raiz: Path, modelo: str, *, app_js: str, base: dict, design_syst
 
 
 def gerar_produto(raiz: Path, produto_dir: Path, *, base: dict | None = None, qualidade: dict | None = None,
-                  status_qualidade: str = "") -> Path:
+                  status_qualidade: str = "", destino: Path | None = None) -> Path:
     """Gera <produto>/index.html a partir de src/ (modelo, app.js, metodologia.yaml) e da base.
 
     Sem `base`, lê data/base.json.gz ou data/base.json (produzidos pelo script de análise do produto).
     O design system vem do produto.yaml (`design_system`) ou do projeto (`design_system_padrao`).
+    `destino` (opcional): outro arquivo de saída — ex.: a versão interna de um produto com base restrita, que fica
+    em projetos/<p>/dados/, fora do git (L0004). Sem ele, <produto>/index.html.
     """
     import datetime as dt
 
@@ -156,7 +158,8 @@ def gerar_produto(raiz: Path, produto_dir: Path, *, base: dict | None = None, qu
     texto = modelo + app_js
     html = montar_html(raiz, modelo, app_js=app_js, base=base, design_system=ds, produto_dir=produto_dir,
                        substituicoes={k: v for k, v in subst.items() if k in texto})
-    destino = produto_dir / "index.html"
+    destino = Path(destino) if destino else produto_dir / "index.html"
+    destino.parent.mkdir(parents=True, exist_ok=True)
     destino.write_text(html, encoding="utf-8")
     return destino
 

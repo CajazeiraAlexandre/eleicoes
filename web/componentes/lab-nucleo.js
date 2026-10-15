@@ -96,7 +96,11 @@
   /** Lista dentro do título (muitas opções): parece texto sublinhado com ▾; abre a lista nativa. */
   Lab.seletorTituloLista = (rotulo, opcoes, atual, aoMudar) => {
     const s = el("select", { class: "lista-titulo", "aria-label": rotulo, "data-chave": rotulo, onchange: (e) => aoMudar(e.target.value) });
-    for (const [v, r] of opcoes) s.append(el("option", { value: v, text: r }));
+    // opções simples [valor, rótulo] ou agrupadas {grupo, opcoes: [[valor, rótulo], …]} (optgroup)
+    for (const o of opcoes) {
+      if (Array.isArray(o)) s.append(el("option", { value: o[0], text: o[1] }));
+      else { const g = el("optgroup", { label: o.grupo }); for (const [v, r] of o.opcoes) g.append(el("option", { value: v, text: r })); s.append(g); }
+    }
     s.value = atual;
     // largura = texto escolhido (o select nativo mediria a opção mais longa)
     requestAnimationFrame(() => {
@@ -109,7 +113,11 @@
   /** Lista com rótulo acima (formulários; nos gráficos, prefira seletorTituloLista). */
   Lab.seletor = (rotuloCampo, opcoes, atual, aoMudar) => {
     const s = el("select", { "data-chave": rotuloCampo, onchange: (e) => aoMudar(e.target.value) });
-    for (const [v, r] of opcoes) s.append(el("option", { value: v, text: r }));
+    // opções simples [valor, rótulo] ou agrupadas {grupo, opcoes: [[valor, rótulo], …]} (optgroup)
+    for (const o of opcoes) {
+      if (Array.isArray(o)) s.append(el("option", { value: o[0], text: o[1] }));
+      else { const g = el("optgroup", { label: o.grupo }); for (const [v, r] of o.opcoes) g.append(el("option", { value: v, text: r })); s.append(g); }
+    }
     s.value = atual;
     return el("label", { class: "campo" }, rotuloCampo, s);
   };
@@ -162,6 +170,111 @@
     t.append(el("tbody", {}, ...linhas.map((l) => el("tr", {}, ...l.map((c, i) => el("td", { class: num[i] ? "n" : null }, ...(Array.isArray(c) ? c : [c])))))));
     return t;
   };
+  /** Tabela de dados — PADRÃO DE TODA TABELA DE DADOS DO LABORATÓRIO (design.yaml › padroes.tabelas; pesquisador,
+   *  2026-10-12 e 2026-10-14):
+   *  - ordenar ao clicar no cabeçalho (crescente → decrescente → ordem original); ordena pelos números sem formatação
+   *    (`bruto`) ou, sem eles, pelo texto lido como número em pt-BR ("R$ 1,2 mi", "45,3%", "1.234"); "—" e "1 a 4" vão
+   *    para o fim; linhas fixas (`fixas(i)`; padrão: a que começa com "Total") ficam sempre no fim;
+   *  - até `limite` linhas visíveis (10) e "Mostrar todas as N";
+   *  - "Baixar tabela (CSV)" na ordem da tela, com os números SEM formatação (`bruto`; sem ela, o texto das células):
+   *    ";" como separador, vírgula decimal e BOM (abre no Excel);
+   *  - filtro de linhas opcional: `filtro` "auto" (quando passa do limite), true ou false.
+   *  `cat(i)`: id da linha para a Lab.legendaFoco. Aceita `tabela` (um <table> de Lab.tabela) no lugar de cab/linhas.
+   *  `arquivo`: nome sem extensão, ou função (caixa) → nome, chamada no clique. `ordenar: false` para tabelas com
+   *  hierarquia (linhas "dos quais"). */
+  Lab.tabelaDados = ({ cab, linhas, tabela = null, bruto = null, arquivo = "tabela", limite = 10, numericas = false, cat = null,
+    ordenar = true, filtro = "auto", fixas = null, barras = null, calor = null }) => {
+    const t = tabela || Lab.tabela(cab, linhas, numericas);
+    if (tabela) {   // tabela já montada (Lab.tabela): cabeçalho e linhas lidos do próprio elemento
+      cab = [...t.tHead.rows[0].cells].map((c) => c.textContent);
+      linhas = [...t.tBodies[0].rows].map((tr) => [...tr.cells].map((c) => c.textContent));
+    }
+    const tbody = t.tBodies[0];
+    const norm = (x) => String(x).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+    const fixa = fixas || ((i) => /^total\b/i.test(String(linhas[i]?.[0]?.textContent ?? linhas[i]?.[0] ?? "").trim()));
+    const R = [...tbody.rows].map((tr, i) => ({ tr, i, texto: norm(tr.textContent), fixa: !!fixa(i) }));
+    if (cat) R.forEach((r) => { const c = cat(r.i); if (c !== undefined && c !== null) r.tr.dataset.cat = String(c); });
+    // valor de ordenação de uma célula: número (do bruto ou lido do texto) ou texto; vazio → null (vai para o fim)
+    const numTexto = (s) => {
+      const x = String(s ?? "").trim();
+      if (!x || /^(—|-|1 a 4)$/.test(x)) return null;
+      const m = x.replace(/\s/g, " ").match(/^(R\$\s*)?([-−]?[\d.]+(,\d+)?)\s*(%|p\.p\.|mil|mi|bi)?\b/i);
+      if (!m) return undefined;
+      const v = Number(m[2].replace("−", "-").replaceAll(".", "").replace(",", "."));
+      return v * ({ mil: 1e3, mi: 1e6, bi: 1e9 }[(m[4] || "").toLowerCase()] || 1);
+    };
+    const chave = (r, j) => {
+      const b = bruto?.[r.i]?.[j];
+      if (typeof b === "number") return b;
+      const cel = r.tr.cells[j]?.textContent ?? "";
+      const n = typeof b === "string" && b !== "" ? numTexto(b) : numTexto(cel);
+      if (n === null) return null;
+      return n === undefined ? norm(typeof b === "string" && b !== "" ? b : cel) : n;
+    };
+    // barra na célula (D15): proporcional ao maior valor da coluna; cor nas células (D16): escala comum às colunas (matrizes)
+    const numDe = (r, j) => { const v = chave(r, j); return typeof v === "number" && Number.isFinite(v) ? v : null; };
+    const corpoR = R.filter((r) => !r.fixa);
+    for (const j of barras || []) {
+      const max = Math.max(0, ...corpoR.map((r) => Math.abs(numDe(r, j) ?? 0)));
+      if (max > 0) for (const r of corpoR) { const v = numDe(r, j), td = r.tr.cells[j]; if (v === null || !td) continue; td.classList.add("cel-barra"); td.style.setProperty("--p", `${(100 * Math.abs(v)) / max}%`); }
+    }
+    if (calor?.length) {
+      const vs = corpoR.flatMap((r) => calor.map((j) => numDe(r, j))).filter((v) => v !== null), lo = Math.min(...vs), hi = Math.max(...vs);
+      if (vs.length && hi > lo) for (const r of corpoR) for (const j of calor) { const v = numDe(r, j), td = r.tr.cells[j]; if (v === null || !td) continue; td.classList.add("cel-calor"); td.style.setProperty("--p", `${Math.round(6 + (50 * (v - lo)) / (hi - lo))}%`); }
+    }
+    let ordem = null, todas = false, termo = "";
+    const longa = linhas.length > limite;
+    const mais = longa ? el("button", { type: "button", class: "tabela-mais" }) : null;
+    const contagem = el("span", { class: "nota" });
+    const ordenadas = () => {
+      const corpo = R.filter((r) => !r.fixa), fim = R.filter((r) => r.fixa);
+      if (!ordem) return [...corpo, ...fim];
+      const { j, dir } = ordem;
+      const cmp = (a, b) => {
+        const x = chave(a, j), y = chave(b, j);
+        if (x === null && y === null) return a.i - b.i;
+        if (x === null) return 1; if (y === null) return -1;
+        const c = typeof x === "number" && typeof y === "number" ? x - y : String(x).localeCompare(String(y), "pt-BR");
+        return (c || a.i - b.i) * (c ? dir : 1);
+      };
+      return [...corpo.sort(cmp), ...fim];
+    };
+    const aplicar = () => {
+      const L = ordenadas();
+      tbody.replaceChildren(...L.map((r) => r.tr));
+      let vis = 0;
+      for (const r of L) { const casa = !termo || r.texto.includes(termo); const mostra = casa && (todas || termo || r.fixa || vis < limite); r.tr.hidden = !mostra; if (mostra && !r.fixa) vis++; }
+      const casam = termo ? R.filter((r) => r.texto.includes(termo)).length : linhas.length;
+      contagem.textContent = termo ? `${casam} de ${linhas.length} linhas` : longa && !todas ? `${limite} de ${linhas.length} linhas` : `${linhas.length} linhas`;
+      if (mais) { mais.hidden = !!termo; mais.textContent = todas ? "Mostrar menos" : `Mostrar todas as ${linhas.length} linhas`; }
+      if (ordenar) [...t.tHead.rows[0].cells].forEach((th, j) => th.setAttribute("aria-sort", ordem?.j === j ? (ordem.dir > 0 ? "ascending" : "descending") : "none"));
+    };
+    if (ordenar) [...t.tHead.rows[0].cells].forEach((th, j) => {
+      const rot = [...th.childNodes];
+      const bt = el("button", { type: "button", class: "tabela-ordenar", title: "Ordenar por esta coluna" }, ...rot, el("span", { class: "seta", "aria-hidden": "true" }));
+      bt.addEventListener("click", () => {
+        ordem = ordem?.j !== j ? { j, dir: th.classList.contains("n") ? -1 : 1 } : ordem.dir === (th.classList.contains("n") ? -1 : 1) ? { j, dir: -ordem.dir } : null;   // 3º clique: ordem original
+        aplicar();
+      });
+      th.replaceChildren(bt);
+    });
+    mais?.addEventListener("click", () => { todas = !todas; aplicar(); });
+    const csv = () => {
+      const cel = (v) => { if (v === null || v === undefined) return ""; if (typeof v === "number") return String(Math.round(v * 1e6) / 1e6).replace(".", ","); const s = Array.isArray(v) ? v.map((n) => n.textContent ?? n).join(" ") : String(v?.textContent ?? v); return /[;"\n]/.test(s) ? `"${s.replaceAll('"', '""')}"` : s; };
+      const corpo = ordenadas().map((r) => (bruto || linhas)[r.i].map(cel).join(";"));
+      const texto = "﻿" + [cab.map(cel).join(";"), ...corpo].join("\r\n");
+      const a = el("a", { href: URL.createObjectURL(new Blob([texto], { type: "text/csv;charset=utf-8" })), download: `${typeof arquivo === "function" ? arquivo(caixa) : arquivo}.csv` });
+      document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    };
+    const comFiltro = filtro === true || (filtro === "auto" && longa);
+    const busca = comFiltro ? el("input", { type: "search", class: "tabela-busca", placeholder: "Filtrar linhas…", "aria-label": "Filtrar linhas da tabela" }) : null;
+    busca?.addEventListener("input", () => { termo = norm(busca.value.trim()); aplicar(); });
+    const barra = el("div", { class: "tabela-barra" }, busca, contagem,
+      el("button", { type: "button", class: "tabela-baixar", onclick: csv, title: "Na ordem da tela; números sem formatação, separador ponto e vírgula" }, "▦ Baixar tabela (CSV)"));
+    aplicar();
+    const caixa = el("div", { class: "tabela-dados" }, barra, el("div", { class: "rolagem" }, t), mais);
+    return caixa;
+  };
   /** Quadros com um número grande por item. itens: [{chave, rotulo, cor, valor}].
    *  Com `aoEscolher`, viram botões (o escolhido ganha a borda na cor do item). */
   Lab.quadros = (itens, { atual = null, aoEscolher = null, chaveDado = "Quadro", rotulo = "Escolha" } = {}) =>
@@ -174,13 +287,15 @@
     }));
 
   // ------------------------------------------------------------ barra 100% (composição)
-  /** Uma linha de barra empilhada de 100%. segmentos: [{cor, pct, texto, medio, curto, dica: [título, linhas]}].
+  /** Uma linha de barra empilhada de 100%. segmentos: [{id?, cor, pct, texto, medio, curto, dica: [título, linhas]}]
+   *  (`id` liga o segmento à Lab.legendaFoco).
    *  O rótulo encolhe (texto → medio → curto) ou sai quando não cabe: ver Lab.ajustarRotulos. */
   Lab.linhaBarra100 = ({ rotulo, segmentos, abaixo = null, aria = null }) => {
     const barra = el("div", { class: "barra", role: aria ? "img" : null, "aria-label": aria });
     for (const s of segmentos) {
       if (vazio(s.pct) || s.pct <= 0) continue;
       const sp = el("span"); sp.style.width = `${s.pct}%`; sp.style.background = s.cor;
+      if (s.id !== undefined && s.id !== null) sp.dataset.cat = String(s.id);
       if (s.texto) { const b = el("b", { text: s.texto, "data-medio": s.medio || null, "data-curto": s.curto || null }); Lab.comHalo(b, s.cor); sp.append(b); }
       if (s.dica) { sp.addEventListener("pointermove", (ev) => Lab.mostrarDica(ev, s.dica[0], s.dica[1])); sp.addEventListener("pointerleave", Lab.esconderDica); }
       barra.append(sp);
@@ -192,6 +307,7 @@
     const cabe = (b) => { const t = document.createElement("span"); t.textContent = b.textContent; t.style.cssText = "position:absolute;visibility:hidden;white-space:nowrap;font:600 12px var(--fonte-texto)";
       document.body.append(t); const ok = t.offsetWidth <= b.parentElement.clientWidth - 6; t.remove(); return ok; };
     for (const b of raiz.querySelectorAll(".barra span b")) {
+      if (!b.isConnected || !b.parentElement.clientWidth) continue;   // fora da página ou em bloco fechado: mede depois (não apaga)
       if (cabe(b)) continue;
       if (b.dataset.medio) { b.textContent = b.dataset.medio; if (cabe(b)) continue; }
       if (b.dataset.curto) b.textContent = b.dataset.curto;
@@ -212,6 +328,18 @@
     scrollTo(0, y);
     if (chave) raiz.querySelector(`[data-chave="${CSS.escape(chave)}"]`)?.focus({ preventScroll: true });
     requestAnimationFrame(() => { raiz.style.minHeight = ""; });
+  };
+  /** Desenha `fazer()` só quando `no` chega perto da tela (desempenho: mapas com milhares de unidades em seções
+   *  fechadas não pesam no carregamento). Até lá, `no` guarda a altura `reserva` (px) para a rolagem não pular.
+   *  Sem IntersectionObserver, desenha na hora. */
+  Lab.quandoVisivel = (no, fazer, { margem = "400px", reserva = 420 } = {}) => {
+    if (!("IntersectionObserver" in window)) { fazer(); return; }
+    no.style.minHeight = `${reserva}px`;
+    const io = new IntersectionObserver((es) => {
+      if (!es.some((e) => e.isIntersecting)) return;
+      io.disconnect(); no.style.minHeight = ""; fazer();
+    }, { rootMargin: margem });
+    io.observe(no);
   };
   /** Largura útil de um gráfico na raiz (entre 320 px e `max`). */
   Lab.largura = (max) => Math.max(320, Math.min(max, Lab.cfg.raiz.clientWidth - 34));

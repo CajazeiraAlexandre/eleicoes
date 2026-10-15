@@ -1,0 +1,99 @@
+# Textos do bloco "Fontes de Dados, Metodologia e Códigos" (L0003). Partes automáticas (fontes, ADRs, código, versão)
+# vêm de labdados.metodologia. Story derivado do "Forças políticas no Piauí" — mesmos dados, regras e decisões.
+
+apresentacao: >-
+  Este story resume quem foi o grupo mais votado no Piauí para deputado estadual e federal em 2026, como isso se compara
+  às prefeituras eleitas em 2024 e o que mudou desde 2022, por município e por Território de Desenvolvimento. Os grupos
+  são PT/PV/PCdoB (Federação Brasil da Esperança), PSD, MDB, União Progressista (PP + União Brasil) e os demais
+  partidos. Todos os números vêm de bases oficiais do TSE e podem ser reconstruídos com os códigos do laboratório; nada
+  é estimado, imputado ou completado. A análise completa, cargo a cargo e região a região, está no produto
+  "Forças políticas no Piauí".
+
+modulos:
+  forcas_pi: projetos.eleicoes.analise.forcas_pi
+  validar_distribuicao_pi: projetos.eleicoes.analise.validar_distribuicao_pi
+
+passos:
+  - titulo: Coleta e votos válidos
+    texto: >-
+      Arquivos oficiais do Portal de Dados Abertos do TSE e, para 2026, da API de resultados (respostas com assinatura
+      digital verificada), com endereço, data e hash registrados num manifesto. Em 2026, os votos válidos de cada
+      partido são somados a partir das seções, com a mesma regra de destino do voto que o TSE usa no total oficial.
+    adrs: [EL0003]
+    codigo: validar_distribuicao_pi.validos_por_secao
+  - titulo: Grupos políticos
+    texto: >-
+      Cada candidatura entra no grupo do seu partido na própria eleição: PT/PV/PCdoB = Federação Brasil da Esperança
+      (PT, PCdoB e PV); PSD; MDB; União Progressista = PP + União Brasil (federados em 2026; somados pelo mesmo critério
+      em 2022 e 2024); demais partidos = Outros. Prefeitos entram pelo partido do eleito, não pela coligação.
+    adrs: [EL0004]
+    codigo: forcas_pi.grupo_de
+  - titulo: Grupo mais votado, margem e mudanças
+    texto: >-
+      Grupo mais votado = o que tem mais votos válidos no município ou no território (somando votos e válidos antes de
+      dividir); margem = distância, em pontos percentuais, para o segundo. As mudanças de 2022 para 2026 comparam quem
+      liderava cada município nas duas eleições — não acompanham eleitores. Também se mostram a parte dos votos válidos
+      do estado que está nos municípios em que cada grupo lidera e quantos municípios têm prefeito (2024) do grupo mais
+      votado para deputado estadual (2026).
+    adrs: [EL0005]
+    codigo: forcas_pi.lider
+  - titulo: Território e mapas
+    texto: >-
+      Códigos municipais do TSE ligados aos do IBGE (224 de 224 municípios). Territórios de Desenvolvimento pela
+      Wikipédia (fonte secundária), com três lacunas resolvidas pelo pesquisador. Mapas do design system (Lab.mapa) com
+      a malha municipal do IBGE (2022), as UFs vizinhas como referência e o fundo vetorial do OpenFreeMap; nas bolhas,
+      a área é proporcional aos votos válidos e a posição é aproximada (cartograma de Dorling).
+    adrs: [L0001, L0006, EL0002, EL0006]
+
+perguntas:
+  - p: O diagrama de faixas mostra para onde foram os votos?
+    r: >-
+      Não. Mostra quem liderava cada município em 2022 e quem passou a liderar em 2026. Saber se os mesmos eleitores
+      mudaram de lado exigiria um método de inferência que não foi usado aqui.
+  - p: Por que o PSD não aparece para deputado estadual em 2022?
+    r: >-
+      Porque não lançou candidatos a esse cargo no Piauí em 2022 (verificado em três arquivos do TSE). O percentual fica
+      indefinido, não zero.
+  - p: Os números de 2026 são definitivos?
+    r: >-
+      São os da totalização do 1º turno publicada pelo TSE em 05/10/2026. Votos "anulados sub judice" podem mudar por
+      decisão judicial; quando os arquivos definitivos forem publicados, a base é refeita e conferida de novo.
+
+limitacoes:
+  - "Grupo mais votado não é maioria: em muitos municípios a margem para o segundo é pequena."
+  - "Comparações entre eleições e cargos diferentes (prefeito 2024 × deputado 2026) descrevem coincidências, não transferência de votos."
+  - "Territórios de Desenvolvimento: fonte secundária (Wikipédia) até que a Lei 6.967/2017 (Anexo Único) volte a estar acessível."
+  - "Dados de 2026 provisórios no sentido jurídico (diplomação, recursos)."
+  - "O fundo dos mapas (OpenFreeMap) é carregado da internet; sem conexão, os mapas aparecem sem o fundo, só com a referência do IBGE."
+
+codigos:
+  - arquivo: projetos/eleicoes/analise/forcas_pi.py
+    papel: Tabela de grupos, conferência de qualidade e cálculo dos indicadores (base do produto de origem).
+  - arquivo: projetos/eleicoes/analise/html_forcas_pi.py
+    papel: Contornos territoriais (malha IBGE) usados nos mapas.
+  - arquivo: projetos/eleicoes/produtos/2026-10_quem-lidera-o-voto-pi/src/preparar.py
+    papel: Lê o roteiro validado, preenche as frases com os números da base e monta o HTML do story.
+
+sobre: >-
+  Story de dados do Laboratório de Dados Públicos, por Alexandre Cajazeira — professor EBTT de Informática e
+  pesquisador em ciência de dados aplicada a políticas públicas, transparência e cidadania.
+
+uso_de_ia: >-
+  Claude (Claude Code, Anthropic) apoiou a proposta do roteiro a partir do "Forças políticas no Piauí" e a programação
+  desta página. O roteiro foi revisado em cinco rodadas e validado pelo pesquisador antes da geração; todos os números
+  das frases são preenchidos por código a partir da base. A IA não é autora (Portaria CNPq nº 2.664/2026).
+
+licenca: "Código: MIT · Dados derivados: CC BY 4.0"
+
+citacao: "CAJAZEIRA, Alexandre. Quem lidera o voto no Piauí. Laboratório de Dados Públicos, 2026."
+
+decisoes_resumo:
+  L0001: Códigos municipais TSE e IBGE ligados só quando UF e nome normalizado coincidem de forma única; nada é aproximado.
+  L0002: Produtos em arquivo único; cálculos em Python, a página só seleciona e desenha.
+  L0003: Componentes e bloco de metodologia do design system.
+  L0006: Componente de mapa com câmera, zoom, card, camada de referência do IBGE e fundo opcional.
+  EL0002: No Piauí, os três municípios com apóstrofo no nome foram pareados manualmente, completando os 224.
+  EL0003: Votos válidos por seção reconstruídos com o destino oficial dos votos (exclui anulados, sub judice e nulos técnicos).
+  EL0004: Grupo = partido da candidatura na eleição; PT = federação; PP = PP + União Brasil em 2022, 2024 e 2026; prefeito pelo partido do eleito.
+  EL0005: Força em % dos válidos, vagas, prefeituras, liderança com intensidade e margem, fluxos de liderança.
+  EL0006: Cores dos grupos fixas e validadas para daltonismo (PT vermelho, PSD laranja, MDB verde, PP azul, Outros cinza).
